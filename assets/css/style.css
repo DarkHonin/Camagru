@@ -90,34 +90,20 @@ input{
     font-size: 2em;
 }
 
-.anounce.error{
+.error{
     color: red;
     background-color: pink;
 }
 
-.nav.pn{
-    display: flex;
-    flex-direction: row;
-    padding: 0px;
-}
-
-.nav.pn>span{
-    background-color: #00000055;
-    display: block;
-    margin: 0px auto 0px auto;
-    padding: 0.25em;
-    font-size: 2em;
-}
-
-input[name='formtoggle']{
+.toggle{
     display: none;
 }
 
-input[name='formtoggle'] + form{
+.toggle + .toggle{
     display: none;
 }
 
-input[name='formtoggle']:checked+ form{
+.toggle:checked + .toggle{
     display: flex;
 }
 

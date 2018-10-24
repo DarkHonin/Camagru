@@ -11,6 +11,7 @@ function connect_db(){
 			$pdo = new PDO($DB_DSN_NODB, $DB_USER, $DB_PASSWORD);
 			$pdo->exec("CREATE DATABASE IF NOT EXISTS camagru");
 			$pdo->exec("USE camagru");
+			$pdo->
 			error_log("Database created");
 		}else
 			throw($e);
@@ -20,9 +21,9 @@ function connect_db(){
 
 function select($data){
 	global $pdo;
-	$query = "SELECT :select FROM :from".(isset($data['where'])?" WHERE :where":"");
+	$query = "SELECT {$data['what']} FROM {$data['from']}".(isset($data['where'])?" WHERE ".$data['where']:"");
 	$str = $pdo->prepare($query);
-	$str->execute($data);
+	$str->execute();
 	return $str->fetchAll();
 }
 
@@ -30,10 +31,12 @@ function insert_into_db($data){
 	global $pdo;
 	$query = "INSERT INTO {$data['tabel']} (".implode(", ", array_keys($data['fields'])).") VALUES ('".implode("', '",$data['fields'])."')";
 	$str = $pdo->prepare($query);
-	
 	$str->execute();
-	$affected_rows = $str->errorInfo();
-	print_r($affected_rows);	
+	$affected_rows = $str->errorCode();
+	if($affected_rows == "0000")
+		return true;
+	if($affected_rows == "23000")
+		return "Already exists";
 }
 
 $pdo = connect_db();

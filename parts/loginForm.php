@@ -1,6 +1,10 @@
 <?php
 
 $fields = [
+	"token"=>[
+		"name" => "scrf",
+		"type" => "hidden"
+	],
 	[
 		"name" => "uname",
 		"type" => "text",
@@ -18,35 +22,29 @@ $fields = [
 	[
 		"name" => "submit",
 		"type" => "submit",
-		"value"=> "register"
-	],
-	
-	[
-		"name" => "scrf",
-		"type" => "hidden",
-		"value"=> sha1("login".$_SERVER['REMOTE_ADDR']."secret_salt")
+		"value"=> "Login"
 	]
 	];
 	
 function validate_login(&$fields){
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		if($_POST['scrf'] !== sha1("register".$_SERVER['REMOTE_ADDR']."secret_salt")){
+		if(($ret = validate_post($fields)))
+			return $ret;
+		if(!check_scrf_token("form_login"))
 			return "The page has expired";
-		}
-		foreach($fields as $k=>$f){
-			if(isset($f["required"]) && (!isset($_POST[$f['name']]) || empty($_POST[$f['name']])))
-				return "Field is required: {$f['placeholder']}";
-			if(isset($f["maxlength"]) && strlen($_POST[$f['name']]) > $f["maxlength"])
-				return "Field '{$f['placeholder']}' must be shorter than {$f["maxlength"]} characters";
-			$fields[$k]['value'] = $_POST[$f['name']];
-		}
 		return true;
 	}
 }
 if(isset($_POST['formtoggle']) && $_POST['formtoggle'] === "login"){
 	$message = validate_login($fields);
-	select(["what"=>"sha", "from"=>"users", "where" => "uname='{$_POST['uname']}'"]);
+	if(is_bool($message) && $message)
+		if(!login($_POST['uname'], $_POST['password']))
+			$message = "Invalid Username\Password";
+		else
+			header("Location: /");
+
 }
+$fields['token']['value'] = create_csrf_token("form_login");
 ?>
 
 <label for='login' class="anounce <?php
@@ -59,8 +57,8 @@ if(isset($message) && !is_bool($message))
 	else
 	echo "Login"; ?>
 </label>
-<input type='radio' name='formtoggle' value="login" id='login' form='loginf' <?php echo  (isset($_POST['formtoggle']) ? "checked":"") ?> hidden>
-<form method="post"  id='loginf'>
+<input type='radio' name='formtoggle' class='toggle' value="login" id='login' form='loginf' <?php echo  (isset($_POST['formtoggle']) ? "checked":"") ?> hidden>
+<form method="post"  id='loginf' class="toggle">
 <?php
 foreach($fields as $field){
 	echo "<input ";
