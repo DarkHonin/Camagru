@@ -1,3 +1,5 @@
+<?php header("Content-Type: text/html"); ?>
+
 <div class="sidebar">
 	<?php foreach(select(["what"=>"id, name", "from"=>"filters"]) as $item){
 		include("parts/filter.php");
@@ -7,19 +9,13 @@
 		<div class="group">
 			<video autoplay ></video>
 			<button id='useWebcam'>Use Webcam</button>
-		</div>
-		<div class='sepperator anounce'>
 			<hr>
-			or
-			<hr>
-		</div>
-		<div class="group">
 			<input type='file' id='file' accept=".jpg, .jpeg, .png" name='userimage'>
 			<button id="useFile">Upload File</button>
 		</div>
 	</div>
 
-	<div class="control" id="editImage">
+	<div class="control disabled" id="editImage">
 		<canvas id="viewImage"></canvas>
 		<div class='filters group'>
 			<div class='anounce'>
@@ -37,6 +33,19 @@
         var stream;
 		document.querySelector("#useWebcam").addEventListener("click", captureWebcam);
 		document.querySelector("#useFile").addEventListener("click", captureImage);
+		document.querySelector("#useWebcam").addEventListener("click", goToEdit);
+		document.querySelector("#useFile").addEventListener("click", goToEdit);
+
+		function goToEdit(){
+			var geti = document.querySelector("#getImage");
+			var edii = document.querySelector("#editImage");
+			animate(500, geti, fadeout, function(){
+				geti.style.display = "none";
+				edii.style.display = "block";
+				animate(500, edii, fadein);
+			});
+			
+		}
         function deactivateWebcam(){
             if(stream && stream.active){
                 var track = stream.getTracks()[0];
@@ -60,7 +69,7 @@
                  navigator.mediaDevices.getUserMedia);
         }
 
-        activateWebcam();
+        
         var canvas, ctx, userImage;
 		userImage = new Image();
 		canvas = document.getElementById("viewImage");
@@ -101,4 +110,14 @@
 			else if (reader.readAsDataURL)
 				reader.readAsDataURL(file);
 		}
+
+	document.partload = function(){
+		activateWebcam();
+	};
+
+	document.partunload  = function (){
+		deactivateWebcam();
+	}
+
+
     </script>

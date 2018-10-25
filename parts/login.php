@@ -1,17 +1,11 @@
 
 
 <?php
-session_start();
-require_once("src/database.php");
-require_once("src/utils.php");
-require_once("src/form.class.php");
-
 function check_2passmatch(){
 	if($_POST['password1'] !== $_POST['password2']){
 		return ["password1", "The 2 passwords do not match"];
 	}
 }
-
 	$register = new Form("register", "POST", [
 		[
 			"name" => "uname",
@@ -83,6 +77,7 @@ function check_2passmatch(){
 		?>
 <?php
 if($_SERVER["REQUEST_METHOD"] == "GET"){
+	header("Content-Type: text/html");
 ?>
 <div class="anounce" id="status">
 	Welcome
@@ -105,7 +100,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 		let fd = new FormData(event.target);
 		fd.set("action", event.target.id);
 		console.log("sending data to server");
-		ajax(method, "welcome.php",fd, handle_form_response);
+		ajax(method, "/login", fd, handle_form_response);
 	}
 
 	function handle_form_response(data){
@@ -113,8 +108,15 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 		if(item.error){
 			status.innerHTML = item.error;
 			status.classList.add("error");
-		}
-		alert($data);
+		}	
+	}
+
+	document.partload = function(){
+		
+	};
+
+	document.partunload  = function (){
+		
 	}
 </script>
 <?php
@@ -124,16 +126,23 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 		die(json_encode(["error"=>"invalid request"]));
 
 	if($_POST['action'] == "register"){
-		if($errors = $register->validate(check_2passmatch))
+		if($errors = $register->validate("check_2passmatch"))
 			die(json_encode($errors));
+		$data = ['tabel' => "users", "fields" => [
+			"uname" => $_POST['uname'],
+			"email" => $_POST['email'],
+			"sha"	=> password_hash($_POST['password1'], PASSWORD_BCRYPT),
+			"token" => sha1(time().$_POST['uname'])
+		]];
+		if($err = insert_into_db($data))
+			die(json_encode(["error"=>"User $err"]));
+		if(login($_POST['uname'], $_POST['password1']))
+			die(json_encode(["redirect" => "/home", "reload"=>["menue"]]));
 	}else if($_POST['action'] == "login"){
 		if($errors = $login->validate())
 			die(json_encode($errors));
-		login($_POST['uname'], $_POST['password']);
+		if(login($_POST['uname'], $_POST['password']))
+			die(json_encode(["redirect" => "/home", "reload"=>["menue"]]));
 	}
-
-
-
-
 }
 ?>

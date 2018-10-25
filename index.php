@@ -1,81 +1,42 @@
 <?php
-	include_once("parts/head.php");
+	include_once("src/includes.php");
+	header("Content-Type: application/json");
+
+	$uri = $_SERVER["REQUEST_URI"];
+	if($_SERVER["REQUEST_METHOD"] == "GET"){
+		$str = parse_url($uri);
+		$uri = $str['path'];
+		$get = [];
+		if(isset($str['query']))
+		foreach(explode("&", $str['query']) as $q){
+			$c = explode("=", $q);
+			$get[$c[0]] = $c[1];
+		}
+	}
+	switch($uri){
+		case "/":
+			include_once("parts/landing.php");
+			break;
+		case "/login":
+			include_once("parts/login.php");
+			break;
+		case "/logout":
+			include_once("parts/logout.php");
+			break;
+		case "/create":
+			include_once("parts/create.php");
+			break;
+		case "/home":
+			include_once("parts/landingcontent.php");
+			break;
+		case "/part":
+			include_once("src/parts.php");
+			break;
+		case "/filter":
+			include_once("src/filter.php");
+			break;
+		default:
+			var_dump($str);
+			die("Unknown page: ");
+	}
 ?>
-
-<body>
-	<div class="content">
-	
-	</div>
-	<div class="sidebar">
-	<?php
-	include_once("parts/menue.php");
-?>
-	</div>
-</body>
-<script>
-	document.querySelectorAll(".nav").forEach((i) => {i.addEventListener("click", navigate);})
-	const content = document.querySelector(".content");
-	var target;
-	function navigate(event){
-		event.preventDefault();
-		target = event.target;
-		animate(500, content, slideup, loadPage);
-		return false;
-	}
-
-	function loadPage(){
-		var page = target.getAttribute("href");
-		ajax("get", page, null, function(responseText){
-			content.innerHTML = responseText;
-			content.querySelectorAll("script").forEach((i) => {eval(i.innerHTML)})
-		});
-		animate(500, content, slidedown);
-	}
-
-	function ajax(method, target, data, ondone){
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				if(ondone)
-					ondone(this.responseText);
-			}
-		};
-		xhttp.open(method, target, true);
-		xhttp.send(data);
-	}
-
-	function animate(duration, subject, action, oncomplete){
-		var timer, anstart;
-		anstart = Date.now();
-		timer = setInterval(function(){
-			var timePassed = Date.now() - anstart;
-			if (timePassed >= duration) {
-				clearInterval(timer);
-				action(1, subject);
-				if(oncomplete)
-					oncomplete();
-				return;
-			}
-			action(timePassed/duration, subject);
-		},20);
-	}
-
-	function fadeout(per, item){
-		item.style.opacity = 1 - per;
-	}
-
-	function slideup(per, item){
-		item.style.marginTop = -(per * item.offsetHeight) + "px";
-	}
-
-	function slidedown(per, item){
-		item.style.marginTop = ( - item.offsetHeight) + (per * item.offsetHeight) + "px";
-	}
-
-	function fadein(per, item){
-		item.style.opacity = per;
-	}
-
-	
-</script>
-</html>

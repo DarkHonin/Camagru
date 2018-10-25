@@ -27,16 +27,21 @@ function select($data){
 	return $str->fetchAll();
 }
 
+function update($data){
+	global $pdo;
+	$query = "UPDATE {$data['table']} SET {$data['set']} WHERE ".$data['where'];
+	$str = $pdo->prepare($query);
+	$str->execute();
+}
+
 function insert_into_db($data){
 	global $pdo;
 	$query = "INSERT INTO {$data['tabel']} (".implode(", ", array_keys($data['fields'])).") VALUES ('".implode("', '",$data['fields'])."')";
 	$str = $pdo->prepare($query);
 	$str->execute();
 	$affected_rows = $str->errorCode();
-	if($affected_rows == "0000")
-		return true;
 	if($affected_rows == "23000")
-		return "Already exists";
+		return "already exists";
 }
 
 $pdo = connect_db();

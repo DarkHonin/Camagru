@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !^/assets/css/.*\.css
+RewriteCond %{REQUEST_URI} !^/assets/js/.*\.js
+RewriteCond %{REQUEST_URI} !^/assets/img/.*\.svg
+RewriteRule ^.* index.php [L]
