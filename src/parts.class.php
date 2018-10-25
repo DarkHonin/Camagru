@@ -5,10 +5,11 @@ header("Content-Type: text/html");
 final class Parts{
 	const PARTS = [
 		"part::menue" => "parts/menue.php",
-		"page::/" => "parts/landingcontent.php",
-		"page::/login" => "parts/login.php",
-		"page::/logout" => "parts/logout.php",
-		"page::/create" => "parts/create.php"
+		"/" => "parts/landingcontent.php",
+		"/login" => "parts/login.php",
+		"/logout" => "parts/logout.php",
+		"/create" => "parts/create.php",
+		"/part" => "src/part.php"
 	];
 
 	static function getPart($id){

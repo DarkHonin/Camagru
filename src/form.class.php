@@ -31,10 +31,16 @@ class Form{
 		echo "</form>";
 	}
 
-	function validate($additional = null){
-		if(($ret = validate_post($this->_fields)))
-			return $ret;
-		if(!check_scrf_token($this->_id))
+	function validate($input, $additional = null){
+		foreach($this->_fields as $k=>$f){
+			if(isset($f["required"]) && (!isset($input[$f['name']]) || empty($input[$f['name']])))
+				return [$f['name'] => "Field is required"];
+			if(isset($f["maxlength"]) && strlen($input[$f['name']]) > $f["maxlength"])
+				return [$f['name'] => "Maximum amount of characters: {$f["maxlength"]}" ];
+			if(isset($input[$f['name']]))
+				$this->_fields[$k]['value'] = $input[$f['name']];
+		}
+		if(!check_csrf_token($this->_id, $input['csrf']))
 			return ["error"=>"The page has expired"];
 		if($additional && is_callable($additional))
 			return $additional();

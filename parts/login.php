@@ -41,7 +41,7 @@ function check_2passmatch(){
 			"class"=>"anounce"
 		],
 		"token"=>[
-			"name" => "scrf",
+			"name" => "csrf",
 			"type" => "hidden"
 			
 		],[
@@ -53,7 +53,7 @@ function check_2passmatch(){
 
 		$login = new Form("login", "POST", [
 		"token"=>[
-			"name" => "scrf",
+			"name" => "csrf",
 			"type" => "hidden"
 		],
 		[
@@ -85,7 +85,7 @@ function check_2passmatch(){
 
 		?>
 <?php
-if($_SERVER["REQUEST_METHOD"] == "GET"){
+if(empty($query->payload)){
 	header("Content-Type: text/html");
 ?>
 <div class="anounce" id="status">
@@ -99,61 +99,33 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 		<?php $register->renderForm(["class" => "body", "id" => "register"]); ?>
 	</div>
 </div>
-<script>
-
-	var status;
-
-	function submit_form(event){
-		event.preventDefault();
-		let method = event.target.method;
-		let fd = new FormData(event.target);
-		fd.set("action", event.target.id);
-		console.log("sending data to server");
-		ajax(method, "/part?id=page::/login", fd, handle_form_response);
-	}
-
-	function handle_form_response(data){
-		var item = JSON.parse(data);
-		if(item.error){
-			status.innerHTML = item.error;
-			status.classList.add("error");
-		}	
-	}
-
-	document.partload = function(){
-		console.log("Loaded part js for Forms");
-		content.querySelectorAll("form").forEach((i) => {i.addEventListener("submit", submit_form);})
-		status = content.querySelector("#status");
-	};
-
-	document.partunload  = function (){
-		
-	}
+<script type="module">
+	import("./login.js");
 </script>
 <?php
-}else if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-	if(!isset($_POST['action']) || empty($_POST['action']))
+}else{
+	$payload = json_decode($query->payload, true);
+	if(!isset($payload['action']) || empty($payload['action']))
 		die(json_encode(["error"=>"invalid request"]));
 
-	if($_POST['action'] == "register"){
-		if($errors = $register->validate("check_2passmatch"))
+	if($payload['action'] == "register"){
+		if($errors = $register->validate($payload, "check_2passmatch"))
 			die(json_encode($errors));
 		$data = ['tabel' => "users", "fields" => [
-			"uname" => $_POST['uname'],
-			"email" => $_POST['email'],
-			"sha"	=> password_hash($_POST['password1'], PASSWORD_BCRYPT),
-			"token" => sha1(time().$_POST['uname'])
+			"uname" => $payload['uname'],
+			"email" => $payload['email'],
+			"sha"	=> password_hash($payload['password1'], PASSWORD_BCRYPT),
+			"token" => sha1(time().$payload['uname'])
 		]];
 		if($err = insert_into_db($data))
 			die(json_encode(["error"=>"User $err"]));
-		if(login($_POST['uname'], $_POST['password1']))
-			die(json_encode(["redirect" => "page::/", "reload"=>["part::menue"]]));
-	}else if($_POST['action'] == "login"){
-		if($errors = $login->validate())
+		if(login($payload['uname'], $payload['password1']))
+			die(json_encode(["redirect" => "/", "reload"=>["menue"]]));
+	}else if($payload['action'] == "login"){
+		if($errors = $login->validate($payload))
 			die(json_encode($errors));
-		if(login($_POST['uname'], $_POST['password']))
-			die(json_encode(["redirect" => "page::/", "reload"=>["part::menue"]]));
+		if(login($payload['uname'], $payload['password']))
+			die(json_encode(["redirect" => "/", "reload"=>["menue"]]));
 	}
 }
 ?>

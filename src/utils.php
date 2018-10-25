@@ -7,15 +7,16 @@ function create_csrf_token($secret){
     return $token;
 }
 
-function check_scrf_token($secret){
+function check_csrf_token($secret, $token){
     if(!isset($_SESSION['scrf_token-'.$secret]))
         return false;
     $age = (time() - $_SESSION['scrf_token_time']);
-    if($age / 60 >= 1)
+    if($age / 60 >= 1){
+        unset($_SESSION['scrf_token-'.$secret]);
         return false;
-    if($_POST['scrf'] !== $_SESSION['scrf_token-'.$secret])
+    }
+    if($token !== $_SESSION['scrf_token-'.$secret])
         return false;
-    unset($_SESSION['scrf_token-'.$secret]);
     return true;
 }
 
@@ -38,17 +39,6 @@ function update_user(){
     $ntoken = sha1(time().$user['uname']);
     update(["table"=>"users", "set"=>"token='$ntoken'", "where" => "token='{$_SESSION['user']['token']}' AND uname='{$_SESSION['user']['uname']}'"]);
     $_SESSION['user']['token'] = $ntoken;
-}
-
-function validate_post(&$fields){
-    foreach($fields as $k=>$f){
-        if(isset($f["required"]) && (!isset($_POST[$f['name']]) || empty($_POST[$f['name']])))
-            return [$f['name'] => "Field is required"];
-        if(isset($f["maxlength"]) && strlen($_POST[$f['name']]) > $f["maxlength"])
-            return [$f['name'] => "Maximum amount of characters: {$f["maxlength"]}" ];
-        if(isset($_POST[$f['name']]))
-            $fields[$k]['value'] = $_POST[$f['name']];
-    }
 }
 
 ?>
