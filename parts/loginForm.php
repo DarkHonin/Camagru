@@ -46,8 +46,8 @@ if(isset($_POST['formtoggle']) && $_POST['formtoggle'] === "login"){
 }
 $fields['token']['value'] = create_csrf_token("form_login");
 ?>
-
-<label for='login' class="anounce <?php
+<div class="group">
+<label for='login' class="anounce title <?php
 if(isset($message) && !is_bool($message))
 	echo "error" ?>">
 
@@ -58,7 +58,7 @@ if(isset($message) && !is_bool($message))
 	echo "Login"; ?>
 </label>
 <input type='radio' name='formtoggle' class='toggle' value="login" id='login' form='loginf' <?php echo  (isset($_POST['formtoggle']) ? "checked":"") ?> hidden>
-<form method="post"  id='loginf' class="toggle">
+<form method="post"  id='loginf' class="toggle body">
 <?php
 foreach($fields as $field){
 	echo "<input ";
@@ -68,3 +68,4 @@ foreach($fields as $field){
 }
 ?>
 </form>
+</div>

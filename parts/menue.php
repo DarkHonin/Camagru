@@ -1,4 +1,4 @@
-<a href="/" class="banner"><img src="assets/img/icon.svg"></a>
+<a href="/" class="nav banner"><img src="assets/img/icon.svg"></a>
 
 <?php
 if(!isset($_SESSION['user']) || empty($_SESSION['user']))

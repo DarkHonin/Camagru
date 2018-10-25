@@ -1,46 +1,6 @@
 <?php
 
-$fields = [
-	[
-		"name" => "uname",
-		"type" => "text",
-		"maxlength" => "25",
-		"required" => true,
-		"placeholder" => "Username",
-		"pattern" => "^[A-Za-z0-9_]{1,15}$"
-	],
-	[
-		"name" => "email",
-		"type" => "email",
-		"maxlength" => "36",
-		"required" => true,
-		"placeholder" => "Email"
-	],
-	[
-		"name" => "password1",
-		"type" => "password",
-		"required" => true,
-		"placeholder" => "Password"
-	],
-	
-	[
-		"name" => "password2",
-		"type" => "password",
-		"required" => true,
-		"placeholder" => "Re-enter Password"
-	],
-	
-	[
-		"name" => "submit",
-		"type" => "submit",
-		"value"=> "register"
-	],
-	
-	"token"=>[
-		"name" => "scrf",
-		"type" => "hidden",
-	]
-	];
+
 	
 function validate(&$fields){
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -77,8 +37,8 @@ if(!isset($_POST['formtoggle']))
 	$fields['token']['value'] = create_csrf_token("form_register");
 
 ?>
-
-<label for='reg' class="anounce <?php
+<div class="group">
+<label for='reg' class="anounce title <?php
 if(!is_bool($message) && $message)
 	echo "error" ?>">
 
@@ -89,7 +49,7 @@ if(!is_bool($message) && $message)
 	echo "Register"; ?>
 </label>
 <input type='radio' form="loginf" class='toggle' value="register" name='formtoggle' id='reg' <?php echo (!isset($_POST['formtoggle']) ? "checked":"") ?> hidden>
-<form method="post" class="toggle">
+<form method="post" class="toggle body">
 <?php
 foreach($fields as $field){
 	echo "<input ";
@@ -99,3 +59,4 @@ foreach($fields as $field){
 }
 ?>
 </form>
+</div>

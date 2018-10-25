@@ -46,7 +46,7 @@ body{
     background-color: #9c5a217d;
 }
 
-.nav>a, .nav{
+a.nav{
     text-decoration: none;
     color:#ffda33;
     font-size: 1.5em;
@@ -57,27 +57,23 @@ body{
     box-shadow: #f1760af5 0px 0px 5px 1px;
 }
 
-.sidebar>.banner>img{
+.sidebar>.nav.banner>img{
     width: 10em;
     background-color: transparent !important;
     box-shadow: #9c5a217d 0px 0px 5px 1px;
 }
 
-.content>form{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    padding: 2em;
-    margin: 2em auto;
-    background-color: #e9c154;
-    box-shadow: #9c5a217d 0px 0px 5px 1px;
-    overflow: hidden;
+.nav.banner{
+    background-color: transparent !important;
+    padding: 0;
+    margin: 0;
+    font-size: initial;
 }
 
 input{
     display: inline-block;
     width: 60%;
-    margin: 1em auto;
+    margin: 0.2em auto;
     padding: 0.5em;
 }
 .anounce{
@@ -107,4 +103,54 @@ input{
     display: flex;
 }
 
+.control{
+    width: 80%;
+    margin: 2em auto;
+    display: flex;
+    flex-direction: row;
+    border: #e9c154 solid 1em;
+    padding: 1em;
+}
 
+.control>.group{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+}
+
+.control>.group>.body{
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.control>.group>.title{
+    max-width: 90%;
+}
+
+.control>.sepperator{
+    display: flex;
+    flex-direction: column;
+}
+
+.control>.sepperator>hr{
+    height: 2em;
+}
+
+.filter{
+    display: block;
+    width: 80%;
+    margin: 0.5em auto;
+}
+
+.filter>img{
+    width: 100%;
+    object-fit: fill;
+}
+
+.filters{
+    max-width: 15em;
+    overflow: hidden;
+}
