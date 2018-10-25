@@ -44,6 +44,10 @@ function check_2passmatch(){
 			"name" => "scrf",
 			"type" => "hidden"
 			
+		],[
+			"name" => "action",
+			"type" => "hidden",
+			"value"=> "register"
 		]
 		]);
 
@@ -51,6 +55,11 @@ function check_2passmatch(){
 		"token"=>[
 			"name" => "scrf",
 			"type" => "hidden"
+		],
+		[
+			"name" => "action",
+			"type" => "hidden",
+			"value"=> "login"
 		],
 		[
 			"name" => "uname",
@@ -91,8 +100,8 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 	</div>
 </div>
 <script>
-	content.querySelectorAll("form").forEach((i) => {i.addEventListener("submit", submit_form);})
-	var status = content.querySelector("#status");
+
+	var status;
 
 	function submit_form(event){
 		event.preventDefault();
@@ -100,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 		let fd = new FormData(event.target);
 		fd.set("action", event.target.id);
 		console.log("sending data to server");
-		ajax(method, "/login", fd, handle_form_response);
+		ajax(method, "/part?id=page::/login", fd, handle_form_response);
 	}
 
 	function handle_form_response(data){
@@ -112,7 +121,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 	}
 
 	document.partload = function(){
-		
+		console.log("Loaded part js for Forms");
+		content.querySelectorAll("form").forEach((i) => {i.addEventListener("submit", submit_form);})
+		status = content.querySelector("#status");
 	};
 
 	document.partunload  = function (){
@@ -137,12 +148,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 		if($err = insert_into_db($data))
 			die(json_encode(["error"=>"User $err"]));
 		if(login($_POST['uname'], $_POST['password1']))
-			die(json_encode(["redirect" => "/home", "reload"=>["menue"]]));
+			die(json_encode(["redirect" => "page::/", "reload"=>["part::menue"]]));
 	}else if($_POST['action'] == "login"){
 		if($errors = $login->validate())
 			die(json_encode($errors));
 		if(login($_POST['uname'], $_POST['password']))
-			die(json_encode(["redirect" => "/home", "reload"=>["menue"]]));
+			die(json_encode(["redirect" => "page::/", "reload"=>["part::menue"]]));
 	}
 }
 ?>

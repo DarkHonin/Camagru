@@ -4,7 +4,7 @@ header("Content-Type: text/html");
 ?>
 <body>
 	<div class="content">
-	<?php include_once("parts/landingcontent.php") ?>
+	<?php include_once($part) ?>
 	</div>
 	<div class="sidebar" id="menue">
 		<?php
@@ -13,28 +13,23 @@ header("Content-Type: text/html");
 	</div>
 </body>
 <script>
+	const content = document.querySelector(".content");
 
 	function init_triggers(){
-		document.querySelectorAll(".nav").forEach((i) => {i.addEventListener("click", function(event){ 
-																					event.preventDefault(); 
-																					target = event.target.href; 
-																					navigate()
-																					})
-																					;})
+		document.querySelectorAll(".nav").forEach((i) => {i.addEventListener("click", navigate)})
 	}
 
-	init_triggers();
 
-	const content = document.querySelector(".content");
 	var target;
-	function navigate(){
+	function navigate(event){
+		event.preventDefault(); 
+		target = "/part?id=page::"+event.target.target;
 		animate(500, content, slideup, loadPage);
 		return false;
 	}
 
 	function loadPage(){
-		var page = target;
-		ajax("get", page, null, function(responseText, type){
+		ajax("get", target, null, function(responseText, type){
 			if(type !="application/json"){
 				if(document['partunload'])
 					document.partunload();
@@ -74,7 +69,8 @@ header("Content-Type: text/html");
 	}
 
 	function system_redirect(page){
-		target = page;
+		console.log("Redirecting to: "+page);
+		target = ("?id=page::".page);
 		loadPage();
 	}
 
@@ -139,5 +135,8 @@ header("Content-Type: text/html");
 	}
 
 	
+	init_triggers();
+	if(document.partload)
+		document.partload()
 </script>
 </html>
