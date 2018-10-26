@@ -32,6 +32,8 @@ function login($uname, $password){
 }
 
 function update_user(){
+    if(!isset($_SESSION['user']))
+        return false;
     $users = select(["what"=>"uname, active, token", "from"=>"users", "where" => "token='{$_SESSION['user']['token']}' AND uname='{$_SESSION['user']['uname']}'"]);
     if(empty($users))
         return false && include_once("parts/logout.php");

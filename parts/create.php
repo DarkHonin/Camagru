@@ -1,5 +1,12 @@
-<?php header("Content-Type: text/html"); ?>
+<?php
+header("Content-Type: text/html");
 
+if(!update_user())
+	die('<div class="anounce error">
+	Please sign in first
+</div>');
+
+?>
 
 <div class="panel active" id="getImage">
 	<div class="control-col">

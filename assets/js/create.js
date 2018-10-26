@@ -87,7 +87,7 @@ function deactivateWebcam(){
 }
 
 function activateWebcam(event){
-	if(stream && stream.active)
+	if(stream && stream.active || !video)
 		return;
 	if (hasGetUserMedia()) {
 		navigator.mediaDevices.getUserMedia(constraints).then(
