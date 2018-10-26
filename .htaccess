@@ -4,5 +4,6 @@ RewriteBase /
 
 RewriteCond %{REQUEST_URI} !^/assets/css/.*\.css
 RewriteCond %{REQUEST_URI} !^/assets/js/.*\.js
-RewriteCond %{REQUEST_URI} !^/assets/img/.*\.svg
+RewriteCond %{REQUEST_URI} !^/assets/img/.*\.(svg|png)
+RewriteCond %{REQUEST_URI} !^/filter.php
 RewriteRule ^.* index.php [L]

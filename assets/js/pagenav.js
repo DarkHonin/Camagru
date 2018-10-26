@@ -1,4 +1,18 @@
+var page_state = {
+    current_path: window.location.pathname,
+    request_path: "",
+    get_query: window.location.search,
+    payload: "",
+    request_type: "page"
+};
+
 const content = document.querySelector(".content");
+
+document.page = {
+    state: page_state,
+    content: content,
+    parts: {}
+}
 
 function init_triggers(){
     console.log("loading nav triggers");
@@ -6,13 +20,6 @@ function init_triggers(){
 }
 
 var target;
-
-var page_state = {
-    current_path: window.location.pathname,
-    request_path: "",
-    payload: "",
-    request_type: "page"
-};
 
 console.log(page_state);
 
@@ -38,9 +45,18 @@ function excecute_nav(){
 function load_html(responseText){
     console.log("loadig html content");
     content.innerHTML = responseText;
-    window.history.pushState("", "", page_state.current_path);
-    if(page_state.current_path != "/")
-        import("./"+page_state.current_path+".js");
+    window.history.pushState("", "", page_state.current_path+page_state.get_query);
+    var path = page_state.current_path.replace(/^\/+/g, '')
+    if(path != "")
+        import("./"+path+".js").then((mod) => {
+            document.page.parts[path] = mod.mod;
+            mod.mod.init();
+
+        });
+    console.log(document.page.parts[path]);
+    if(document.page.parts[path])
+        document.page.parts[path].init();
+    
 }
 
 function ajax(method, target, data, {onhtml, js}){

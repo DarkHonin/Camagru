@@ -9,7 +9,8 @@ final class Parts{
 		"/login" => "parts/login.php",
 		"/logout" => "parts/logout.php",
 		"/create" => "parts/create.php",
-		"/part" => "src/part.php"
+		"/part" => "src/part.php",
+		"/activate" => "parts/activate.php"
 	];
 
 	static function getPart($id){

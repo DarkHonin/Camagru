@@ -91,24 +91,17 @@ input{
     background-color: pink;
 }
 
-.toggle{
-    display: none;
-}
 
-.toggle + .toggle{
-    display: none;
-}
-
-.toggle:checked + .toggle{
-    display: flex;
-}
-
-.control{
+.control, .control-col{
     margin: 2em auto;
     display: flex;
     flex-direction: row;
     border: #e9c154 solid 1em;
     padding: 1em;
+    object-fit: contain;
+}
+.control-col{
+    flex-direction: column;
 }
 
 .control>.group{
@@ -116,13 +109,12 @@ input{
     display: flex;
     flex-direction: column;
     flex: 1;
-    
 }
 
 .control>.group>.body{
     display: flex;
     flex-direction: column;
-    flex: 2;
+    height: -webkit-fill-available;
 }
 
 .control>.group>.title{
@@ -161,4 +153,70 @@ video{
 .disabled{
     display: none;
     opacity: 0px;
+}
+
+.feed{
+    object-fit: contain;
+    display: flex;
+    height: 100%;
+}
+
+.panel{
+    opacity: 0;
+    display: none;
+    margin: auto 0.5em;
+}
+
+.panel.active{
+    display: block;
+    opacity: 1;
+}
+
+#editImage{
+    object-fit: fill;
+    height: 100%;
+}
+
+#editImage>.control{
+    height: 100% !important;
+    max-height: unset !important;
+    margin: auto;
+    border: none;
+    padding: 0px;
+}
+
+#viewImage{
+    object-fit: contain;
+}
+
+.group>.anounce{
+    margin: 0em;
+}
+
+#layers{
+    height: max-content;
+    list-style: none;
+    padding: 0em;
+    margin: 0.5rem;
+    display: block;
+    overflow-y: auto;
+    background-color: antiquewhite;
+    height: -webkit-fill-available;
+    counter-reset: layer_count;
+}
+
+#layers>li:before{
+    content: counter(layer_count);
+	counter-increment: layer_count;
+	float: left;
+}
+
+#layers>li.active{
+    background-color: #bd8f5f;
+}
+
+#layers>li{
+    padding: 0.5em;
+    margin: 0.5em;
+    background-color: #e9c154;
 }

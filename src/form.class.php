@@ -43,7 +43,7 @@ class Form{
 		if(!check_csrf_token($this->_id, $input['csrf']))
 			return ["error"=>"The page has expired"];
 		if($additional && is_callable($additional))
-			return $additional();
+			return $additional($input);
 	}
 }
 

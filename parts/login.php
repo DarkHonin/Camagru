@@ -1,8 +1,6 @@
-
-
 <?php
-function check_2passmatch(){
-	if($_POST['password1'] !== $_POST['password2']){
+function check_2passmatch($params){
+	if($params['password1'] !== $params['password2']){
 		return ["password1", "The 2 passwords do not match"];
 	}
 }
@@ -119,6 +117,7 @@ if(empty($query->payload)){
 		]];
 		if($err = insert_into_db($data))
 			die(json_encode(["error"=>"User $err"]));
+		send_token_email($payload['email'], $data['fields']['token']);
 		if(login($payload['uname'], $payload['password1']))
 			die(json_encode(["redirect" => "/", "reload"=>["menue"]]));
 	}else if($payload['action'] == "login"){
