@@ -6,4 +6,5 @@ RewriteCond %{REQUEST_URI} !^/assets/css/.*\.css
 RewriteCond %{REQUEST_URI} !^/assets/js/.*\.js
 RewriteCond %{REQUEST_URI} !^/assets/img/.*\.(svg|png)
 RewriteCond %{REQUEST_URI} !^/filter.php
+RewriteCond %{REQUEST_URI} !^/posts_images/.*\.png
 RewriteRule ^.* index.php [L]

@@ -1,5 +1,33 @@
 <?php
 
+class Utils{
+    public static function arrayToQueryConditions($arr){
+        $ret = [];
+        foreach($arr as $k=>$v)
+            array_push($ret, "$k='$v'");
+        return $ret;
+    }
+
+    public static function arrayToInsertValues($arr){
+        $ret = ["cols" => [], "vals"=>[]];
+        foreach($arr as $k=>$v){
+            array_push($ret["cols"], $k);
+            array_push($ret["vals"], $v);
+        }
+        $ret["cols"] = implode(", ", $ret["cols"]);
+        $ret["vals"] = "'".implode("', '", $ret["vals"])."'";
+        return $ret;
+    }
+
+    public static function getCallingQuery(){
+		$stack=debug_backtrace();
+		foreach($stack as $st=>$call) {
+			if($call['class'] != "Query" && get_parent_class($call["class"]) == "Query")
+				return $call['class'];
+		}
+	}
+}
+
 function create_csrf_token($secret){
     $token = sha1(uniqid(rand(), TRUE).$secret);
     $_SESSION['scrf_token-'.$secret] = $token;
@@ -21,14 +49,22 @@ function check_csrf_token($secret, $token){
 }
 
 function login($uname, $password){
-    $users = select(["what"=>"sha, uname, active, token", "from"=>"users", "where" => "uname='{$uname}'"]);
+    $users = select(["what"=>"*", "from"=>"users", "where" => "uname='{$uname}'"]);
+    if(empty($users))
+        die(["error"=>"Invalid username / password"]);
+    $user = $users[0];
+    if(!password_verify($password, $user['sha']))
+        die(["error"=>"Invalid username / password"]);
+    $_SESSION['user'] = ["uname"=>$uname, "token"=>$user['token'], "active"=>$user['active'], "id"=>$user['id']];
+    return true;
+}
+
+function getUserNameForID($id){
+    $users = select(["what"=>"uname", "from"=>"users", "where" => "id='{$id}'"]);
     if(empty($users))
         die(["error"=>"Invalid usernam / password"]);
     $user = $users[0];
-    if(!password_verify($password, $user['sha']))
-        die(["error"=>"Invalid usernam / password"]);
-    $_SESSION['user'] = ["uname"=>$uname, "token"=>$user['token'], "active"=>$user['active']];
-    return true;
+    return $user['uname'];
 }
 
 function update_user(){

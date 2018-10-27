@@ -1,37 +1,36 @@
 <?php
 
-class Form{
-	private $_fields;
-	public $method;
-	private $_id;
+final class FormBuilder{
 
-	function __construct($id, $method, $fields){
-		$this->method = $method;
-		$this->_fields = $fields;
-		$this->_id = $id;
-	}
-
-	function renderFields(){
-		if(isset($this->_fields['token']))
-			$this->_fields['token']['value'] = create_csrf_token($this->_id);
-		foreach($this->_fields as $field){
-			echo "<input ";
+	function renderFields($form){
+		$fields = $form->getFields();
+		$fields["csrf"] = [
+			"type"=>"hidden",
+			"value"=>create_csrf_token($form->getSecret()),
+			"required" => true];
+		$fields["submit"] = [
+			"type" => "submit",
+			"value"=> $form->getSubmitLabel(),
+			"class"=>"anounce"
+		];
+		foreach($fields as $k=>$field){
+			echo "<input name='$k' ";
 			foreach($field as $k=>$v)
 				echo "$k='$v'";
 			echo ">";
 		}
 	}
 
-	function renderForm($tags = []){
-		echo "<form method='$this->method'";
+	function renderForm(Form $form, $tags = []){
+		echo "<form method='{$form->getMethod()}'";
 		foreach($tags as $k=>$v)
 				echo "$k='$v'";
 		echo ">";
-		$this->renderFields();
+		$this->renderFields($form);
 		echo "</form>";
 	}
 
-	function validate($input, $additional = null){
+	function validate(Form $form, $input, $additional = null){
 		foreach($this->_fields as $k=>$f){
 			if(isset($f["required"]) && (!isset($input[$f['name']]) || empty($input[$f['name']])))
 				return [$f['name'] => "Field is required"];

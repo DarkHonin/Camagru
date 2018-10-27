@@ -1,3 +1,4 @@
+
 const constraints = {
 	video: true
 	};
@@ -31,6 +32,10 @@ class Layer{
 		this.layer_index = i;
 	}
 
+	get index(){
+		return this.layer_index;
+	}
+
 	get size(){
 		return {width:this.actual_size.width * this.image_scale, height:this.actual_size.height * this.image_scale};
 	}
@@ -59,6 +64,8 @@ function editLayer(event){
 	this.classList.add("active");
 	console.log(event.target.getAttribute('index'));
 	console.log(layers);
+	if(!layers[event.target.getAttribute('index')])
+		return;
 	activeLayer = layers[event.target.getAttribute('index')];
 	document.querySelector('#scale').value = activeLayer.scale;
 }
@@ -206,7 +213,6 @@ function addFilter(event){
 	var title = this.getAttribute("title");
 	var size = {width: img.width, height: img.height};
 	var layer = new Layer(img, size, title);
-	layer.index = layers.length;
 	layers.push(layer);
 	setupLayers();
 }
@@ -215,7 +221,9 @@ function setupLayers(){
 	layer_o.innerHTML = "";
 	layers.forEach(function(v, i){
 		v.draw();
+		v.index = i;
 		layer_o.appendChild(v.html);
+		console.log("setup layer: ", v);
 	});
 }
 
@@ -285,7 +293,6 @@ function loabBindings(){
 bindFilters();
 
 function resetImage(){
-	userImage = new Image();
 	activateWebcam();
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	return function(){
@@ -303,9 +310,36 @@ function resetImage(){
 }
 
 ctx.globalAlpha = 0.5;
+
+function delLayer(){
+	if(!activeLayer || activeLayer.index == 0)
+		return;
+	var akID = activeLayer.index;
+	console.log(akID, activeLayer);
+	layers.splice(akID, 1);
+	layers.forEach(function(v, i){
+		v.index = i;
+	});
+	activeLayer = null;
+	setupLayers();
+}
+
+function postImage(){
+	var fd = new FormData();
+	fd.set("image", canvas.toDataURL("image/png"));
+	document.page.state.payload = window.fd_to_json(fd);
+	ajax("post", "/", object_to_fd({page: JSON.stringify(page_state)}), {js:function(response){
+		alert("Message sent");
+		document.page.state.payload = "";
+		update_page(response);
+	}})
+}
+
 export var mod = {
 	init: loabBindings,
 	captureFromFile : captureFileImage,
 	captureFromCam: captureWebcamImage,
-	resetImage : resetImage
+	resetImage : resetImage,
+	delLayer:delLayer,
+	postImage:postImage
 }

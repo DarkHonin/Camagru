@@ -6,6 +6,30 @@ if(!update_user())
 	Please sign in first
 </div>');
 
+if(!empty($query->payload)){
+	$payload = json_decode($query->payload, true);
+	$img = $payload["image"];
+	$img = str_replace('data:image/png;base64,', '', $img);
+	$img = str_replace(' ', '+', $img);
+	$img = base64_decode($img);
+	$file_name = "posts_images/".uniqid("user_image").".png";
+	file_put_contents($file_name, $img);
+	$data = ['tabel' => "posts", "fields" => [
+		"title" => "Some title",
+		"image"	=> $file_name,
+		"user" => $_SESSION['user']['id']
+	]];
+	$res = insert_into_db($data);
+	header("Content-Type: application/json");
+	if(is_array($res)) 
+		die(json_encode($res));
+	else
+		die(json_encode(["redirect" => "/post?id=$res"]));
+}
+
+
+
+
 ?>
 
 <div class="panel active" id="getImage">
@@ -37,8 +61,8 @@ if(!update_user())
 			</div>
 			<div class="body">
 				<button class="switch" action="resetImage">Start Over</button>
-				<button class="switch" action="resetImage">Delete layer</button>
-				<button class="switch" action="resetImage">Post</button>
+				<button class="switch" action="delLayer">Delete layer</button>
+				<button class="switch" action="postImage">Post</button>
 				<input type='number' id="scale" minvalue='0'>
 			</div>
 			<div class='anounce'>

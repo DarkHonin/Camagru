@@ -21,13 +21,11 @@ function check_2passmatch($params){
 			"placeholder" => "Email"
 		],
 		[
-			"name" => "password1",
 			"type" => "password",
 			"required" => true,
 			"placeholder" => "Password"
 		],
 		[
-			"name" => "password2",
 			"type" => "password",
 			"required" => true,
 			"placeholder" => "Re-enter Password"
