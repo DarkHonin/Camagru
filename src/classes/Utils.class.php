@@ -1,6 +1,9 @@
 <?php
 
 class Utils{
+
+    public const verbose = false;
+
     public static function arrayToQueryConditions($arr){
         $ret = [];
         foreach($arr as $k=>$v)
@@ -25,27 +28,40 @@ class Utils{
 			if($call['class'] != "Query" && get_parent_class($call["class"]) == "Query")
 				return $call['class'];
 		}
-	}
-}
-
-function create_csrf_token($secret){
-    $token = sha1(uniqid(rand(), TRUE).$secret);
-    $_SESSION['scrf_token-'.$secret] = $token;
-    $_SESSION['scrf_token_time'] = time();
-    return $token;
-}
-
-function check_csrf_token($secret, $token){
-    if(!isset($_SESSION['scrf_token-'.$secret]))
-        return false;
-    $age = (time() - $_SESSION['scrf_token_time']);
-    if($age / 60 >= 1){
-        unset($_SESSION['scrf_token-'.$secret]);
-        return false;
     }
-    if($token !== $_SESSION['scrf_token-'.$secret])
-        return false;
-    return true;
+    
+    public static function create_csrf_token($secret){
+        $token = sha1(uniqid(rand(), TRUE).$secret);
+        $_SESSION['scrf_token-'.$secret] = $token;
+        $_SESSION['scrf_token_time'] = time();
+        return $token;
+    }
+
+    public static function check_csrf_token($secret, $token){
+        if(self::verbose) echo "Checking CsrfToken $secret : ";
+        if(!isset($_SESSION['scrf_token-'.$secret])){
+            if(self::verbose) echo "Not set\n";
+            return false;
+        }
+        $age = (time() - $_SESSION['scrf_token_time']);
+        if($age / 60 >= 1){
+            if(self::verbose) echo "Expired ($age)min\n";
+            unset($_SESSION['scrf_token-'.$secret]);
+            return false;
+        }
+        if($token !== $_SESSION['scrf_token-'.$secret]){
+            if(self::verbose) echo "Doesnt match\n";
+            return false;
+        }
+        if(self::verbose) echo "Valid\n";
+        return true;
+    }
+    
+    public static function finalResponse($array){
+        header("Content-Type: application/json");
+        echo json_encode($array);
+        exit();
+    }
 }
 
 function login($uname, $password){
@@ -85,13 +101,15 @@ function update_user(){
 
 function send_token_email($email, $token){
     ini_set( 'display_errors', 1 );
-    error_reporting( E_ALL );
+    //error_reporting( E_ALL );
     $from = "no-reply@".$_SERVER['SERVER_NAME'];
     $to = $email;
     $subject = "Activate account @ Camagru";
     $message = $_SERVER['SERVER_NAME']."/activate?token=$token";
     $headers = "From:" . $from;
-    return(mail($to,$subject,$message, $headers));
+    if(mail($to,$subject,$message, $headers))
+        die($errorMessage = error_get_last()['message']);
+    return 1;
 }
 
 ?>

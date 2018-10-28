@@ -5,7 +5,7 @@ require_once("User.class.php");
 
 class Post extends Query{
 
-	public static $Table = "posts";
+	public $table = "posts";
 
 	public function get($what=null){return parent::get($what);}
 
@@ -17,6 +17,7 @@ class Post extends Query{
 	public $comments;
 
 	function __construct(){
+		parent::__construct();
 		if($this->user)
 			$this->user = User::get("uname, id")->where("id=$this->user")->send();
 	}

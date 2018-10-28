@@ -186,7 +186,9 @@ video{
 }
 
 #viewImage{
-    object-fit: contain;
+    height: fit-content;
+    margin: auto;
+    display: none;
 }
 
 .group>.anounce{

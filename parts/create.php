@@ -1,9 +1,11 @@
 <?php
 header("Content-Type: text/html");
-
-if(!update_user())
+require_once("src/classes/User.class.php");
+require_once("src/classes/Sticker.class.php");
+require_once("src/classes/Post.class.php");
+if(User::verify() || !(isset($_SESSION['user']['active']) && $_SESSION['user']['active']))
 	die('<div class="anounce error">
-	Please sign in first
+	Please sign in / Activate your account
 </div>');
 
 if(!empty($query->payload)){
@@ -13,46 +15,43 @@ if(!empty($query->payload)){
 	$img = str_replace(' ', '+', $img);
 	$img = base64_decode($img);
 	$file_name = "posts_images/".uniqid("user_image").".png";
+	$post = new Post();
+	$post->Image = $file_name;
+	$post->user = $_SESSION['user']['id'];
+	$post->Title = "A post by me";
 	file_put_contents($file_name, $img);
-	$data = ['tabel' => "posts", "fields" => [
-		"title" => "Some title",
-		"image"	=> $file_name,
-		"user" => $_SESSION['user']['id']
-	]];
-	$res = insert_into_db($data);
-	header("Content-Type: application/json");
-	if(is_array($res)) 
-		die(json_encode($res));
+	if(is_array($error = $post->insert()->send())) 
+		Utils::finalResponse($error);
 	else
-		die(json_encode(["redirect" => "/post?id=$res"]));
+		Utils::finalResponse(["redirect" => "/post?id=postidgoeshere"]);
 }
-
-
-
 
 ?>
 
-<div class="panel active" id="getImage">
-	<div class="control-col">
-		<video autoplay ></video>
-		<button class="switch" action="captureFromCam">Use Webcam</button>
-		<hr>
-		<input type='file' id='file' accept=".jpg, .jpeg, .png" name='userimage'>
-		<button class="switch" action="captureFromFile">Upload File</button>
-	</div>
-</div>
-
-<div class="panel" id="editImage">
+<div class="panel active " id="editImage">
 	<div class='control'>
 		<div class='filters group sidebar'>
 			<div class='anounce'>
 				Filters
 			</div>
 			<div class="body">
-			<?php foreach(select(["what"=>"id, name, image", "from"=>"filters"]) as $item){
-				include("parts/filter.php");
-			} ?>
+			<?php 
+				$fills = Sticker::get()->send();
+				if(!is_array($fills))
+					$fills = [$fills];
+				
+					foreach($fills as $item)
+						include("parts/filter.php");
+					 ?>
 			</div>
+		</div>
+
+		<div class="control-col">
+			<video autoplay ></video>
+				<button class="switch" onclick="document.page.parts.create.captureFromCam">Use Webcam</button>
+			<hr>
+				<input type='file' id='file' accept=".jpg, .jpeg, .png" name='userimage'>
+			<button class="switch" onclick="document.page.parts.create.captureFromFile">Upload File</button>
 		</div>
 		<canvas class="content" id="viewImage"></canvas>
 		<div class='filters group sidebar'>
@@ -60,9 +59,9 @@ if(!empty($query->payload)){
 				Controlls
 			</div>
 			<div class="body">
-				<button class="switch" action="resetImage">Start Over</button>
-				<button class="switch" action="delLayer">Delete layer</button>
-				<button class="switch" action="postImage">Post</button>
+				<button class="switch" onclick="resetImage">Start Over</button>
+				<button class="switch" onclick="delLayer">Delete layer</button>
+				<button class="switch" onclick="postImage">Post</button>
 				<input type='number' id="scale" minvalue='0'>
 			</div>
 			<div class='anounce'>

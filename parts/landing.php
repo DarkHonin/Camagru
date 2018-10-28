@@ -12,7 +12,7 @@ header("Content-Type: text/html");
 		?>
 	</div>
 </body>
-<script src="assets/js/pagenav.js?token=<?php echo random_int(0, 999); ?>>">
-
-</script>
+<script src="assets/js/pagenav.js?token=<?php echo random_int(0, 999); ?>>"></script>
+<script src="assets/js/create.js?token=<?php echo random_int(0, 999); ?>>"></script>
+<script src="assets/js/login.js?token=<?php echo random_int(0, 999); ?>>"></script>
 </html>

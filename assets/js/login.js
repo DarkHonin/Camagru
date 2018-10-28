@@ -26,7 +26,3 @@
 		document.page.content.querySelectorAll("form").forEach((i) => {i.addEventListener("submit", submit_form);})
 		status = document.page.content.querySelector("#status");
 	};
-	
-	export var mod = {
-		init : 	partload
-}

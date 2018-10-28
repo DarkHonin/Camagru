@@ -1,3 +1,4 @@
+
 var page_state = {
     current_path: window.location.pathname,
     request_path: "",
@@ -7,6 +8,7 @@ var page_state = {
 };
 
 const content = document.querySelector(".content");
+
 
 document.page = {
     state: page_state,
@@ -38,8 +40,6 @@ function excecute_nav(){
             animate(500, content, slidedown);
         });
     },js:update_page} )
-    
-        
 }
 
 function load_html(responseText){
@@ -47,15 +47,9 @@ function load_html(responseText){
     content.innerHTML = responseText;
     window.history.pushState("", "", page_state.current_path+page_state.get_query);
     var path = page_state.current_path.replace(/^\/+/g, '')
-    if(path != "")
-        import("./"+path+".js").then((mod) => {
-            document.page.parts[path] = mod.mod;
-            mod.mod.init();
-
-        });
-    console.log(document.page.parts[path]);
-    if(document.page.parts[path])
-        document.page.parts[path].init();
+    console.log("trying to init script -"+path);
+    if(document['init_'+path])
+        document['init_'+path]();
     
 }
 

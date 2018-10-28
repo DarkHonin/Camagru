@@ -11,16 +11,29 @@ class Layer{
 		this.pos = {x: 0, y: 0};
 		this.title = title;
 		this.layer_index = -1;
+		if(layers[0]){
+			this.aspect_ratio = aspectRatio(layers[0].display_size.width, layers[0].display_size.height, size.width, size.height);
+		}
+		else
+			this.aspect_ratio = aspectRatio(canvas.offsetWidth, canvas.offsetHeight, size.width, size.height);
 		console.log(this);
 	}
 
-	draw() {
-		var s = this.size;
-
-		ctx.drawImage(this.image, this.pos.x, this.pos.y, s.width, s.height);
+	draw(s) {
+		ctx.drawImage(this.image, this.pos.x * canvas.width, this.pos.y * canvas.height, s.width, s.height);
+	}
+	get ratio(){
+		return this.aspect_ratio;
+	}
+	set offset(pos){
+		this.pos = pos;
 	}
 
-	set offset(pos){
+	update_pos({x, y}){
+		var pos = {
+			x:  x - grabbedAt.x,
+			y:  y - grabbedAt.y
+		};
 		this.pos = pos;
 	}
 
@@ -36,8 +49,14 @@ class Layer{
 		return this.layer_index;
 	}
 
+	get display_size(){
+		return {width:(this.actual_size.width * this.aspect_ratio) * this.image_scale, 
+				height:(this.actual_size.height * this.aspect_ratio) * this.image_scale
+		}
+	}
+
 	get size(){
-		return {width:this.actual_size.width * this.image_scale, height:this.actual_size.height * this.image_scale};
+		return this.actual_size;
 	}
 
 	get scale(){
@@ -47,7 +66,7 @@ class Layer{
 	set scale(s){
 		this.image_scale = s;
 	}
-
+	
 	get html(){
 		var dom = document.createElement("li");
 		dom.setAttribute("index", this.layer_index)
@@ -57,7 +76,27 @@ class Layer{
 	}
 }
 
+var grabbedAt;
+var grabbed = false;
+var canvas, ctx;
 var activeLayer;
+var video, file_o, layer_o;
+var stream;
+
+function init_create(){
+	console.log("Loaded create js");
+	document.querySelector('#scale').addEventListener("change", changeScale);
+	canvas = document.getElementById("viewImage");
+	ctx = canvas.getContext('2d');
+	canvas.addEventListener("mousemove", updateActiveLayer)
+	canvas.addEventListener("mousedown", grab);
+	canvas.addEventListener("mouseup", letgo);
+	video = document.querySelector('video');
+	file_o = document.querySelector('#file');
+	layer_o = document.querySelector('#layers');
+	ctx.globalAlpha = 0.5;
+	activateWebcam();
+}
 
 function editLayer(event){
 	document.querySelectorAll("li.active").forEach(i => {i.classList.remove("active")});
@@ -72,17 +111,11 @@ function editLayer(event){
 
 function changeScale(event){
 	if(!activeLayer)
-		event.target.value = 0;
+		return event.target.value = 0;
 	activeLayer.scale = event.target.value;
 	drawLayers();	
 }
 
-var page;
-const video = document.querySelector('video');
-const file_o = document.querySelector('#file');
-const layer_o = document.querySelector('#layers');
-document.querySelector('#scale').addEventListener("change", changeScale);
-var stream;
 
 var layers = [];
 
@@ -109,16 +142,12 @@ function hasGetUserMedia() {
 		navigator.mediaDevices.getUserMedia);
 	}
 	
-	var canvas, ctx;
-	canvas = document.getElementById("viewImage");
-	ctx = canvas.getContext('2d');
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 function aspectRatio(maxWidth, maxHeight, width, height){
 	var ratio = maxWidth / width;
 	if(ratio * height > maxHeight)
 		ratio = maxHeight / height;
-	return {width: ratio*width, height: ratio * height};
+	return ratio;
 	}
 
 function captureWebcamImage(){
@@ -134,10 +163,8 @@ function captureWebcamImage(){
 				ctx.drawImage(video, 0,0, canvas.width, canvas.height);
 				deactivateWebcam();
 				loadLayer(canvas.toDataURL("image/png"), "background", function(layer){
-					canvas.width = layer.size.width;
-					canvas.height = layer.size.height;
-					canvas.style.maxWidth = canvas.width;
-					canvas.style.maxHeight = canvas.height;
+					canvas.width = layer.display_size.width;
+					canvas.height = layer.display_size.height;
 					setupLayers();
 				});
 			});	
@@ -150,7 +177,7 @@ function loadLayer(src, title, ready){
 	var img = new Image();
 	var layer;
 	img.onload = function(){
-		var size = aspectRatio(canvas.offsetWidth, canvas.offsetHeight, img.width, img.height);
+		var size = {width:img.width, height:img.height};
 		console.log("Layer created");
 		layer = new Layer(img, size, title);
 		layer.index = layers.length;
@@ -176,10 +203,8 @@ function captureFileImage(){
 	reader.onload = function(){
 		console.log("File read complete");
 		loadLayer(reader.result, "background", function(layer){
-			canvas.width = layer.size.width;
-			canvas.height = layer.size.height;
-			canvas.style.maxWidth = canvas.width;
-			canvas.style.maxHeight = canvas.height;
+			canvas.width = layer.display_size.width;
+			canvas.height = layer.display_size.height;
 			setupLayers();
 		});
 	};
@@ -209,18 +234,14 @@ function bindFilters(){
 }
 
 function addFilter(event){
-	var img = this.querySelector("#filter_"+this.getAttribute("image"));
 	var title = this.getAttribute("title");
-	var size = {width: img.width, height: img.height};
-	var layer = new Layer(img, size, title);
-	layers.push(layer);
-	setupLayers();
+	loadLayer(event.target.getAttribute("src"), title, setupLayers);
 }
 
 function setupLayers(){
 	layer_o.innerHTML = "";
 	layers.forEach(function(v, i){
-		v.draw();
+		v.draw(v.display_size);
 		v.index = i;
 		layer_o.appendChild(v.html);
 		console.log("setup layer: ", v);
@@ -229,35 +250,24 @@ function setupLayers(){
 
 
 
-function drawLayers(){
+function drawLayers(s=false){
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	layers.forEach(function(v, i){
-		v.draw();
+		if(!s)
+		v.draw(v.display_size);
+		else
+		v.draw(v.size)
 	});
 }
 
-function switchEvent(event){
-	var act = event.target.getAttribute("action");
-	console.log("action trigger: "+act);
-
-	if(page.parts.create[act])
-		var after = page.parts.create[act]();
-	if(after)
-		after();
-}
-
-canvas.addEventListener("mousemove", updateActiveLayer)
-canvas.addEventListener("mousedown", grab);
-canvas.addEventListener("mouseup", letgo);
-
-var grabbed = false;
-var grabbedAt;
 function grab(event){
 	if(!activeLayer)
-		return;
+	return;
 	grabbed = (event.button == 0)
 	var pos = activeLayer.offset;
-	var s = activeLayer.size;
+	var s = activeLayer.display_size;
+	//Grabbed at is the floating point of the mouse click
+	//relative to the active layer image
 	grabbedAt = {
 		x: (event.offsetX - pos.x) / s.width,
 		y: (event.offsetY - pos.y) / s.height
@@ -270,27 +280,16 @@ function letgo(){
 
 function updateActiveLayer(event){
 	if(!activeLayer)
-		return;
+	return;
 	if(!grabbed)
-		return;
-	var s = activeLayer.size;
-	var grab = {x:event.offsetX, y:event.offsetY};
+	return;
 	var pos = {
-		x:  grab.x - (s.width * grabbedAt.x),
-		y:  grab.y - (s.height * grabbedAt.y)
-	};
-	activeLayer.offset = pos
+		x: event.offsetX / canvas.width,
+		y: event.offsetY / canvas.height
+	}
+	activeLayer.update_pos(pos);
 	drawLayers();
 }
-
-function loabBindings(){
-	console.log("Loaded create js");
-	page  = document.page;
-	document.querySelectorAll(".switch").forEach((i) => {i.addEventListener("click", switchEvent)});
-	activateWebcam();
-}
-
-bindFilters();
 
 function resetImage(){
 	activateWebcam();
@@ -301,7 +300,7 @@ function resetImage(){
 		animate(100, old, fadeout, function(){
 			old.classList.remove("active");
 			layer_o.innerHTML = "";
-			layers = {};
+			layers = [];
 			newi.classList.add("active");
 			animate(100, newi, fadein);
 		}
@@ -309,7 +308,6 @@ function resetImage(){
 	}
 }
 
-ctx.globalAlpha = 0.5;
 
 function delLayer(){
 	if(!activeLayer || activeLayer.index == 0)
@@ -326,6 +324,9 @@ function delLayer(){
 
 function postImage(){
 	var fd = new FormData();
+	canvas.width = layers[0].size.width
+	canvas.height = layers[0].size.height
+	drawLayers(true);
 	fd.set("image", canvas.toDataURL("image/png"));
 	document.page.state.payload = window.fd_to_json(fd);
 	ajax("post", "/", object_to_fd({page: JSON.stringify(page_state)}), {js:function(response){
@@ -333,13 +334,4 @@ function postImage(){
 		document.page.state.payload = "";
 		update_page(response);
 	}})
-}
-
-export var mod = {
-	init: loabBindings,
-	captureFromFile : captureFileImage,
-	captureFromCam: captureWebcamImage,
-	resetImage : resetImage,
-	delLayer:delLayer,
-	postImage:postImage
 }

@@ -1,7 +1,7 @@
 <?php
 
 class Database{
-	public const verbose = true;
+	public const verbose = false;
 	private static $_pdo;
 
 	public static function init(){

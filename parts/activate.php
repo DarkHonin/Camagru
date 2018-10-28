@@ -1,40 +1,17 @@
 <?php
-	$login = new Form("activate", "POST", [
-		"token"=>[
-			"name" => "csrf",
-			"type" => "hidden"
-		],
-		[
-			"name" => "uname",
-			"type" => "text",
-			"maxlength" => "25",
-			"required" => true,
-			"placeholder" => "Username",
-			"pattern" => "^[A-Za-z0-9_]{1,15}$"
-		],
-		[
-			"name" => "password",
-			"type" => "password",
-			"required" => true,
-			"placeholder" => "Password"
-		],	
-		[
-			"name" => "submit",
-			"type" => "submit",
-			"value"=> "Login",
-			"class"=>"anounce"
-		]
-	]);
+
+require_once("src/classes/User.class.php");
+require_once("src/classes/FormBuilder.class.php");
+$Form = new User();
+$Builder = new FormBuilder();
+$Form->setFormType = "login";
+
 	if(isset($query->payload) && !empty(($query->payload))){
 		$payload = json_decode($query->payload, true);
-		if($errors = $login->validate($payload))
-			die(json_encode($errors));
-			
-		login($payload['uname'], $payload['password']);
-			
+		if($errors = $Builder->validate($Form, $payload))
+			Utils::finalResponse($errors);			
 	
-		if(!check_csrf_token($_SESSION['user']['token'].$_SESSION['user']['uname'], $_SESSION['act']))
-			include_once("logout.php");
+		
 		update(["table"=>"users", "set"=>"active=1", "where" => "uname='{$_SESSION['user']['uname']}'"]);
 		update_user();
 		die(json_encode(["redirect" => "/", "reload"=>["menue"]]));
