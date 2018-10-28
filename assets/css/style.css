@@ -3,7 +3,6 @@ html{
 }
 
 body{
-    display: flex;
     margin: 0px;
     height: 99.9vh;
 }
@@ -13,6 +12,16 @@ body{
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
+    display: flex;
+}
+
+.content.col{
+    flex-direction: column;
+}
+
+body.content>.content{
+    box-shadow: black 0px 0px 5px;
+    margin: 1em;
 }
 
 .post{
@@ -27,9 +36,6 @@ body{
     box-shadow: rgb(221, 194, 154) 0px 0px 10px 0px;
     max-width: 200px;
     height: 100%;
-}
-
-.sidebar{
     list-style: none;
     text-align: center;
     display: flex;
@@ -91,134 +97,13 @@ input{
     background-color: pink;
 }
 
+#preview{
+    margin: 0 5em;
+    box-shadow: black 0px 0px 5px 1px;
+}
 
-.control, .control-col{
-    margin: 2em auto;
-    display: flex;
-    flex-direction: row;
-    border: #e9c154 solid 1em;
-    padding: 1em;
+#preview>canvas{
+    background-color: red;
     object-fit: contain;
-}
-.control-col{
-    flex-direction: column;
-}
-
-.control>.group{
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.control>.group>.body{
-    display: flex;
-    flex-direction: column;
-    height: -webkit-fill-available;
-}
-
-.control>.group>.title{
-    max-width: 90%;
-}
-
-.control>.sepperator{
-    display: flex;
-    flex-direction: column;
-}
-
-.control>.sepperator>hr{
-    height: 2em;
-}
-
-.filter{
-    display: block;
-    width: 80%;
-    margin: 0.5em auto;
-}
-
-.filter>img{
-    width: 100%;
-    object-fit: fill;
-}
-
-.filters{
-    max-width: 15em;
-    overflow: hidden;
-}
-
-video{
-    max-width: 25em;
-}
-
-.disabled{
-    display: none;
-    opacity: 0px;
-}
-
-.feed{
-    object-fit: contain;
-    display: flex;
-    height: 100%;
-}
-
-.panel{
-    opacity: 0;
-    display: none;
-    margin: auto 0.5em;
-}
-
-.panel.active{
-    display: block;
-    opacity: 1;
-}
-
-#editImage{
-    object-fit: fill;
-    height: 100%;
-}
-
-#editImage>.control{
-    height: 100% !important;
-    max-height: unset !important;
-    margin: auto;
-    border: none;
-    padding: 0px;
-}
-
-#viewImage{
-    height: fit-content;
-    margin: auto;
-    display: none;
-}
-
-.group>.anounce{
-    margin: 0em;
-}
-
-#layers{
-    height: max-content;
-    list-style: none;
-    padding: 0em;
-    margin: 0.5rem;
-    display: block;
-    overflow-y: auto;
-    background-color: antiquewhite;
-    height: -webkit-fill-available;
-    counter-reset: layer_count;
-}
-
-#layers>li:before{
-    content: counter(layer_count);
-	counter-increment: layer_count;
-	float: left;
-}
-
-#layers>li.active{
-    background-color: #bd8f5f;
-}
-
-#layers>li{
-    padding: 0.5em;
-    margin: 0.5em;
-    background-color: #e9c154;
+    margin: auto 2em;
 }

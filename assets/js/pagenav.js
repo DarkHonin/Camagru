@@ -7,7 +7,7 @@ var page_state = {
     request_type: "page"
 };
 
-const content = document.querySelector(".content");
+const content = document.querySelector("#page_content");
 
 
 document.page = {
@@ -48,8 +48,8 @@ function load_html(responseText){
     window.history.pushState("", "", page_state.current_path+page_state.get_query);
     var path = page_state.current_path.replace(/^\/+/g, '')
     console.log("trying to init script -"+path);
-    if(document['init_'+path])
-        document['init_'+path]();
+    if(window['page_init_'+path])
+        window['page_init_'+path]();
     
 }
 
@@ -116,6 +116,8 @@ function system_reload(parts){
             console.log("part recieved");
             animate(250, part, fadeout, function(){
                 part.innerHTML = responseText;
+                if(window["part_trigger_"+i])
+                    window["part_trigger_"+i]();
                 animate(250, part, fadein, init_triggers);
             });
         }});
