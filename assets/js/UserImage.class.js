@@ -21,22 +21,6 @@ export class UserImage extends Layer{
 		this.ctx  = this.canvas.getContext("2d");
 	}
 
-	/*
-
-	render(context, {w, h}){
-		super.render(this.ctx);
-		this.canvas.width = this.actual_size.w;
-		this.canvas.height = this.actual_size.h;
-		var img = new Image();
-		img.src = this.canvas.toDataURL("image/png");
-		console.log(context);
-		
-		img.onload = function(){ 
-			console.log(this.width);
-			context.drawImage(img, 0, 0, w,h) };
-	}
-	*/
-
 	render(context, {w, h}){
 		this.canvas.width = this.size.w;
 		this.canvas.height = this.size.h;
@@ -49,6 +33,11 @@ export class UserImage extends Layer{
 		}
 		img.src = this.canvas.toDataURL("image/png");
 		return img;
+	}
+
+	addFilter(object){
+		this.addLayer(new Layer(object.children[0].src,object.children[1].innerText));
+		document.create.renderLayerHtml();
 	}
 
 	addLayer(layer){

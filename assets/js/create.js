@@ -187,9 +187,20 @@ class Creator{
 		this.video = {};
 		this.file_o = {};
 		this.previewCanvas = {};
+		this.layer_o = {};
 	}
 
 	set preview(p){this.previewCanvas=p;}
+	get layers(){return this.layer_o};
+	set layers(l){this.layer_o=l}
+
+	renderLayerHtml(){
+		this.layer_o.innerHTML = "";
+		var ln = this.layer_o;
+		this.userImage.layers.forEach(l => {
+			console.log(ln);
+			ln.appendChild(l.html)});
+	}
 
 	init(){
 		this.video = document.querySelector('video');

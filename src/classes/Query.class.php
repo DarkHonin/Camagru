@@ -47,6 +47,11 @@ class Query{
 		return $this; 
 	}
 
+	function limit($amnt){
+		$this->query .= " LIMIT $amnt";
+		return $this;
+	}
+
 	private function getValuesForCols(){
 		foreach($this->_vars as $k=>$v){
 			if(self::verbose) echo "$k($v) = {$this->$k}\n";

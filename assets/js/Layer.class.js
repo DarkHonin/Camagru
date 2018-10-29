@@ -68,10 +68,10 @@ export class Layer{
 	}
 	
 	get html(){
-		var dom = document.createElement("li");
+		var dom = document.createElement("span");
 		dom.setAttribute("index", this.layer_index)
+		dom.setAttribute("class", "dark-accent-bg light-accent");
 		dom.appendChild(document.createTextNode(this.title));
-		dom.addEventListener("click", editLayer);
 		return dom;
 	}
 }

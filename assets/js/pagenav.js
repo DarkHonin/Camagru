@@ -95,13 +95,17 @@ function update_page(json){
     }
 }
 
+function system_refresh(){
+    system_redirect( window.location.pathname);
+}
+
 function system_redirect(page){
     console.log("Redirecting to: "+page);
     page_state.request_path = page;
     excecute_nav();
 }
 
-function system_reload(parts){
+function system_reload(parts, payload={}){
     parts.forEach(i => {
         let part = document.querySelector("#"+i);
         if(!part)
@@ -109,9 +113,8 @@ function system_reload(parts){
             var req = JSON.parse(JSON.stringify(page_state));
             req.current_path = "/part";
             req.request_path = "";
-            req.payload = JSON.stringify({
-                "id": i
-            });
+            payload.id = i;
+            req.payload = JSON.stringify(payload);
         ajax("post", "/", object_to_fd({page: JSON.stringify(req)}), {onhtml:function(responseText){
             console.log("part recieved");
             animate(250, part, fadeout, function(){

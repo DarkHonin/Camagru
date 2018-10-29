@@ -1,7 +1,15 @@
+<?php
+require_once("src/classes/User.class.php");
+if(!isset($_SESSION['user']) || !isset($_SESSION['user']['active']) || !$_SESSION['user']['active'] || User::verify())
+	die('<div class="anounce error">
+	Please sign in / Activate your account
+</div>');
+?>
+
 <div class="col-full col-r">
 <div class='sidebar col-1 hide-s' id="Stickers">
 		
-		</div>
+</div>
 <div class="col-3" id="editImage">
 	<div class="col-full" id="preview">
 		<video autoplay ></video>

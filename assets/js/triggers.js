@@ -19,6 +19,18 @@ function page_init_login(){
 	document.querySelectorAll("form").forEach((i) => {i.addEventListener("submit", submit_form);})
 }
 
+function part_trigger_imageControlls(){
+	document.create.layers = document.querySelector("#layers");
+}
+
 function page_init_(){
 	document.create.deactivateWebcam();
+}
+
+function filter_nav(obj){
+	if(!obj)
+		system_reload(["Stickers"]);
+	else
+		system_reload(["Stickers"], {filter_step:obj.id});
+
 }
