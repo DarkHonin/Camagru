@@ -14,6 +14,7 @@ if(!isset($posts) || empty($posts)) {?>
 			?>
 			<div class="post">
 				<img src="<?php echo $post->Image ?>" >
+				</div>
 			<?php
 		}
 } ?>

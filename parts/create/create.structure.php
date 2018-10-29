@@ -1,9 +1,9 @@
-
-<div class='sidebar' id="Stickers">
+<div class="col-full col-r">
+<div class='sidebar col-1 hide-s' id="Stickers">
 		
 		</div>
-<div class="content" id="editImage">
-	<div class="content col" id="preview">
+<div class="col-3" id="editImage">
+	<div class="col-full" id="preview">
 		<video autoplay ></video>
 			<button class="switch" onclick="document.create.captureWebcamImage()">Use Webcam</button>
 		<hr>
@@ -11,6 +11,7 @@
 		<button class="switch" onclick="document.create.captureFileImage()">Upload File</button>
 	</div>
 </div>
-<div class='sidebar' id='imageControlls'>
+<div class='sidebar col-1 hide-s' id='imageControlls'>
 	
+</div>
 </div>

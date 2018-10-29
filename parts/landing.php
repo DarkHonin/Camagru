@@ -2,11 +2,16 @@
 include_once("parts/head.php");
 header("Content-Type: text/html");
 ?>
-<body class="content">
-	<div class="content" id="page_content">
+<body class="col-r col-full">
+	<div class="contentT col-4" id="page_content">
 
 	</div>
-	<div class="sidebar" id="menue">
+	
+	<label class="tag show-s col-1" for="toggle_menue" style="position: fixed;">
+		<img src="assets/img/icon.svg">
+	</label>
+	<input type="text" class="col-toggle" id="toggle_menue" style="width: 0px; height: 0px; position: absolute; z-index: -999;">
+	<div class="col-1 hide-s sidebar" id="menue">
 		<?php
 			include_once("parts/menue.php");
 		?>

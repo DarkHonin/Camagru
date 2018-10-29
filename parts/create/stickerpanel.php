@@ -3,13 +3,15 @@
 <div class='anounce'>
 				Stickers
 			</div>
-			<div class="body">
+			<span class="col-no filter">^</span>
 			<?php 
 				$fills = Sticker::get()->send();
+				if($fills){
 				if(!is_array($fills))
 					$fills = [$fills];
 				
 					foreach($fills as $item)
 						include("parts/filter.php");
+					}
 					 ?>
-			</div>
+			<span class="col-no filter">v</span>

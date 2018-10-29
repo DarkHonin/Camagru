@@ -15,8 +15,7 @@ final class FormBuilder{
 			"required" => true];
 		$fields["submit"] = [
 			"type" => "submit",
-			"value"=> $form->getSubmitLabel(),
-			"class"=>"anounce"
+			"value"=> $form->getSubmitLabel()
 		];
 		foreach($fields as $k=>$field){
 			echo "<input name='$k' ";

@@ -1,3 +1,103 @@
+.primairy { color: #AA3939 }
+.primairy-bg, .sidebar, .tag { background-color: #AA3939 }
+
+.light-accent, .filter { color: #FFFFFF } 
+.light-accent-bg, .nav, .anounce
+ { background-color: #FFFFFF }
+
+.light-under { color: #D68F8F }
+.light-under-bg { background-color: #D68F8F }
+
+.dark-under, .nav, .anounce { color: #7E0000 }
+.dark-under, .filter { background-color: #7E0000 }
+
+.dark-accent { color: #520000 }
+.dark-accent-bg, body { background-color: #520000 }
+
+.tag{
+    width: 100%;
+    height: 100%;
+    max-width: 5em;
+    max-height: 5em;
+    right: 0px;
+    top: 1em;
+    border-radius: 1em 0em 0em 1em;
+    box-shadow: inset #7E0000 5px -5px 20px -5px;
+}
+
+.forms form{
+    margin: auto;
+}
+
+.forms form>input{
+    margin: 0.5em;
+    font-size: 1.2em;
+    display: block;
+}
+
+
+.tag>img{
+    width: 5em;
+    display: block;
+}
+
+.nav{
+    width: 100%;
+    padding: 1em;
+    margin: 0.5em 0em;
+    text-decoration: none;
+    font-family: monospace;
+    text-decoration: none;
+    font-size: 1.5em;
+    display: block;
+}
+
+.banner{
+    margin: 1em;
+    padding: 0px;
+}
+
+.sidebar{
+    overflow: hidden;
+    height: -webkit-fill-available;
+}
+
+.anounce{
+    margin: 1.5em auto;
+    max-height: 1.2em;
+    width: -webkit-fill-available;
+    padding: 1em;
+    font-family: monospace;
+    font-size: 2em;
+}
+
+.error{
+    color: red;
+    background-color: pink;
+}
+
+#preview>canvas{
+    object-fit: contain;
+    margin: auto 2em;
+}
+
+@media screen and (max-width: 700px) {
+    #menue{
+        position: fixed;
+        bottom: 0px;
+    }
+}
+
+.filter{
+    margin: 0.2em auto;
+    width: 60%;
+    font-size: 1.5em;
+    text-align: center;
+    padding: 0.5em;
+    font-family: monospace;
+}
+
+/*
 html{
     background-color: blanchedalmond;
 }
@@ -35,7 +135,6 @@ body.content>.content{
     background-color: rgb(221, 194, 154);
     box-shadow: rgb(221, 194, 154) 0px 0px 10px 0px;
     max-width: 200px;
-    height: 100%;
     list-style: none;
     text-align: center;
     display: flex;
@@ -82,28 +181,37 @@ input{
     margin: 0.2em auto;
     padding: 0.5em;
 }
-.anounce{
-    margin: 1.5em auto;
-    display: block;
-    width: auto;
-    background-color: rgb(221, 194, 154);
-    padding: 1em;
-    font-family: monospace;
-    font-size: 2em;
-}
 
-.error{
-    color: red;
-    background-color: pink;
-}
+
+
 
 #preview{
     margin: 0 5em;
     box-shadow: black 0px 0px 5px 1px;
 }
 
-#preview>canvas{
-    background-color: red;
-    object-fit: contain;
-    margin: auto 2em;
+
+
+@media screen and (max-width: 700px) {
+    .content{
+        flex-direction: column-reverse;
+    }
+
+    #menue{
+
+    }
+
+    #menue>.nav{
+        display: none;
+    }
+    #menue>.nav.banner{
+        display: block;
+        width: fit-content;
+        margin: 1em;
+    }
+
+    .nav.banner>img{
+        width: 5em !important;
+    }
 }
+*/

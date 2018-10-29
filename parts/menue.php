@@ -1,5 +1,5 @@
-<a href="/" target='/' class="nav banner"><img src="assets/img/icon.svg"></a>
-
+<a href="/" target='/' class="nav banner"><img class="hide-s icon" src="assets/img/icon.svg"></a>
+<a href="/" target='/' class="nav show-s">Home</a>
 <?php
 if(!isset($_SESSION['user']) || empty($_SESSION['user']))
 	echo "<a class='nav' href='/login' target='/login'>Register/Login</a>";

@@ -15,15 +15,15 @@ function check_2passmatch($params){
 if(empty($query->payload)){
 	header("Content-Type: text/html");
 ?>
-<div class="anounce" id="status">
+<div class="anounce col-full" id="status">
 	Welcome
 </div>
-<div class='control'>
-	<div class="group">
-		<?php $Builder->renderForm($Form, ["class" => "body", "id" => "register"]); ?>
+<div class='col-full col-r forms'>
+	<div class="col-half">
+		<?php $Builder->renderForm($Form, ["class" => "col-full", "id" => "register"]); ?>
 	</div>
-	<div class="group">
-		<?php $Form->setFormType("login");  $Builder->renderForm($Form, ["class" => "body", "id" => "login"]); ?>
+	<div class="col-half">
+		<?php $Form->setFormType("login");  $Builder->renderForm($Form, ["class" => "col-full", "id" => "login"]); ?>
 	</div>
 </div>
 <script type="module">
