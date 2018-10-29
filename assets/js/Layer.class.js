@@ -12,11 +12,12 @@ export class Layer{
 		this.title = title;
 		this.layer_index = -1;
 		this.image.src = src;
+		this.grabbedAt = {}
 		console.log(this);
 	}
 
 	render(context){
-		context.drawImage(this.image, this.pos.x, this.pos.y, this.size.w, this.size.h);
+		context.drawImage(this.image, this.pos.x * context.canvas.width, this.pos.y * context.canvas.height, this.size.w, this.size.h);
 	}
 
 	draw(ctx, s) {
@@ -71,8 +72,27 @@ export class Layer{
 		var dom = document.createElement("span");
 		dom.setAttribute("index", this.layer_index)
 		dom.setAttribute("class", "dark-accent-bg light-accent");
+		dom.addEventListener("click", document.create.activateLayer);
 		dom.appendChild(document.createTextNode(this.title));
 		return dom;
+	}
+
+	grab(event){
+		this.grabbedAt = { x: event.layerX / event.target.width, y:event.layerY / event.target.height};
+	}
+
+	letgo(event){
+		this.grabbedAt = null;
+		console.log("released", this);
+	}
+
+	move(event){
+		if(!this.grabbedAt)
+			return;
+		var ex = { x: event.layerX / event.target.width, y:event.layerY / event.target.height}
+		this.pos = {x: ex.x - this.grabbedAt.x, y: ex.y - this.grabbedAt.y}
+		document.create.render_preview();
+		console.log(this.pos);
 	}
 }
 

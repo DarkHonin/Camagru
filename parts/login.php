@@ -39,26 +39,5 @@ if(empty($query->payload)){
 		Utils::finalResponse($error);
 	else
 		Utils::finalResponse(["redirect" => "/", "reload"=>["menue"]]);
-	/*
-	if($payload['action'] == "register"){
-		if($errors = $Form->validate($payload, "check_2passmatch"))
-			die(json_encode($errors));
-		$data = ['tabel' => "users", "fields" => [
-			"uname" => $payload['uname'],
-			"email" => $payload['email'],
-			"sha"	=> password_hash($payload['password1'], PASSWORD_BCRYPT),
-			"token" => sha1(time().$payload['uname'])
-		]];
-		if($err = insert_into_db($data))
-			die(json_encode(["error"=>"User $err"]));
-		send_token_email($payload['email'], $data['fields']['token']);
-		if(login($payload['uname'], $payload['password1']))
-			die(json_encode(["redirect" => "/", "reload"=>["menue"]]));
-	}else if($payload['action'] == "login"){
-		if($errors = $Builder->validate($Form, $payload))
-			die(json_encode($errors));
-		if(login($payload['uname'], $payload['password']))
-			die(json_encode(["redirect" => "/", "reload"=>["menue"]]));
-	}*/
 }
 ?>

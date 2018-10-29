@@ -14,7 +14,8 @@ final class Parts{
 		"part::Stickers" => "parts/create/stickerpanel.php",
 		"/part" => "src/part.php",
 		"/activate" => "parts/activate.php",
-		"/404"	=> "parts/err/404.php"
+		"/404"	=> "parts/err/404.php",
+		"/user" => "parts/user/landing.php"
 	];
 
 	static function getPart($id){

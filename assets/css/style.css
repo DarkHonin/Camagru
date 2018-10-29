@@ -6,7 +6,7 @@
 .light-accent, .filter, #Stickers>span 
 { color: #FFFFFF } 
 
-.light-accent-bg, .nav, .anounce
+.light-accent-bg, .nav, .anounce, #layers>span.active
  { background-color: #FFFFFF }
 
 /**/
@@ -24,7 +24,7 @@
 
 /**/
 
-.dark-accent { color: #520000 }
+.dark-accent, #layers>span.active { color: #520000 }
 .dark-accent-bg, body { background-color: #520000 }
 
 .tag{
@@ -70,6 +70,11 @@
     padding: 0px;
 }
 
+#layers>span{
+    padding: 1em;
+    margin: 0.2em 0em;
+}
+
 .sidebar{
     overflow: hidden;
     height: -webkit-fill-available;
@@ -98,6 +103,8 @@
     #menue{
         position: fixed;
         bottom: 0px;
+        height: 50vh;
+        overflow-y: auto;
     }
 }
 

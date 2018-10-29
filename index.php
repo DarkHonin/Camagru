@@ -1,28 +1,20 @@
 <?php
-	error_reporting(E_ALL ^ E_DEPRECATED);
 
-	session_start();
-
-	if(!isset($_SESSION['obj']))
-		$_SESSION['obj'] = [];
-
-	include_once("src/classes/Utils.class.php");
-	include_once("src/classes/Parts.class.php");
-	
+session_start();
+require_once("src/classes/Utils.class.php");
+require_once("src/classes/Parts.class.php");
+$page = $_GET['q'];
+if(empty($page))
+	$content = "parts/landingcontent.php";
+else{
+	$nav = explode("/", $page);
+	$part = $nav[0];
 	if($_SERVER["REQUEST_METHOD"] == "POST")
-	{
-		if(!isset($_POST['page']) || empty($_POST['page']))
-		return include_once("parts/landing.php");
-		$query = json_decode($_POST['page']);
-		if(!empty(!$query->payload))
-			$payload = json_decode($query->payload);
-		if(!empty($query->request_path))
-			include_once(Parts::getPart($query->request_path));
-		else
-			include_once(Parts::getPart($query->current_path));
-	}else{
-		include_once("parts/landing.php");
-	}
-
-	
+		$content = "posts/".$nav[0].".php";
+	else
+	$content = "page/".$nav[0].".php";
+}
+if(!file_exists($content))
+	$content = "page/404.php";
+include_once("page/index.php");
 ?>

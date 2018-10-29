@@ -3,9 +3,9 @@ require_once("Query.class.php");
 require_once("Form.interface.php");
 
 class User extends Query implements Form{
-	private const LoginError = ["error"=>"Invalid username / password"];
-	private const PasswordMissmatchError = ["error"=>"Passwords do not match"];
-	private const UserExistError = ["error"=>"Username/email aready in use"];
+	private const LoginError = "Invalid username / password";
+	private const PasswordMissmatchError = "Passwords do not match";
+	private const UserExistError = "Username/email aready in use";
 	public $uname;
 	public $email;
 	public $sha;
@@ -51,14 +51,18 @@ class User extends Query implements Form{
 		}
 	}
 
-	static function verify(){
-		if(!$_SESSION['user']) if(!$user) return self::LoginError;
+	static function verify($doi = false){
+		if(!isset($_SESSION['user']) || empty($_SESSION['user'])) return self::LoginError;
 		$user = self::get("token, active")->where("uname='{$_SESSION['user']['uname']}'")->send();
 		if(!$user) return self::LoginError;
 		if($user->active){
 			$user->token = sha1(time().$user->uname);
 			$_SESSION['user']['token'] = $user->token;
+		}else{
+			if($doi)
+				return self::LoginError;
 		}
+		return false;
 	}
 
 	function setFormType($str){
@@ -106,6 +110,23 @@ class User extends Query implements Form{
 				"type" => "password",
 				"required" => true,
 				"placeholder" => "Enter Password"
+			],
+			"action" => [
+				"type" => "hidden",
+				"value"=> "login"
+			]
+		];
+		else if ($this->formType == "alter")
+		return [
+			"password" => [
+				"type" => "password",
+				"required" => true,
+				"placeholder" => "Enter Password"
+			],
+			"email" => [
+				"required" => true,
+				"type" => "email",
+				"placeholder" => "Email"
 			],
 			"action" => [
 				"type" => "hidden",

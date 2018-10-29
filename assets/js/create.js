@@ -1,26 +1,63 @@
-import Layer from "./Layer.class.js";
-import UserImage from "./UserImage.class.js";
-var userImage;
+
 const constraints = {
 	video: true
 	};
 
-var grabbedAt;
-var grabbed = false;
-var activeLayer;
-var video, file_o, layer_o;
-var stream;
+class Layer{
+	constructor(image, size, title){
+		this.image = image;
+		this.actual_size = size;
+		this.image_scale = 1;
+		this.pos = {x: 0, y: 0};
+		this.title = title;
+		this.layer_index = -1;
+		console.log(this);
+	}
 
-export function init_create(){
-	canvas = document.createElement("canvas");
-	ctx = canvas.getContext("2d");
-	console.log("Loaded create js");
-	//document.querySelector('#scale').addEventListener("change", changeScale);
-	video = document.querySelector('video');
-	
-	//layer_o = document.querySelector('#layers');
-	activateWebcam();
+	draw() {
+		var s = this.size;
+
+		ctx.drawImage(this.image, this.pos.x, this.pos.y, s.width, s.height);
+	}
+
+	set offset(pos){
+		this.pos = pos;
+	}
+
+	get offset(){
+		return this.pos;
+	}
+
+	set index(i){
+		this.layer_index = i;
+	}
+
+	get index(){
+		return this.layer_index;
+	}
+
+	get size(){
+		return {width:this.actual_size.width * this.image_scale, height:this.actual_size.height * this.image_scale};
+	}
+
+	get scale(){
+		return this.image_scale;
+	}
+
+	set scale(s){
+		this.image_scale = s;
+	}
+
+	get html(){
+		var dom = document.createElement("li");
+		dom.setAttribute("index", this.layer_index)
+		dom.appendChild(document.createTextNode(this.title));
+		dom.addEventListener("click", editLayer);
+		return dom;
+	}
 }
+
+var activeLayer;
 
 function editLayer(event){
 	document.querySelectorAll("li.active").forEach(i => {i.classList.remove("active")});
@@ -35,34 +72,85 @@ function editLayer(event){
 
 function changeScale(event){
 	if(!activeLayer)
-		return event.target.value = 0;
+		event.target.value = 0;
 	activeLayer.scale = event.target.value;
 	drawLayers();	
 }
 
+var page;
+const video = document.querySelector('video');
+const file_o = document.querySelector('#file');
+const layer_o = document.querySelector('#layers');
+document.querySelector('#scale').addEventListener("change", changeScale);
+var stream;
 
 var layers = [];
 
+function deactivateWebcam(){
+	if(stream && stream.active){
+		var track = stream.getTracks()[0];
+		track.stop();
+	}
+}
 
+function activateWebcam(event){
+	if(stream && stream.active || !video)
+		return;
+	if (hasGetUserMedia()) {
+		navigator.mediaDevices.getUserMedia(constraints).then(
+			(theStream) => {stream = theStream; video.srcObject = theStream}
+			);
+	} else {
+		alert('getUserMedia() is not supported by your browser');
+	}
+}
 function hasGetUserMedia() {
 	return !!(navigator.mediaDevices &&
 		navigator.mediaDevices.getUserMedia);
 	}
 	
+	var canvas, ctx;
+	canvas = document.getElementById("viewImage");
+	ctx = canvas.getContext('2d');
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 function aspectRatio(maxWidth, maxHeight, width, height){
 	var ratio = maxWidth / width;
 	if(ratio * height > maxHeight)
 		ratio = maxHeight / height;
-	return ratio;
+	return {width: ratio*width, height: ratio * height};
 	}
 
+function captureWebcamImage(){
+	return function(){
+		var old = document.querySelector(".panel.active");
+		var newi = document.querySelector("#editImage");
+		animate(100, old, fadeout, function(){
+			old.classList.remove("active");
+			newi.classList.add("active");
+			animate(100, newi, fadein, function(){
+				canvas.width = video.videoWidth ;
+				canvas.height = video.videoHeight;
+				ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+				deactivateWebcam();
+				loadLayer(canvas.toDataURL("image/png"), "background", function(layer){
+					canvas.width = layer.size.width;
+					canvas.height = layer.size.height;
+					canvas.style.maxWidth = canvas.width;
+					canvas.style.maxHeight = canvas.height;
+					setupLayers();
+				});
+			});	
+		}
+		);
+	}
+}
 
 function loadLayer(src, title, ready){
 	var img = new Image();
 	var layer;
 	img.onload = function(){
-		var size = {width:img.width, height:img.height};
+		var size = aspectRatio(canvas.offsetWidth, canvas.offsetHeight, img.width, img.height);
 		console.log("Layer created");
 		layer = new Layer(img, size, title);
 		layer.index = layers.length;
@@ -73,19 +161,66 @@ function loadLayer(src, title, ready){
 	img.src = src;
 }
 
+function captureFileImage(){
+	var file = file_o.files[0];
+	if(!file){
+		console.log("no File selected");
+		return;
+	}
+	deactivateWebcam();
+	console.log("File "+file);
+	var reader = new FileReader();
+	reader.addEventListener("error",function(err){
+		console.log(err);
+	});
+	reader.onload = function(){
+		console.log("File read complete");
+		loadLayer(reader.result, "background", function(layer){
+			canvas.width = layer.size.width;
+			canvas.height = layer.size.height;
+			canvas.style.maxWidth = canvas.width;
+			canvas.style.maxHeight = canvas.height;
+			setupLayers();
+		});
+	};
+	console.log("reading File");
+	
+	return function(){
+		var old = document.querySelector(".panel.active");
+		var newi = document.querySelector("#editImage");
+		animate(100, old, fadeout, function(){
+			old.classList.remove("active");
+			newi.classList.add("active");
+			animate(100, newi, fadein, function(){
+				if (reader.readAsDataUrl)
+					reader.readAsDataUrl(file);
+				else if (reader.readAsDataurl)
+					reader.readAsDataurl(file);
+				else if (reader.readAsDataURL)
+					reader.readAsDataURL(file);
+			});
+		}
+		);
+	}
+}
+
 function bindFilters(){
 	document.querySelectorAll(".filter").forEach(i => {i.addEventListener("click", addFilter)});
 }
 
 function addFilter(event){
+	var img = this.querySelector("#filter_"+this.getAttribute("image"));
 	var title = this.getAttribute("title");
-	loadLayer(event.target.getAttribute("src"), title, setupLayers);
+	var size = {width: img.width, height: img.height};
+	var layer = new Layer(img, size, title);
+	layers.push(layer);
+	setupLayers();
 }
 
 function setupLayers(){
 	layer_o.innerHTML = "";
 	layers.forEach(function(v, i){
-		v.draw(v.display_size);
+		v.draw();
 		v.index = i;
 		layer_o.appendChild(v.html);
 		console.log("setup layer: ", v);
@@ -94,24 +229,35 @@ function setupLayers(){
 
 
 
-function drawLayers(s=false){
+function drawLayers(){
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	layers.forEach(function(v, i){
-		if(!s)
-		v.draw(v.display_size);
-		else
-		v.draw(v.size)
+		v.draw();
 	});
 }
 
+function switchEvent(event){
+	var act = event.target.getAttribute("action");
+	console.log("action trigger: "+act);
+
+	if(page.parts.create[act])
+		var after = page.parts.create[act]();
+	if(after)
+		after();
+}
+
+canvas.addEventListener("mousemove", updateActiveLayer)
+canvas.addEventListener("mousedown", grab);
+canvas.addEventListener("mouseup", letgo);
+
+var grabbed = false;
+var grabbedAt;
 function grab(event){
 	if(!activeLayer)
-	return;
+		return;
 	grabbed = (event.button == 0)
 	var pos = activeLayer.offset;
-	var s = activeLayer.display_size;
-	//Grabbed at is the floating point of the mouse click
-	//relative to the active layer image
+	var s = activeLayer.size;
 	grabbedAt = {
 		x: (event.offsetX - pos.x) / s.width,
 		y: (event.offsetY - pos.y) / s.height
@@ -124,16 +270,27 @@ function letgo(){
 
 function updateActiveLayer(event){
 	if(!activeLayer)
-	return;
+		return;
 	if(!grabbed)
-	return;
+		return;
+	var s = activeLayer.size;
+	var grab = {x:event.offsetX, y:event.offsetY};
 	var pos = {
-		x: event.offsetX / canvas.width,
-		y: event.offsetY / canvas.height
-	}
-	activeLayer.update_pos(pos);
+		x:  grab.x - (s.width * grabbedAt.x),
+		y:  grab.y - (s.height * grabbedAt.y)
+	};
+	activeLayer.offset = pos
 	drawLayers();
 }
+
+function loabBindings(){
+	console.log("Loaded create js");
+	page  = document.page;
+	document.querySelectorAll(".switch").forEach((i) => {i.addEventListener("click", switchEvent)});
+	activateWebcam();
+}
+
+bindFilters();
 
 function resetImage(){
 	activateWebcam();
@@ -144,7 +301,7 @@ function resetImage(){
 		animate(100, old, fadeout, function(){
 			old.classList.remove("active");
 			layer_o.innerHTML = "";
-			layers = [];
+			layers = {};
 			newi.classList.add("active");
 			animate(100, newi, fadein);
 		}
@@ -152,6 +309,7 @@ function resetImage(){
 	}
 }
 
+ctx.globalAlpha = 0.5;
 
 function delLayer(){
 	if(!activeLayer || activeLayer.index == 0)
@@ -168,9 +326,6 @@ function delLayer(){
 
 function postImage(){
 	var fd = new FormData();
-	canvas.width = layers[0].size.width
-	canvas.height = layers[0].size.height
-	drawLayers(true);
 	fd.set("image", canvas.toDataURL("image/png"));
 	document.page.state.payload = window.fd_to_json(fd);
 	ajax("post", "/", object_to_fd({page: JSON.stringify(page_state)}), {js:function(response){
@@ -180,101 +335,11 @@ function postImage(){
 	}})
 }
 
-class Creator{
-
-	constructor(){
-		this.userImage = {};
-		this.video = {};
-		this.file_o = {};
-		this.previewCanvas = {};
-		this.layer_o = {};
-	}
-
-	set preview(p){this.previewCanvas=p;}
-	get layers(){return this.layer_o};
-	set layers(l){this.layer_o=l}
-
-	renderLayerHtml(){
-		this.layer_o.innerHTML = "";
-		var ln = this.layer_o;
-		this.userImage.layers.forEach(l => {
-			console.log(ln);
-			ln.appendChild(l.html)});
-	}
-
-	init(){
-		this.video = document.querySelector('video');
-		this.activateWebcam();
-		this.file_o = document.querySelector('#file');
-	}
-
-	deactivateWebcam(){
-		if(stream && stream.active){
-			var track = stream.getTracks()[0];
-			track.stop();
-		}
-	}
-
-	render(canvas){
-		var context = canvas.getContext("2d");
-		this.userImage.render(context, {w:canvas.width, h:canvas.height});
-	}
-
-	render_preview(){
-		this.render(this.previewCanvas);
-	}
-	
-	activateWebcam(event){
-		if(stream && stream.active || !this.video)
-			return;
-		if (hasGetUserMedia()) {
-			navigator.mediaDevices.getUserMedia(constraints).then(
-				(theStream) => {stream = theStream; this.video.srcObject = theStream}
-				);
-			setTimeout(document.create.deactivateWebcam, 100000);
-		} else {
-			alert('getUserMedia() is not supported by your browser');
-		}
-	}
-
-	captureWebcamImage(){
-		this.userImage = new UserImage(this.video, {w: this.video.videoWidth, h: this.video.videoHeight});
-		this.deactivateWebcam();
-		system_reload(["preview", "imageControlls", "Stickers"]);
-	}
-
-	captureFileImage(){
-		var file = this.file_o.files[0];
-		if(!file){
-			console.log("no File selected");
-			return;
-		}
-		this.deactivateWebcam();
-		var reader = new FileReader();
-		reader.addEventListener("error",function(err){
-			console.log(err);
-		});
-		reader.onload = function(){
-			document.create.userImage = new UserImage(reader.result);
-		};
-		if (reader.readAsDataUrl)
-			reader.readAsDataUrl(file);
-		else if (reader.readAsDataurl)
-			reader.readAsDataurl(file);
-		else if (reader.readAsDataURL)
-			reader.readAsDataURL(file);
-		system_reload(["preview", "imageControlls", "Stickers"]);
-	}
-
-	get ratio(){
-		var s = this.image.size;
-		console.log(s);
-		return s.w / s.h;
-	}
-
-	get image(){
-		return this.userImage;
-	}
+export var mod = {
+	init: loabBindings,
+	captureFromFile : captureFileImage,
+	captureFromCam: captureWebcamImage,
+	resetImage : resetImage,
+	delLayer:delLayer,
+	postImage:postImage
 }
-
-document.create = new Creator();

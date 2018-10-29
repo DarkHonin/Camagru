@@ -1,4 +1,3 @@
-
 var page_state = {
     current_path: window.location.pathname,
     request_path: "",
@@ -8,7 +7,6 @@ var page_state = {
 };
 
 const content = document.querySelector("#page_content");
-
 
 document.page = {
     state: page_state,
@@ -40,6 +38,8 @@ function excecute_nav(){
             animate(500, content, slidedown);
         });
     },js:update_page} )
+    
+        
 }
 
 function load_html(responseText){
@@ -47,9 +47,15 @@ function load_html(responseText){
     content.innerHTML = responseText;
     window.history.pushState("", "", page_state.current_path+page_state.get_query);
     var path = page_state.current_path.replace(/^\/+/g, '')
-    console.log("trying to init script -"+path);
-    if(window['page_init_'+path])
-        window['page_init_'+path]();
+    if(path != "")
+        import("./"+path+".js").then((mod) => {
+            document.page.parts[path] = mod.mod;
+            mod.mod.init();
+
+        });
+    console.log(document.page.parts[path]);
+    if(document.page.parts[path])
+        document.page.parts[path].init();
     
 }
 
@@ -95,17 +101,13 @@ function update_page(json){
     }
 }
 
-function system_refresh(){
-    system_redirect( window.location.pathname);
-}
-
 function system_redirect(page){
     console.log("Redirecting to: "+page);
     page_state.request_path = page;
     excecute_nav();
 }
 
-function system_reload(parts, payload={}){
+function system_reload(parts){
     parts.forEach(i => {
         let part = document.querySelector("#"+i);
         if(!part)
@@ -113,14 +115,13 @@ function system_reload(parts, payload={}){
             var req = JSON.parse(JSON.stringify(page_state));
             req.current_path = "/part";
             req.request_path = "";
-            payload.id = i;
-            req.payload = JSON.stringify(payload);
+            req.payload = JSON.stringify({
+                "id": i
+            });
         ajax("post", "/", object_to_fd({page: JSON.stringify(req)}), {onhtml:function(responseText){
             console.log("part recieved");
             animate(250, part, fadeout, function(){
                 part.innerHTML = responseText;
-                if(window["part_trigger_"+i])
-                    window["part_trigger_"+i]();
                 animate(250, part, fadein, init_triggers);
             });
         }});
