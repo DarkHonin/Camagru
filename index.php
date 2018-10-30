@@ -3,6 +3,9 @@
 session_start();
 require_once("src/classes/Utils.class.php");
 require_once("src/classes/Parts.class.php");
+require_once("src/classes/User.class.php");
+
+
 $page = $_GET['q'];
 if(empty($page))
 	$content = "parts/landingcontent.php";

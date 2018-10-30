@@ -41,7 +41,7 @@ class Query{
 	// Can not be staticly called... bacause error
 	function update(){
 		$params = array_filter($this->getValuesForCols());
-		$table = self::getTable(get_class($this));
+		$table = $this->_table;
 		$string = "UPDATE $table SET ".implode(", ", Utils::arrayToQueryConditions($params));
 		$this->query = $string;
 		return $this; 

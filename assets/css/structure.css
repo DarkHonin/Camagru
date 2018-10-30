@@ -1,6 +1,10 @@
 body{
-    margin: 0px;
+    margin: 0px !important;
     height: 100vh;
+    position: fixed;
+    padding: 0px;
+    width: 100vw;
+    top: 0px;
 }
 
 body>[class*="col-"]{
@@ -25,12 +29,17 @@ body>[class*="col-"]{
     width: 100%;
 }
 
-[class*="col-"]{
+.col-hold{
     display: flex;
-    box-shadow: black 0px 0px 0px 1px;
     flex-direction: column;
-    /* height: fit-content; */
-    /* overflow-x: hidden; */
+}
+
+
+
+[class*="col-"]{
+    box-shadow: black 0px 0px 0px 1px;
+
+    height: fit-content;
     margin: auto;
 }
 
@@ -41,21 +50,21 @@ body>[class*="col-"]{
 .col-r{
     flex-direction: row;
 }
-.col-full{ flex: 100%; }
-.col-half{ flex: 50%; }
-.col-1{flex: 20%}
-.col-2{flex: 40%;}
-.col-3{flex: 60%;}
-.col-4{flex: 80%;}
+.col-full{flex: 5;}
+.col-half{flex: 2.5; }
+.col-1{flex: 1}
+.col-2{flex: 2;}
+.col-3{flex: 3;}
+.col-4{flex: 4;}
 .col-no {flex:unset;}
 
-.col-full-w{ max-width: 100%; }
-.col-half-w{ max-width: 50%; }
-.col-1-w{max-width: 20%}
-.col-2-w{max-width: 40%;}
-.col-3-w{max-width: 60%;}
-.col-4-w{max-width: 80%;}
-.col-no-w{max-width:unset;}
+.col-full-w{ width: 100%; }
+.col-half-w{ width: 50%; }
+.col-1-w{width: 20%}
+.col-2-w{width: 40%;}
+.col-3-w{width: 60%;}
+.col-4-w{width: 80%;}
+.col-no-w{width:unset;}
 
 
 

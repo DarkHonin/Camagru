@@ -5,11 +5,14 @@
 <?php
 header("Content-Type: text/html");
 ?>
-<body class="col-r col-full">
+<body class="col-r col-full col-hold">
 	<div class="contentT col-4" id="page_content">
 		<?php
 			include_once($content);
 		?>
+		<div class="anounce">
+			This is the bottom of the page
+		</div>
 	</div>
 	
 	<label class="tag show-s col-1" for="toggle_menue" style="position: fixed;">

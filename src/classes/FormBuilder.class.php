@@ -40,16 +40,16 @@ final class FormBuilder{
 			if(self::verbose) echo "Field $k = $input[$k] : ";
 			if(isset($f["required"]) && (!isset($input[$k]) || empty($input[$k]))){
 				if(self::verbose) echo "Required but not set\n";
-				return [$k => "Field is required"];
+				return "Field is required: $k";
 			}
 			if(isset($f["maxlength"]) && strlen($input[$k]) > $f["maxlength"])
-				return [$k => "Maximum amount of characters: {$f["maxlength"]}" ];
+				return "Maximum amount of characters: {$f["maxlength"]}";
 			if(isset($input[$k]))
 				$form->$k = $input[$k];
 			if(self::verbose) echo "Valid\n";
 		}
 		if(!Utils::check_csrf_token($form->getSecret(), $input['csrf']))
-			return ["error"=>"The page has expired"];
+			return "The page has expired";
 		if(method_exists($form, "onFormValid"))
 			return $form->onFormValid($input);
 	}

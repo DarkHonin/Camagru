@@ -3,7 +3,7 @@
 
 /**/
 
-.light-accent, .filter, #Stickers>span 
+.light-accent, .filter, #Stickers>span, .info
 { color: #FFFFFF } 
 
 .light-accent-bg, .nav, .anounce, #layers>span.active
@@ -12,7 +12,7 @@
 /**/
 
 .light-under { color: #D68F8F }
-.light-under-bg { background-color: #D68F8F }
+.light-under-bg, .info { background-color: #D68F8F }
 
 /**/
 
@@ -117,7 +117,17 @@
     font-family: monospace;
 }
 
+.reg_on{
+    float: right;
+    font-size: 0.6em;
+}
 
+.info{
+    font-size: 1.2em;
+    text-align: center;
+    padding: 1em;
+    margin-bottom: 1em;
+}
 
 /*
 html{

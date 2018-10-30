@@ -11,6 +11,7 @@ class User extends Query implements Form{
 	public $sha;
 	public $token;
 	public $id;
+	public $active;
 	private $formType = "register";
 
 	public $table = "users";
@@ -48,16 +49,19 @@ class User extends Query implements Form{
 			$this->password1 = null;
 			$this->action = null;
 			$this->insert()->send();
+			send_token_email($this->email, $this->token);
 		}
 	}
 
 	static function verify($doi = false){
 		if(!isset($_SESSION['user']) || empty($_SESSION['user'])) return self::LoginError;
+
 		$user = self::get("token, active")->where("uname='{$_SESSION['user']['uname']}'")->send();
 		if(!$user) return self::LoginError;
 		if($user->active){
 			$user->token = sha1(time().$user->uname);
 			$_SESSION['user']['token'] = $user->token;
+			$_SESSION['user']['active'] = 1;
 		}else{
 			if($doi)
 				return self::LoginError;

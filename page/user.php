@@ -10,7 +10,7 @@
 
 <div class="anounce">
 	<?php echo $user->uname ?>
-	<span class="info">Registered on <?php echo $user->reg_on ?></span>
+	<span class="reg_on">Registered on <?php echo $user->reg_on ?></span>
 	<?php 
 		if(!User::verify() && $_SESSION['user']['uname'] === $user->uname)
 			echo "<a href='/settings'>Settings</a>"

@@ -10,9 +10,6 @@ function check_2passmatch($params){
 		return ["password1", "The 2 passwords do not match"];
 	}
 }
-	
-		
-if(empty($query->payload)){
 	header("Content-Type: text/html");
 ?>
 <div class="anounce col-full" id="status">
@@ -29,15 +26,3 @@ if(empty($query->payload)){
 <script type="module">
 	import("./login.js");
 </script>
-<?php
-}else{
-	$payload = json_decode($query->payload, true);
-	if(!isset($payload['action']) || empty($payload['action']))
-		die(json_encode(["error"=>"invalid request"]));
-	$Form->setFormType($payload['action']);
-	if($error = $Builder->validate($Form, $payload))
-		Utils::finalResponse($error);
-	else
-		Utils::finalResponse(["redirect" => "/", "reload"=>["menue"]]);
-}
-?>
