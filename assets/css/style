@@ -12,7 +12,7 @@
 /**/
 
 .light-under { color: #D68F8F }
-.light-under-bg, .info, .forms { background-color: #D68F8F }
+.light-under-bg, .info { background-color: #D68F8F }
 
 /**/
 
@@ -38,31 +38,20 @@
     box-shadow: inset #7E0000 5px -5px 20px -5px;
 }
 
-.forms{
-    padding: -1em;
-}
-
 .forms form{
     margin: auto;
-    display: flex;
-    flex-direction: column;
 }
 
-.forms form input{
-    margin: 0.5em auto;
-    display: block;
-    width: 100%;
+.forms form>input{
+    margin: 0.5em;
     font-size: 1.2em;
+    display: block;
 }
 
 
 .tag>img{
     width: 5em;
     display: block;
-}
-
-.invalid:empty{
-    display: none;
 }
 
 .nav{
@@ -100,26 +89,9 @@
     font-size: 2em;
 }
 
-.anounce:empty{
-    display: none;
-}
-
 .error{
     color: red;
     background-color: pink;
-}
-
-fieldset{
-    position: relative;
-    border: none;
-}
-
-.invalid{
-    display:block;
-    text-align: center;
-    padding: 0.5em;
-    margin: auto;
-    width: -webkit-fill-available;
 }
 
 #preview>canvas{
@@ -127,7 +99,7 @@ fieldset{
     margin: auto 2em;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 940px) {
     #menue{
         position: fixed;
         bottom: 0px;

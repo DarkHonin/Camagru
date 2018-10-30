@@ -25,7 +25,7 @@ class Database{
 		}
 	}
 
-	function sendQuery($query){
+	static function sendQuery($query){
 		if(self::verbose) echo "Sending Query : $query\n";
 		$class = get_class($query);
 		if(self::verbose) echo "Query class : $class\n";

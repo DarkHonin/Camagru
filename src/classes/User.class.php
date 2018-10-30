@@ -1,11 +1,11 @@
 <?php
 require_once("Query.class.php");
-require_once("Form.interface.php");
 
-class User extends Query implements Form{
+class User extends Query{
 	private const LoginError = "Invalid username / password";
 	private const PasswordMissmatchError = "Passwords do not match";
 	private const UserExistError = "Username/email aready in use";
+	private const UserCreateError = "Error creating user";
 	public $uname;
 	public $email;
 	public $sha;
@@ -38,19 +38,15 @@ class User extends Query implements Form{
 		$_SESSION['user'] = array_filter(get_object_vars($user));
 	}
 
-	function onFormValid($params){
-		if($this->formType == "login")
-			return $this->login();
-		else{
-			if($this->password !== $this->password1) return self::PasswordMissmatchError;
-			$this->sha = password_hash($this->password1, PASSWORD_BCRYPT);
-			$this->token = sha1(time().$this->uname);
-			$this->password = null;
-			$this->password1 = null;
-			$this->action = null;
-			$this->insert()->send();
-			send_token_email($this->email, $this->token);
-		}
+	function register(){
+		$users = User::get("uname, email")->where("uname='{$this->uname}' OR email='{$this->email}'")->send();
+		if(!empty($users))
+			return self::UserExistError;
+		$this->sha = password_hash($this->password1, PASSWORD_BCRYPT);
+		$this->token = sha1(time().$this->uname);
+		if(!$this->insert()->send())
+			return self::UserCreateError;
+		send_token_email($this->email, $this->token);
 	}
 
 	static function verify($doi = false){
@@ -67,89 +63,6 @@ class User extends Query implements Form{
 				return self::LoginError;
 		}
 		return false;
-	}
-
-	function setFormType($str){
-		$this->formType = $str;
-	}
-
-	function getFields(){
-		if($this->formType == "register")
-			return [
-				"uname" => [
-					"required" => true,
-					"type" => "text",
-					"placeholder" => "Username",
-					"pattern" => "^[A-Za-z0-9_]{1,15}$"
-				],
-				"email" => [
-					"required" => true,
-					"type" => "email",
-					"placeholder" => "Email"
-				],
-				"password" => [
-					"type" => "password",
-					"required" => true,
-					"placeholder" => "Enter Password"
-				],
-				"password1" => [
-					"type" => "password",
-					"required" => true,
-					"placeholder" => "Re-enter Password"
-				],
-				"action" => [
-					"type" => "hidden",
-					"value"=> "register"
-				]
-			];
-		else if ($this->formType == "login")
-		return [
-			"uname" => [
-				"required" => true,
-				"type" => "text",
-				"placeholder" => "Username",
-				"pattern" => "^[A-Za-z0-9_]{1,15}$"
-			],
-			"password" => [
-				"type" => "password",
-				"required" => true,
-				"placeholder" => "Enter Password"
-			],
-			"action" => [
-				"type" => "hidden",
-				"value"=> "login"
-			]
-		];
-		else if ($this->formType == "alter")
-		return [
-			"password" => [
-				"type" => "password",
-				"required" => true,
-				"placeholder" => "Enter Password"
-			],
-			"email" => [
-				"required" => true,
-				"type" => "email",
-				"placeholder" => "Email"
-			],
-			"action" => [
-				"type" => "hidden",
-				"value"=> "login"
-			]
-		];
-	}
-
-	function getSubmitLabel(){
-		if($this->formType == "register") return "Register";
-		return "Login";
-	}
-
-	function getMethod(){
-		return "POST";
-	}
-
-	function getSecret(){
-		return $this->formType;
 	}
 }
 

@@ -1,12 +1,9 @@
 <?php
 	include_once("parts/head.php");
 ?>
-
-<?php
-header("Content-Type: text/html");
-?>
 <body class="col-r col-full col-hold">
 	<div class="contentT col-4" id="page_content">
+	<div class="anounce error" id="global_error"></div>
 		<?php
 			include_once($content);
 		?>

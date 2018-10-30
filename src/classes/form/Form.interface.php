@@ -1,10 +1,12 @@
 <?php
 
 interface Form{
-	function getFields();
+	function getInputs();
 	function getMethod();
 	function getSecret();
 	function getSubmitLabel();
+	function getSubmitClass();
+	function getSubmitID();
 }
 
 ?>

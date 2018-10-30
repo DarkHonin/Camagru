@@ -1,29 +1,49 @@
 
-	var status;
+document.querySelectorAll("form").forEach(i => {i.addEventListener("submit", submit_form)});
 
-	function submit_form(event){
-		event.preventDefault();
-		let method = event.target.method;
-		let fd = new FormData(event.target);
-		fd.set("action", event.target.id);
-		console.log("sending data to server");
-        document.page.state.payload = window.fd_to_json(fd);
-        ajax("post", "/", window.object_to_fd({page: JSON.stringify(page_state)}), {js:handle_form_response})
+function submit_form(event){
+	event.preventDefault();
+	$fd = new FormData(event.target);
+	ajax("post", event.target.action, $fd, check_response);
+}
+
+function check_available(me){
+	var name = me.value;
+	var fd = new FormData();
+	fd.set("item", name);
+	ajax("post", "/info/"+me.name+"_available", fd, function(data){
+		var js = JSON.parse(data);
+		if(!js.status){
+			me.nextSibling.innerHTML = "Already in use";
+		}else{
+			me.nextSibling.innerHTML = "";
+		}
+	});
+}
+
+function check_response(data){
+	var js = JSON.parse(data);
+	if(!js.status){
+		var error = js.data.error;
+		var form = js.data.form;
+		for( var k in error){
+			if(k == "csrf-token" || k == "global")
+				document.querySelector("#global_error").innerHTML = error[k]
+			else{
+				document.querySelector("#"+form+" input[name="+k+"] + .invalid.error").innerHTML = error[k];
+			}
+		}
 	}
+}
 
-	function handle_form_response(data){
-        console.log("respone recieved");
-		var item = JSON.parse(data);
-		if(item.error){
-			status.innerHTML = item.error;
-			status.classList.add("error");
+function ajax(method, target, data, resp){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            resp(this.responseText);
         }
-        update_page(item);
-	}
-
-	function partload(){
-		console.log("Loaded part js for Forms");
-		document.page.content.querySelectorAll("form").forEach((i) => {i.addEventListener("submit", submit_form);})
-		status = document.page.content.querySelector("#status");
-	};
-	
+    };
+    xhttp.open(method, target, true);
+    console.log("sending now");
+    xhttp.send(data);
+}
