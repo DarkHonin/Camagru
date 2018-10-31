@@ -65,7 +65,7 @@ class Utils{
     }
     public static function send_token_email($email, $token){
         error_log("Sending token email to: $email");
-        $message = "http://".$_SERVER['SERVER_NAME']."/activate?token=$token";
+        $message = "http://".$_SERVER['SERVER_NAME']."/redeem?token=$token";
         self::sendEmail($email, $message, "Activate account");
     }
 

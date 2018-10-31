@@ -14,6 +14,7 @@ class User extends Query{
 	public $session_token;
 	public $id;
 	public $active;
+	public $recieve_updates;
 
 	public $table = "users";
 
@@ -44,7 +45,9 @@ class User extends Query{
 		$pass = password_verify($this->password, $user->sha);
 		error_log("Password OK: ".($pass ? "Yes" : "No"));
 		if(!$pass) return self::LoginError;
-		unset($user->sha);
+		$user->sha = "";
+		$user->session_token = sha1(time().$user->uname);
+		$user->update()->where("uname='$user->uname'")->send();
 		error_log("Updating local user");
 		$this->parseArray(array_filter(get_object_vars($user)));
 	}
@@ -58,24 +61,19 @@ class User extends Query{
 		if(!$this->insert()->send())
 			return self::UserCreateError;
 		$user = User::get("id")->where("uname='{$this->uname}'")->send();
-		$token = Token::create($user, $user->uname, "verify_email");
+		$token = Token::create($user, $user->uname, "activate_account");
 		Utils::send_token_email($this->email, $token->token);
 		$token->insert()->send();
 	}
 
-	static function verify($doi = false){
+	static function verify(){
 		if(!isset($_SESSION['user']) || empty($_SESSION['user'])) return self::LoginError;
 
-		$user = self::get("token, active")->where("uname='{$_SESSION['user']['uname']}'")->send();
+		$user = self::get("session_token, active")->where("uname='{$_SESSION['user']['uname']}'")->send();
 		if(!$user) return self::LoginError;
-		if($user->active){
-			$user->token = sha1(time().$user->uname);
-			$_SESSION['user']['token'] = $user->token;
-			$_SESSION['user']['active'] = 1;
-		}else{
-			if($doi)
-				return self::LoginError;
-		}
+		$user->token = sha1(time().$user->uname);
+		$_SESSION['user']['token'] = $user->token;
+		$_SESSION['user']['active'] = 1;
 		return false;
 	}
 }

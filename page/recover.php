@@ -10,7 +10,6 @@ $recover = new RecoverForm();
 	Recover your account
 </div>
 <div class='col-half-w forms col-hold'>
-	
 	<label class="anounce" for="showlogin">Login</label>
 	<div>
 		<?php $Builder->renderForm($recover, ["class" => "col-full", "id"=>"login"]); ?>

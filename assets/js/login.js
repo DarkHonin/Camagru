@@ -23,16 +23,29 @@ function check_available(me){
 
 function check_response(data){
 	var js = JSON.parse(data);
+	var display = document.querySelector("#global_error");
 	if(!js.status){
 		var error = js.data.error;
 		var form = js.data.form;
+		display.classList.remove("success");
+		display.classList.add("error");
 		for( var k in error){
 			if(k == "csrf-token" || k == "global")
-				document.querySelector("#global_error").innerHTML = error[k]
+				display.innerHTML = error[k]
 			else{
 				document.querySelector("#"+form+" input[name="+k+"] + .invalid.error").innerHTML = error[k];
 			}
 		}
+	}else{
+		display.classList.add("success");
+		display.classList.remove("error");
+		document.querySelector("#global_error").innerHTML = js.message;
+		if(js.data.redirect)
+			setTimeout(function(){
+				if(js.data.redirect)
+					window.location.href = js.data.redirect;
+				display.innerHTML = "";
+			}, 1000);
 	}
 }
 

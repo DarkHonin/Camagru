@@ -36,6 +36,7 @@
 			$usr->parseArray($payload);
 			if($err = $usr->register())
 				Utils::finalResponse(["data"=>["error"=>["global"=>$err], "form"=>$payload['role']], "status"=>false]);
+			Utils::finalResponse(["message"=>"Account has been created. Check your email to activate.","data"=>["redirect" => "/"], "status"=>true]);
 		}
 
 	if($payload['role'] === "login"){
@@ -43,11 +44,11 @@
 		$usr = new User();
 		$usr->uname = $_POST['uname'];
 		$usr->password = $_POST['password'];
-		if($err = $usr->login() || !$usr->active)
+		$err = $usr->login();
+		if($err || !$usr->active)
 			Utils::finalResponse(["data"=>["error"=>["global"=>$err], "form"=>$payload['role']], "status"=>false]);
-		
+		$_SESSION["user"] = ["uname"=>$usr->uname, "token"=>$usr->session_token, "id"=>$usr->id];
+		Utils::finalResponse(["message"=>"You are now logged in, redirecting to user page","data"=>["redirect" => "/user/{$usr->uname}"], "status"=>true]);
 	}
-
-
-	Utils::finalResponse(["status"=>true]);
+	Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
 ?>

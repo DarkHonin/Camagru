@@ -4,7 +4,7 @@
 	require_once("models/Post.class.php");
 	if(!$user){
 		include_once("parts/unknown_user.php");
-		exit();
+		return;
 	}
 ?>
 
@@ -14,12 +14,11 @@
 	<?php 
 		if(!User::verify() && $_SESSION['user']['uname'] === $user->uname)
 			echo "<a href='/settings'>Settings</a>"
-	
 	?>
 </div>
 <div class="col-half">
 <?php
-	$posts = Post::get()->where("user=$user->id")->send();
+	$posts;// = Post::get()->where("user=$user->id")->send();
 	if(!empty($posts)){
 		if(!is_array($posts))
 			$posts = [$posts];

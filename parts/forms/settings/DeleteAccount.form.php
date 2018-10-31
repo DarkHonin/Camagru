@@ -2,22 +2,22 @@
 require_once("src/classes/form/Form.interface.php");
 require_once("src/classes/form/FormBuilder.class.php");
 
-class LoginForm implements Form{
+class DeleteAccount implements Form{
+
     function getInputs(){
 		return [
-            Input::USERNAME("uname", null, null, "Username"),
-			Input::PASSWORD("password", null, null, "Password"),
-			Input::HIDDEN("role", "login")
+            Input::PASSWORD("current", null, null, "Current active password"),
+			Input::HIDDEN("role", "delete_account")
         ];
 	}
 	function getMethod(){
 		return "post";
 	}
 	function getSecret(){
-		return "login";
+		return "Delete account";
 	}
 	function getSubmitLabel(){
-		return "Login";
+		return "Delete Account";
 	}
 	function getSubmitClass(){
 		return "";

@@ -61,6 +61,9 @@ class Input{
     public $max;
     public $placeholder;
     public $onblur;
+    public $checked;
+
+    private $_label;
 
     function __construct($preconfig){
         foreach(get_class_vars(get_class($this)) as $k=>$v){
@@ -104,9 +107,12 @@ class Input{
     }
 
     function render(){
-        echo "<fieldset><input";
+        echo "<fieldset>";
+        if($this->_label)
+            echo "<label>".$this->_label."</label>";
+        echo "<input";
         foreach(get_class_vars(get_class($this)) as $k=>$v){
-            if(isset($this->$k) && !empty($this->$k))
+            if(isset($this->$k) && !empty($this->$k) && $k[0] != "_")
                 echo " $k='{$this->$k}'";
         }
         echo ">";

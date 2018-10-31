@@ -19,12 +19,11 @@
 	?>
 </div>
 <div class="col-half-w col-half">
-
-<div class='col-half-w forms col-hold'>
-<div class="anounce">
-	Login to continue
-</div>
-<?php $Builder->renderForm($login, ["class" => "col-full", "id"=>"login"]); ?>
-</div>
+	<div class='col-half-w forms col-hold'>
+		<label class="anounce" for="showlogin">Login</label>
+		<div>
+			<?php $Builder->renderForm($login, ["class" => "col-full", "id"=>"login"]); ?>
+		</div>
+	</div>
 </div>
 <script src="/assets/js/login.js"></script>

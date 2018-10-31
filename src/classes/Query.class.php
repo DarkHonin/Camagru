@@ -54,6 +54,7 @@ class Query{
 
 	private function getValuesForCols(){
 		foreach($this->_vars as $k=>$v){
+			if($k == "_vars" || $k == "_table") continue;
 			if(self::verbose) echo "$k($v) = {$this->$k}\n";
 			$this->_vars[$k] = $this->$k;
 		}
@@ -63,12 +64,13 @@ class Query{
 	function delete(){
 		if(!$this->id)
 			die("Could not delete row without ID");
-		$this->query = "DELETE FROM $this->table WHERE id=$this->id";
+		$this->query = "DELETE FROM $this->table WHERE id={$this->id}";
 		return $this;
 	}
 
 	function parseArray($array){
 		foreach($array as $n=>$v){
+			if($n == "_vars" || $n == "_table") continue;
 			error_log("Query:: $n = $v");
 			$this->$n = $v;
 		}

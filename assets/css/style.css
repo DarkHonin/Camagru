@@ -50,6 +50,7 @@
     margin: auto;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .forms form input{
@@ -67,6 +68,13 @@
 
 .invalid:empty{
     display: none;
+}
+
+fieldset>label{
+    width: 100%;
+    display: block;
+    font-size: 1.5em;
+    text-align: center;
 }
 
 .nav{
@@ -104,11 +112,13 @@
     font-size: 2em;
 }
 
-
-
 .anounce:empty{
     display: none;
     opacity: 0;
+}
+
+.success{
+    background-color: rgb(100, 255, 100);
 }
 
 #global_error{
