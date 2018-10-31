@@ -1,5 +1,5 @@
 <?php
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 if(!isset($_SESSION['user']) || !isset($_SESSION['user']['active']) || !$_SESSION['user']['active'] || User::verify())
 	die('<div class="anounce error">
 	Please sign in / Activate your account

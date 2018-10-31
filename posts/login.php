@@ -31,7 +31,7 @@
 		if($payload['password1'] !== $payload['password2'])
 			Utils::finalResponse(["data"=>["error"=>["password1"=>"Passwords do not match"], "form"=>$payload['role']], "status"=>false]);
 		else{
-			require_once("src/classes/User.class.php");
+			require_once("models/User.class.php");
 			$usr = new User();
 			$usr->parseArray($payload);
 			if($err = $usr->register())
@@ -39,12 +39,13 @@
 		}
 
 	if($payload['role'] === "login"){
-		require_once("src/classes/User.class.php");
+		require_once("models/User.class.php");
 		$usr = new User();
 		$usr->uname = $_POST['uname'];
 		$usr->password = $_POST['password'];
-		if($err = $usr->login())
+		if($err = $usr->login() || !$usr->active)
 			Utils::finalResponse(["data"=>["error"=>["global"=>$err], "form"=>$payload['role']], "status"=>false]);
+		
 	}
 
 

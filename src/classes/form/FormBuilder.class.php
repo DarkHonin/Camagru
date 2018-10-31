@@ -7,6 +7,7 @@ require_once("src/classes/Utils.class.php");
 final class FormBuilder{
 
 	public const verbose = false;
+	public const IGNORECSRF = true;
 
 	function renderFields(Form $form){
 		$fields = $form->getInputs();
@@ -34,6 +35,7 @@ final class FormBuilder{
 			if(!$i->valid($errs))
 				$err[$i->name] = $errs;
 		}
+		if(!self::IGNORECSRF)
 		if(!Utils::check_csrf_token($form->getSecret(), $input['csrf-token']))
 			$err["csrf-token"] = "The page has expired";
 		if(!empty($err))

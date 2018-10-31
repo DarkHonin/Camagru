@@ -1,9 +1,12 @@
 <?php
-
+date_default_timezone_set("Africa/Johannesburg");
+ini_set ('log_errors', 1);
+ini_set ('display_errors', 0);
+ini_set ('error_log', __DIR__."/debuglog.php");
 session_start();
 require_once("src/classes/Utils.class.php");
 require_once("src/classes/Parts.class.php");
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 
 $page = $_GET['q'];
 if(empty($page))

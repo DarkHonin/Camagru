@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL ^ E_DEPRECATED); 
 require_once("Database.class.php");
 
 class Query{
@@ -60,9 +60,18 @@ class Query{
 		return $this->_vars;
 	}
 
+	function delete(){
+		if(!$this->id)
+			die("Could not delete row without ID");
+		$this->query = "DELETE FROM $this->table WHERE id=$this->id";
+		return $this;
+	}
+
 	function parseArray($array){
-		foreach($array as $n=>$v)
+		foreach($array as $n=>$v){
+			error_log("Query:: $n = $v");
 			$this->$n = $v;
+		}
 	}
 
 	private static function getTable($className){

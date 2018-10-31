@@ -1,10 +1,10 @@
 <?php
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 if(User::verify())
 	header("Location: /404");
 $user = User::get("uname, id, reg_on, email")->where("uname='{$_SESSION['user']['uname']}'")->send();
 
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 require_once("src/classes/FormBuilder.class.php");
 $Builder = new FormBuilder();
 

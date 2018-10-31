@@ -6,12 +6,12 @@ class Database{
 
 	public static function init(){
 		include_once("config/database.php");
-		if(self::verbose) echo "Connecting database :: Waiting\n";
+		error_log( "Connecting database :: Waiting");
 		try{
 			self::$_pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD, array(
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 			  ));
-			if(self::verbose) echo "Database Connected :: OK\n";
+			error_log( "Database Connected :: OK");
 		}catch(PDOException $e){
 			error_log("Failed to connect");
 			if($e->getCode() == "1049"){
@@ -26,28 +26,28 @@ class Database{
 	}
 
 	static function sendQuery($query){
-		if(self::verbose) echo "Sending Query : $query\n";
+		error_log( "Sending Query : $query");
 		$class = get_class($query);
-		if(self::verbose) echo "Query class : $class\n";
+		error_log( "Query class : $class");
 		$str = self::$_pdo->prepare($query);
 		try{
 			$str->execute();
-			if(self::verbose) echo "Query sent\n";
+			error_log( "Query sent");
 		}catch(PDOException $e){
 			$errstr = $class."::error".$e->getCode();
-			if(self::verbose) echo "$errstr\n";
+			error_log( "$errstr");
 			if(is_callable($errstr))
 				return $errstr($e);
 			throw $e;
 		}
 		if(($err = $str->errorCode()) != "00000"){
 			$errstr = $class."::error$err";
-			if(self::verbose) echo "$errstr\n";
+			error_log( "$errstr");
 			if(is_callable($errstr))
 				$errstr();
 			return false;
 		}
-		if(self::verbose) echo "Parsing data\n";
+		error_log( "Parsing data");
 
 		if($str->rowCount() > 1)
 			return $str->fetchAll(PDO::FETCH_CLASS, $class);

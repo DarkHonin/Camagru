@@ -1,7 +1,7 @@
 <?php
-	require_once("src/classes/User.class.php");
+	require_once("models/User.class.php");
 	$user = User::get("uname, id, reg_on")->where("uname='$nav[1]'")->send();
-	require_once("src/classes/Post.class.php");
+	require_once("models/Post.class.php");
 	if(!$user){
 		include_once("parts/unknown_user.php");
 		exit();

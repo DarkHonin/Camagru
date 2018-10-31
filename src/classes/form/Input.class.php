@@ -3,7 +3,7 @@
 class Input{
 
     public static function PASSWORD($name, $id=null, $class=null, $placeholder=null){
-        return new Input(["name"=>$name, "type"=>"password", "required"=>"true", "id"=>$id,"placeholder"=>$placeholder, "class"=>$class, "pattern"=>"^(?=.*[A-Z])(?=.*[!\-+@#$&*])(?=.*\d)(?=.*[a-z]).*$", "minlength"=>8]);
+        return new Input(["name"=>$name, "type"=>"password", "required"=>"true", "id"=>$id,"placeholder"=>$placeholder, "class"=>$class, "pattern"=>"^(?=.*[A-Z])(?=.*\d)(?=.*[a-z]).*$", "minlength"=>8]);
     }
 
     public static function USERNAME($name, $id=null, $class=null, $placeholder=null){
@@ -25,6 +25,10 @@ class Input{
     public static function CSRF_TOKEN($secret){
         require_once("src/classes/Utils.class.php");
         return self::HIDDEN("csrf-token", Utils::create_csrf_token($secret));
+    }
+
+    public static function USER_TOKEN($value){
+        return new Input(["minlength"=>40, "required"=>true, "value"=>$value]);
     }
 
     public const verbose = false;

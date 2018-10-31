@@ -1,5 +1,6 @@
 <?php
-require_once("Query.class.php");
+require_once("src/classes/Query.class.php");
+require_once("Token.class.php");
 
 class User extends Query{
 	private const LoginError = "Invalid username / password";
@@ -8,22 +9,27 @@ class User extends Query{
 	private const UserCreateError = "Error creating user";
 	public $uname;
 	public $email;
+	public $email_valid;
 	public $sha;
-	public $token;
+	public $session_token;
 	public $id;
 	public $active;
-	private $formType = "register";
 
 	public $table = "users";
 
 	public function get($what=null){return parent::get($what);}
+
+	public function __construct(){
+		parent::__construct();
+	}
 
 	public static function error1062($e){
 		
 	}
 
 	public static function error23000($e){
-		Utils::finalResponse(self::UserExistError);
+		
+		Utils::finalResponse(print_r($e, true));
 	}
 
 	public static function error21S01(){
@@ -31,11 +37,16 @@ class User extends Query{
 	}
 
 	function login(){
-		$user = self::get("sha, token, active, id, uname")->where("uname='$this->uname'")->send();
+		error_log("Validating user information: ".$this->uname);
+		$user = self::get("sha, session_token, active, id, uname, email")->where("uname='$this->uname'")->send();
+		error_log("User information found: ".($user ? "Yes" : "No"));
 		if(!$user) return self::LoginError;
-		if(!password_verify($this->password, $user->sha)) return self::LoginError;
+		$pass = password_verify($this->password, $user->sha);
+		error_log("Password OK: ".($pass ? "Yes" : "No"));
+		if(!$pass) return self::LoginError;
 		unset($user->sha);
-		$_SESSION['user'] = array_filter(get_object_vars($user));
+		error_log("Updating local user");
+		$this->parseArray(array_filter(get_object_vars($user)));
 	}
 
 	function register(){
@@ -43,10 +54,13 @@ class User extends Query{
 		if(!empty($users))
 			return self::UserExistError;
 		$this->sha = password_hash($this->password1, PASSWORD_BCRYPT);
-		$this->token = sha1(time().$this->uname);
+		$this->token = sha1(time());
 		if(!$this->insert()->send())
 			return self::UserCreateError;
-		send_token_email($this->email, $this->token);
+		$user = User::get("id")->where("uname='{$this->uname}'")->send();
+		$token = Token::create($user, $user->uname, "verify_email");
+		Utils::send_token_email($this->email, $token->token);
+		$token->insert()->send();
 	}
 
 	static function verify($doi = false){

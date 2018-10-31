@@ -1,7 +1,7 @@
 <a href="/" class="nav banner"><img class="hide-s icon" src="/assets/img/icon.svg"></a>
 <a href="/" class="nav show-s">Home</a>
 <?php
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 if(User::verify())
 	echo "<a class='nav' href='/login' >Register/Login</a>";
 else{

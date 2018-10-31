@@ -1,6 +1,6 @@
 <?php 
 header("Content-Type: text/html");
-require_once("src/classes/Post.class.php");
+require_once("models/Post.class.php");
 $posts = Post::get()->send();
 if(!isset($posts) || empty($posts)) {?>
 	<div class="anounce error">

@@ -1,6 +1,6 @@
 <?php
 
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 require_once("src/classes/FormBuilder.class.php");
 $Form = new User();
 $Builder = new FormBuilder();

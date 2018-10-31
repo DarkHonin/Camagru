@@ -1,5 +1,5 @@
 <?php
-require_once("src/classes/User.class.php");
+require_once("models/User.class.php");
 $user = User::get("id, uname")->where("uname={$payload['uname']}")->send();
 if(!$user)
 	die("No such user");

@@ -27,6 +27,10 @@
 .dark-accent, #layers>span.active { color: #520000 }
 .dark-accent-bg, body { background-color: #520000 }
 
+#page_content{
+    position: relative;
+}
+
 .tag{
     width: 100%;
     height: 100%;
@@ -88,20 +92,31 @@
 
 .sidebar{
     overflow: hidden;
-    height: -webkit-fill-available;
+    height: 100%;
 }
 
 .anounce{
     margin: 1.5em auto;
-    max-height: 1.2em;
     width: -webkit-fill-available;
+    width: -moz-available;
     padding: 1em;
     font-family: monospace;
     font-size: 2em;
 }
 
+
+
 .anounce:empty{
     display: none;
+    opacity: 0;
+}
+
+#global_error{
+    transition: opacity 0.2s;
+    opacity: 1;
+    position: fixed;
+    z-index: 1;
+    margin: 0px;
 }
 
 .error{
@@ -156,6 +171,7 @@ fieldset{
     padding: 1em;
     margin-bottom: 1em;
 }
+
 
 /*
 html{

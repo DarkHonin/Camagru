@@ -1,7 +1,3 @@
-<?php error_reporting(E_ALL ^ E_DEPRECATED); 
-User::verify();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>

@@ -58,58 +58,29 @@ class Utils{
     }
     
     public static function finalResponse($array){
+        error_log("Senfing response: ".json_encode($array));
         header("Content-Type: application/json");
         echo json_encode($array);
         exit();
     }
-}
-
-function login($uname, $password){
-    $users = select(["what"=>"*", "from"=>"users", "where" => "uname='{$uname}'"]);
-    if(empty($users))
-        die(["error"=>"Invalid username / password"]);
-    $user = $users[0];
-    if(!password_verify($password, $user['sha']))
-        die(["error"=>"Invalid username / password"]);
-    $_SESSION['user'] = ["uname"=>$uname, "token"=>$user['token'], "active"=>$user['active'], "id"=>$user['id']];
-    return true;
-}
-
-function getUserNameForID($id){
-    $users = select(["what"=>"uname", "from"=>"users", "where" => "id='{$id}'"]);
-    if(empty($users))
-        die(["error"=>"Invalid usernam / password"]);
-    $user = $users[0];
-    return $user['uname'];
-}
-
-function update_user(){
-    if(!isset($_SESSION['user']))
-        return false;
-    $users = select(["what"=>"uname, active, token", "from"=>"users", "where" => "token='{$_SESSION['user']['token']}' AND uname='{$_SESSION['user']['uname']}'"]);
-    if(empty($users))
-        return false && include_once("parts/logout.php");
-    $user = $users[0];
-    if($user['active']){
-        $_SESSION['user']['active'] = 1;
-        $ntoken = sha1(time().$user['uname']);
-        update(["table"=>"users", "set"=>"token='$ntoken'", "where" => "token='{$_SESSION['user']['token']}' AND uname='{$_SESSION['user']['uname']}'"]);
-        $_SESSION['user']['token'] = $ntoken;
+    public static function send_token_email($email, $token){
+        error_log("Sending token email to: $email");
+        $message = "http://".$_SERVER['SERVER_NAME']."/activate?token=$token";
+        self::sendEmail($email, $message, "Activate account");
     }
-    return true;
+
+    public static function sendEmail($email, $message, $subj){
+        $from = "no-reply@".$_SERVER['SERVER_NAME'];
+        $to = $email;
+        $subject = "$subj @ Camagru";
+        $headers = "From:" . $from;
+        if(!@mail($to,$subject,$message, $headers)){
+            error_log(error_get_last()["message"]);
+            Utils::finalResponse(["data"=>["error"=>["global"=>"Could not send email, please try again later"]], "status"=>false]);
+        }
+        return 1;
+    }
 }
 
-function send_token_email($email, $token){
-    ini_set( 'display_errors', 1 );
-    //error_reporting( E_ALL );
-    $from = "no-reply@".$_SERVER['SERVER_NAME'];
-    $to = $email;
-    $subject = "Activate account @ Camagru";
-    $message = $_SERVER['SERVER_NAME']."/activate?token=$token";
-    $headers = "From:" . $from;
-    if(mail($to,$subject,$message, $headers))
-        die($errorMessage = error_get_last()['message']);
-    return 1;
-}
 
 ?>

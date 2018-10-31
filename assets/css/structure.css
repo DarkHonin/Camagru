@@ -4,10 +4,11 @@ body{
     padding: 0px;
     width: 100vw;
     top: 0px;
+    height: 100vh !important;
 }
 
 body>[class*="col-"]{
-    height: -webkit-fill-available;
+    height: 100%;
 }
 
 #page_content{

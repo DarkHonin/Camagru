@@ -1,6 +1,6 @@
 <?php
 
-require_once("Query.class.php");
+require_once("src/classes/Query.class.php");
 require_once("User.class.php");
 
 class Post extends Query{
