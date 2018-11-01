@@ -13,8 +13,14 @@ final class FormBuilder{
 		$fields = $form->getInputs();
 		array_push($fields, Input::CSRF_TOKEN($form->getSecret()));
 		array_push($fields, Input::SUBMIT($form->getSubmitLabel(), $form->getSubmitID(), $form->getSubmitClass()));
-		foreach($fields as $f)
-			$f->render();
+		$late_block = [];
+		foreach($fields as $f){
+			if($f->type == "textarea")
+				array_push($late_block, $f);
+			else
+				$f->render();
+		}
+		return $late_block;
 	}
 
 	function renderForm(Form $form, $tags = []){
@@ -22,7 +28,17 @@ final class FormBuilder{
 		foreach($tags as $k=>$v)
 				echo "$k='$v'";
 		echo ">";
-		$this->renderFields($form);
+		$late = $this->renderFields($form);
+		if(!empty($late)){
+			foreach($late as $l){
+				$l->render_label();
+				echo "<{$l->type} ";
+				$l->render_tags();
+				echo ">";
+				echo $l->value;
+				echo "</{$l->type}>";
+			}
+		}
 		echo "</form>";
 	}
 

@@ -1,0 +1,78 @@
+.post{
+    
+}
+
+.post>img{
+    width: 100%;
+}
+
+.post>.desc{
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1em;
+    box-shadow: black inset 0px 0px 30px 0px;
+}
+
+.post>.meta{
+    background-color: white;
+    padding: 1em;
+}
+
+.post>.meta>.likes{
+    float: left;
+}
+
+.post>.meta>.likes:after{
+    content: " : Likes";
+}
+
+.post>.meta>.comments{
+    float: right;
+}
+
+.post>.meta>.comments:before{
+    content: "Comments : ";
+}
+
+.post>.comments{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.post>.comments>.comment{
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    background-color: white;
+    position: relative;
+    padding: 0em 1em;
+}
+
+.post>.comments>.comment>.user{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    padding: 1em;
+    color: lightgray;
+    transition: color 0.2s;
+}
+
+.post>.comments>.comment>.user:hover{
+    color: black;
+}
+
+.post>.admin.control{
+    display: flex;
+}
+
+.post>.admin.control>a{
+    flex: 1;
+    background-color: lightgrey;
+    margin: auto;
+    padding: 0.1em! important;
+}
+
+.post>.admin.control>.anounce{
+    padding: 0.1em! important;
+    flex: 1;
+    max-width: 25%;
+}

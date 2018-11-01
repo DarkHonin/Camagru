@@ -47,8 +47,13 @@ class Query{
 		return $this; 
 	}
 
-	function limit($amnt){
-		$this->query .= " LIMIT $amnt";
+	function order($by, $dir="DESC"){
+		$this->query .= " ORDER BY $by $dir";
+		return $this;
+	}
+
+	function limit($amount){
+		$this->query .= " LIMIT $amount";
 		return $this;
 	}
 

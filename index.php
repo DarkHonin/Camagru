@@ -8,6 +8,7 @@ require_once("src/classes/Utils.class.php");
 require_once("src/classes/Parts.class.php");
 require_once("models/User.class.php");
 
+ob_start();
 $page = $_GET['q'];
 if(empty($page))
 	$content = "parts/landingcontent.php";
@@ -22,4 +23,7 @@ else{
 if(!file_exists($content))
 	$content = "page/404.php";
 include_once("page/index.php");
+$data = ob_get_contents();
+ob_end_clean();
+echo $data;
 ?>

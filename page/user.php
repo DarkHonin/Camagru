@@ -1,4 +1,10 @@
 <?php
+
+	if(!isset($nav[1])){
+		include_once("parts/unknown_user.php");
+		return;
+	}
+
 	require_once("models/User.class.php");
 	$user = User::get("uname, id, reg_on")->where("uname='$nav[1]'")->send();
 	require_once("models/Post.class.php");
@@ -6,8 +12,9 @@
 		include_once("parts/unknown_user.php");
 		return;
 	}
+	$user_valid = !User::verify();
 ?>
-
+<link rel="stylesheet" type="text/css" href="/assets/css/post.css">
 <div class="anounce">
 	<?php echo $user->uname ?>
 	<span class="reg_on">Registered on <?php echo $user->reg_on ?></span>
@@ -18,12 +25,13 @@
 </div>
 <div class="col-half">
 <?php
-	$posts;// = Post::get()->where("user=$user->id")->send();
-	if(!empty($posts)){
+	$posts = Post::get()->where("user=$user->id")->order("date", "DESC")->send();
+	error_log(print_r($posts, true));
+	if($posts){
 		if(!is_array($posts))
 			$posts = [$posts];
 		foreach($posts as $post)
-			echo "<br>$post->Title";
+			include("parts/post.php");
 	}else{
 		echo "<div class='anounce error'>
 		There was a problem fetching the posts

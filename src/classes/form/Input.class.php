@@ -106,15 +106,32 @@ class Input{
         return true;
     }
 
-    function render(){
-        echo "<fieldset>";
-        if($this->_label)
+    function get_tags(){
+        return get_class_vars(get_class($this));
+    }
+
+    function get_label(){
+        return $this->_label;
+    }
+
+    function render_label(){
+        if($this->_label){
             echo "<label>".$this->_label."</label>";
-        echo "<input";
+        }
+    }
+
+    function render_tags(){
         foreach(get_class_vars(get_class($this)) as $k=>$v){
             if(isset($this->$k) && !empty($this->$k) && $k[0] != "_")
                 echo " $k='{$this->$k}'";
         }
+    }
+
+    function render(){
+        echo "<fieldset>";
+        $this->render_label();
+        echo "<input";
+            $this->render_tags();
         echo ">";
         echo "<span class='invalid error'></span></fieldset>";
     }

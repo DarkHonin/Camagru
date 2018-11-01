@@ -68,7 +68,6 @@ class User extends Query{
 
 	static function verify(){
 		if(!isset($_SESSION['user']) || empty($_SESSION['user'])) return self::LoginError;
-
 		$user = self::get("session_token, active")->where("uname='{$_SESSION['user']['uname']}'")->send();
 		if(!$user) return self::LoginError;
 		$user->token = sha1(time().$user->uname);

@@ -18,7 +18,7 @@ class Post extends Query{
 	function __construct(){
 		parent::__construct();
 		if($this->user)
-			$this->user = User::get("uname")->where("id=$this->user")->send();
+			$this->user = User::get("id, uname")->where("id=$this->user")->send();
 	}
 }
 

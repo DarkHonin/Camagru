@@ -23,40 +23,27 @@ function check_available(me){
 
 function check_response(data){
 	var js = JSON.parse(data);
-	var display = document.querySelector("#global_error");
 	if(!js.status){
 		var error = js.data.error;
 		var form = js.data.form;
-		display.classList.remove("success");
-		display.classList.add("error");
+		display_error.classList.remove("success");
+		display_error.classList.add("error");
 		for( var k in error){
 			if(k == "csrf-token" || k == "global")
-				display.innerHTML = error[k]
+				display_error.innerHTML = error[k]
 			else{
 				document.querySelector("#"+form+" input[name="+k+"] + .invalid.error").innerHTML = error[k];
 			}
 		}
 	}else{
-		display.classList.add("success");
-		display.classList.remove("error");
+		display_error.classList.add("success");
+		display_error.classList.remove("error");
 		document.querySelector("#global_error").innerHTML = js.message;
 		if(js.data.redirect)
 			setTimeout(function(){
 				if(js.data.redirect)
 					window.location.href = js.data.redirect;
-				display.innerHTML = "";
+				display_error.innerHTML = "";
 			}, 1000);
 	}
-}
-
-function ajax(method, target, data, resp){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            resp(this.responseText);
-        }
-    };
-    xhttp.open(method, target, true);
-    console.log("sending now");
-    xhttp.send(data);
 }

@@ -31,7 +31,6 @@ switch($nav[1]){
                 $info = ob_get_contents();
                 ob_end_clean();
                 Utils::finalResponse(["status"=>true, "data"=>$info]);
-
         }
 }
 

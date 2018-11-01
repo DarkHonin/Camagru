@@ -1,5 +1,11 @@
 <?php
 require_once("models/Sticker.class.php");
+require_once("models/Post.class.php");
+require_once("models/User.class.php");
+if($err = User::verify()){
+	include_once("page/logout.php");
+	return;
+}
 $payload = json_decode($_POST['image'], true);
 
 $userImage = $payload["userImage"];
@@ -26,5 +32,14 @@ foreach($payload['stickers'] as $stk){
 	imagecopy($final, $img, $x, $y, 0, 0, imagesx($img), imagesy($img));
 	error_log("sticker rendered");
 }
-imagepng($final, "an image.png");
+
+$post = new Post();
+ob_start();
+imagepng($final);
+$post->image_data = base64_encode(ob_get_contents());
+ob_end_clean();
+$post->user = $_SESSION['user']['id'];
+$post->insert()->send();
+$poastID = (Post::get("id")->where("user={$_SESSION['user']['id']}")->order("id")->limit(1)->send())->id;
+Utils::finalResponse(["message"=>"Your post has been created","data"=>["redirect"=>"/post/$poastID/edit"], "status"=>true]);
 ?>

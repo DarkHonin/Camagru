@@ -13,7 +13,7 @@
 	</div>
 	
 	<label class="tag show-s col-1" for="toggle_menue" style="position: fixed;">
-		<img src="assets/img/icon.svg">
+		<img src="/assets/img/icon.svg">
 	</label>
 	<input type="text" class="col-toggle hidden" id="toggle_menue">
 	<div class="col-1 hide-s sidebar" id="menue">
@@ -22,4 +22,5 @@
 		?>
 	</div>
 </body>
+<script> ready() </script>
 </html>

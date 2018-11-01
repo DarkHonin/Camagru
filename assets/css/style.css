@@ -295,6 +295,24 @@ fieldset{
     margin-bottom: 1em;
 }
 
+.forms img{
+    object-fit: contain;
+    height: fit-content;   
+}
+
+.forms label{
+    font-size: 1.2em;
+    text-align: center;
+    padding: 0.4em;
+}
+
+.forms textarea{
+    min-height: 20em;
+    margin: auto;
+    margin-bottom: 1em;
+    width: 95%;
+}
+
 
 /*
 html{

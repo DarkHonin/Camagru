@@ -27,18 +27,6 @@ function fillWithStickers(item){
 	});
 }
 
-function ajax(method, target, data, resp){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            resp(this.responseText);
-        }
-    };
-    xhttp.open(method, target, true);
-    console.log("sending now");
-    xhttp.send(data);
-}
-
 var stream;
 
 var layers = [];
@@ -146,7 +134,7 @@ function grab(event){
 	
 	grabbed = event.target;
 	grabbed.style.zIndex = 1;
-	scale_elem.value = lastGrabbed.scale * 100;
+	scale_elem.value = grabbed.scale * 100;
 }
 
 function move(event){
@@ -169,12 +157,13 @@ function scaleimage(event){
 //bindFilters();
 
 function reset(){
-	activateWebcam();
+	deactivateWebcam();
 	document.querySelectorAll("#image_preview>img.sticker").forEach(i => i.remove());
 	document.querySelector("#image_preview>fieldset").classList.remove("hidden");
-	document.querySelector("#image_preview>preview").remove();
+	document.querySelector("#image_preview>.preview").remove();
 	preview.appendChild(video);
 	document.querySelectorAll(".list").forEach(f=> {f.classList.add("hidden")});
+	activateWebcam();
 }
 
 ctx.globalAlpha = 0.5;
@@ -206,8 +195,25 @@ function preparePost(img){
 	ajax("post", window.location, fd, handleResponse);
 }
 
-function handleResponse(result){
-	console.log(result);
+function handleResponse(data){
+	var js = JSON.parse(data);
+	var display = document.querySelector("#global_error");
+	if(!js.status){
+		var error = js.data.error;
+		display.classList.remove("success");
+		display.classList.add("error");
+		display.innerHTML = error;
+	}else{
+		display.classList.add("success");
+		display.classList.remove("error");
+		document.querySelector("#global_error").innerHTML = js.message;
+		if(js.data.redirect)
+			setTimeout(function(){
+				if(js.data.redirect)
+					window.location.href = js.data.redirect;
+				display.innerHTML = "";
+			}, 1000);
+	}
 }
 
 function post(){

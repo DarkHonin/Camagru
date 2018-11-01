@@ -1,3 +1,13 @@
+<?php
+
+require_once("models/User.class.php");
+if($err = User::verify()){
+	include_once("page/logout.php");
+	return;
+}
+
+?>
+
 <div class="anounce">
 	Create a post
 </div>
