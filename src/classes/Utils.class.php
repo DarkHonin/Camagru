@@ -3,6 +3,7 @@
 class Utils{
 
     public const verbose = false;
+    private const TOKEN_TIMEOUT = 60*15;
 
     public static function arrayToQueryConditions($arr){
         $ret = [];
@@ -44,7 +45,7 @@ class Utils{
             return false;
         }
         $age = (time() - $_SESSION['scrf_token_time']);
-        if($age / 60 >= 1){
+        if($age >= self::TOKEN_TIMEOUT){
             if(self::verbose) echo "Expired ($age)min\n";
             unset($_SESSION['scrf_token-'.$secret]);
             return false;

@@ -1,87 +1,44 @@
 
 const constraints = {
 	video: true
-	};
+};
 
-class Layer{
-	constructor(image, size, title){
-		this.image = image;
-		this.actual_size = size;
-		this.image_scale = 1;
-		this.pos = {x: 0, y: 0};
-		this.title = title;
-		this.layer_index = -1;
-		console.log(this);
-	}
-
-	draw() {
-		var s = this.size;
-
-		ctx.drawImage(this.image, this.pos.x, this.pos.y, s.width, s.height);
-	}
-
-	set offset(pos){
-		this.pos = pos;
-	}
-
-	get offset(){
-		return this.pos;
-	}
-
-	set index(i){
-		this.layer_index = i;
-	}
-
-	get index(){
-		return this.layer_index;
-	}
-
-	get size(){
-		return {width:this.actual_size.width * this.image_scale, height:this.actual_size.height * this.image_scale};
-	}
-
-	get scale(){
-		return this.image_scale;
-	}
-
-	set scale(s){
-		this.image_scale = s;
-	}
-
-	get html(){
-		var dom = document.createElement("li");
-		dom.setAttribute("index", this.layer_index)
-		dom.appendChild(document.createTextNode(this.title));
-		dom.addEventListener("click", editLayer);
-		return dom;
-	}
-}
-
-var activeLayer;
-
-function editLayer(event){
-	document.querySelectorAll("li.active").forEach(i => {i.classList.remove("active")});
-	this.classList.add("active");
-	console.log(event.target.getAttribute('index'));
-	console.log(layers);
-	if(!layers[event.target.getAttribute('index')])
-		return;
-	activeLayer = layers[event.target.getAttribute('index')];
-	document.querySelector('#scale').value = activeLayer.scale;
-}
-
-function changeScale(event){
-	if(!activeLayer)
-		event.target.value = 0;
-	activeLayer.scale = event.target.value;
-	drawLayers();	
-}
-
-var page;
+var grabbed;
+var lastGrabbed;
+var scale_elem = document.querySelector("#scale");
 const video = document.querySelector('video');
-const file_o = document.querySelector('#file');
-const layer_o = document.querySelector('#layers');
-document.querySelector('#scale').addEventListener("change", changeScale);
+var canvas = document.createElement("canvas"), ctx, layer_o = document.querySelector('#layer_feed>.items');
+var preview = document.querySelector('#image_preview');
+ctx = canvas.getContext('2d');
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+function editImage(){
+	document.querySelector("#image_preview>fieldset").classList.add("hidden");
+	document.querySelectorAll(".list.hidden").forEach(f=> {f.classList.remove("hidden")});
+}
+
+function fillWithStickers(item){
+	var container = item.querySelector(".items");
+	var fd = new FormData();
+	fd.set("item", "stickers");
+	ajax("post", "/info/creator_images", fd, function(data){
+		var js = JSON.parse(data);
+		container.innerHTML = js['data'];
+	});
+}
+
+function ajax(method, target, data, resp){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            resp(this.responseText);
+        }
+    };
+    xhttp.open(method, target, true);
+    console.log("sending now");
+    xhttp.send(data);
+}
+
 var stream;
 
 var layers = [];
@@ -94,6 +51,7 @@ function deactivateWebcam(){
 }
 
 function activateWebcam(event){
+	console.log(video);
 	if(stream && stream.active || !video)
 		return;
 	if (hasGetUserMedia()) {
@@ -109,10 +67,6 @@ function hasGetUserMedia() {
 		navigator.mediaDevices.getUserMedia);
 	}
 	
-	var canvas, ctx;
-	canvas = document.getElementById("viewImage");
-	ctx = canvas.getContext('2d');
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 function aspectRatio(maxWidth, maxHeight, width, height){
 	var ratio = maxWidth / width;
@@ -121,53 +75,39 @@ function aspectRatio(maxWidth, maxHeight, width, height){
 	return {width: ratio*width, height: ratio * height};
 	}
 
-function captureWebcamImage(){
-	return function(){
-		var old = document.querySelector(".panel.active");
-		var newi = document.querySelector("#editImage");
-		animate(100, old, fadeout, function(){
-			old.classList.remove("active");
-			newi.classList.add("active");
-			animate(100, newi, fadein, function(){
-				canvas.width = video.videoWidth ;
-				canvas.height = video.videoHeight;
-				ctx.drawImage(video, 0,0, canvas.width, canvas.height);
-				deactivateWebcam();
-				loadLayer(canvas.toDataURL("image/png"), "background", function(layer){
-					canvas.width = layer.size.width;
-					canvas.height = layer.size.height;
-					canvas.style.maxWidth = canvas.width;
-					canvas.style.maxHeight = canvas.height;
-					setupLayers();
-				});
-			});	
-		}
-		);
-	}
-}
-
-function loadLayer(src, title, ready){
+function captureWebcamImage(onready){
 	var img = new Image();
-	var layer;
+
+	canvas.width = video.videoWidth ;
+	canvas.height = video.videoHeight;
+	ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+	deactivateWebcam();
+
 	img.onload = function(){
-		var size = aspectRatio(canvas.offsetWidth, canvas.offsetHeight, img.width, img.height);
-		console.log("Layer created");
-		layer = new Layer(img, size, title);
-		layer.index = layers.length;
-		layers.push(layer);
-		if(ready)
-			ready(layer);
+		img.classList.add("preview");
+		video.parentElement.appendChild(img);
+		video.remove();
+		onready(img);
 	}
-	img.src = src;
+	img.src = canvas.toDataURL("image/png");
 }
 
-function captureFileImage(){
-	var file = file_o.files[0];
+function addLayer(image){
+	var q = image.cloneNode();
+	q.onclick = null;
+	q.addEventListener("mousedown", grab);
+	q.addEventListener("mousemove", move);
+	q.scale = 1;
+	q.rotate = 0;
+	preview.appendChild(q);
+}
+
+function captureFileImage(input){
+	var file = input.files[0];
 	if(!file){
 		console.log("no File selected");
 		return;
 	}
-	deactivateWebcam();
 	console.log("File "+file);
 	var reader = new FileReader();
 	reader.addEventListener("error",function(err){
@@ -175,171 +115,109 @@ function captureFileImage(){
 	});
 	reader.onload = function(){
 		console.log("File read complete");
-		loadLayer(reader.result, "background", function(layer){
-			canvas.width = layer.size.width;
-			canvas.height = layer.size.height;
-			canvas.style.maxWidth = canvas.width;
-			canvas.style.maxHeight = canvas.height;
-			setupLayers();
-		});
+		var img = document.createElement("img");
+		img.classList.add("preview");
+		img.src = reader.result;
+		video.parentElement.appendChild(img);
+		video.remove();
+		editImage();
 	};
 	console.log("reading File");
-	
-	return function(){
-		var old = document.querySelector(".panel.active");
-		var newi = document.querySelector("#editImage");
-		animate(100, old, fadeout, function(){
-			old.classList.remove("active");
-			newi.classList.add("active");
-			animate(100, newi, fadein, function(){
-				if (reader.readAsDataUrl)
-					reader.readAsDataUrl(file);
-				else if (reader.readAsDataurl)
-					reader.readAsDataurl(file);
-				else if (reader.readAsDataURL)
-					reader.readAsDataURL(file);
-			});
-		}
-		);
-	}
+	if (reader.readAsDataUrl)
+		reader.readAsDataUrl(file);
+	else if (reader.readAsDataurl)
+		reader.readAsDataurl(file);
+	else if (reader.readAsDataURL)
+		reader.readAsDataURL(file);
 }
 
-function bindFilters(){
-	document.querySelectorAll(".filter").forEach(i => {i.addEventListener("click", addFilter)});
-}
-
-function addFilter(event){
-	var img = this.querySelector("#filter_"+this.getAttribute("image"));
-	var title = this.getAttribute("title");
-	var size = {width: img.width, height: img.height};
-	var layer = new Layer(img, size, title);
-	layers.push(layer);
-	setupLayers();
-}
-
-function setupLayers(){
-	layer_o.innerHTML = "";
-	layers.forEach(function(v, i){
-		v.draw();
-		v.index = i;
-		layer_o.appendChild(v.html);
-		console.log("setup layer: ", v);
-	});
-}
-
-
-
-function drawLayers(){
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	layers.forEach(function(v, i){
-		v.draw();
-	});
-}
-
-function switchEvent(event){
-	var act = event.target.getAttribute("action");
-	console.log("action trigger: "+act);
-
-	if(page.parts.create[act])
-		var after = page.parts.create[act]();
-	if(after)
-		after();
-}
-
-canvas.addEventListener("mousemove", updateActiveLayer)
-canvas.addEventListener("mousedown", grab);
-canvas.addEventListener("mouseup", letgo);
-
-var grabbed = false;
 var grabbedAt;
+
 function grab(event){
-	if(!activeLayer)
+	if((event.button != 0)) return;
+	if(grabbed){
+		lastGrabbed = grabbed;
+		grabbed.style.zIndex = 0;
+		grabbed = false;
 		return;
-	grabbed = (event.button == 0)
-	var pos = activeLayer.offset;
-	var s = activeLayer.size;
-	grabbedAt = {
-		x: (event.offsetX - pos.x) / s.width,
-		y: (event.offsetY - pos.y) / s.height
-	};
-}
-
-function letgo(){
-	grabbed = false;
-}
-
-function updateActiveLayer(event){
-	if(!activeLayer)
-		return;
-	if(!grabbed)
-		return;
-	var s = activeLayer.size;
-	var grab = {x:event.offsetX, y:event.offsetY};
-	var pos = {
-		x:  grab.x - (s.width * grabbedAt.x),
-		y:  grab.y - (s.height * grabbedAt.y)
-	};
-	activeLayer.offset = pos
-	drawLayers();
-}
-
-function loabBindings(){
-	console.log("Loaded create js");
-	page  = document.page;
-	document.querySelectorAll(".switch").forEach((i) => {i.addEventListener("click", switchEvent)});
-	activateWebcam();
-}
-
-bindFilters();
-
-function resetImage(){
-	activateWebcam();
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	return function(){
-		var old = document.querySelector(".panel.active");
-		var newi = document.querySelector("#getImage");
-		animate(100, old, fadeout, function(){
-			old.classList.remove("active");
-			layer_o.innerHTML = "";
-			layers = {};
-			newi.classList.add("active");
-			animate(100, newi, fadein);
-		}
-	);
 	}
+	console.log("grabbed");
+	grabbedAt = {x:event.offsetX, y: event.offsetY}
+	
+	grabbed = event.target;
+	grabbed.style.zIndex = 1;
+	scale_elem.value = lastGrabbed.scale * 100;
+}
+
+function move(event){
+	if(grabbed != event.target) return;
+	event.target.style.left = (this.scale * (event.offsetX - grabbedAt.x)) + this.offsetLeft + "px";
+	event.target.style.top = (this.scale * (event.offsetY - grabbedAt.y)) + this.offsetTop + "px";
+}
+
+function rotateimage(event){
+	lastGrabbed.rotate = event.value;
+	lastGrabbed.style.transform = "rotate("+lastGrabbed.rotate+"deg)" + "scale("+lastGrabbed.scale+")";
+}
+
+function scaleimage(event){
+	lastGrabbed.scale = event.value/100;
+	lastGrabbed.style.transform = "scale("+lastGrabbed.scale+")" + "rotate("+lastGrabbed.rotate+"deg)";
+}
+
+
+//bindFilters();
+
+function reset(){
+	activateWebcam();
+	document.querySelectorAll("#image_preview>img.sticker").forEach(i => i.remove());
+	document.querySelector("#image_preview>fieldset").classList.remove("hidden");
+	document.querySelector("#image_preview>preview").remove();
+	preview.appendChild(video);
+	document.querySelectorAll(".list").forEach(f=> {f.classList.add("hidden")});
 }
 
 ctx.globalAlpha = 0.5;
 
-function delLayer(){
-	if(!activeLayer || activeLayer.index == 0)
-		return;
-	var akID = activeLayer.index;
-	console.log(akID, activeLayer);
-	layers.splice(akID, 1);
-	layers.forEach(function(v, i){
-		v.index = i;
+function del(){
+	lastGrabbed.remove();
+	lastGrabbed = null; 
+}
+
+function preparePost(img){
+	var jo = {
+		userImage: (img.src),
+		stickers: []
+	};
+	document.querySelectorAll("#image_preview>img.sticker").forEach(function(sticker){
+		console.log(img.offsetLeft, sticker.offsetLeft);
+		var js = {
+			offset: {x:((sticker.offsetLeft - img.offsetLeft) * (img.width/img.offsetWidth)) + ((sticker.width) / 2), y:(sticker.offsetTop - img.offsetTop) + (( sticker.height)/2)},
+			width: 	sticker.width * sticker.scale,
+			rotate: sticker.rotate,
+			id:  	sticker.getAttribute("sticker_id"),
+			type: 	sticker.getAttribute("type"),
+			scale:	sticker.scale
+		};
+		jo.stickers.push(js);
 	});
-	activeLayer = null;
-	setupLayers();
-}
-
-function postImage(){
 	var fd = new FormData();
-	fd.set("image", canvas.toDataURL("image/png"));
-	document.page.state.payload = window.fd_to_json(fd);
-	ajax("post", "/", object_to_fd({page: JSON.stringify(page_state)}), {js:function(response){
-		alert("Message sent");
-		document.page.state.payload = "";
-		update_page(response);
-	}})
+	fd.set("image", JSON.stringify(jo));
+	ajax("post", window.location, fd, handleResponse);
 }
 
-export var mod = {
-	init: loabBindings,
-	captureFromFile : captureFileImage,
-	captureFromCam: captureWebcamImage,
-	resetImage : resetImage,
-	delLayer:delLayer,
-	postImage:postImage
+function handleResponse(result){
+	console.log(result);
 }
+
+function post(){
+	var src_elem = document.querySelector(".preview");
+	if(src_elem.localName == "video")
+		captureWebcamImage(preparePost);
+	else if (src_elem.localName == "img"){
+		preparePost(src_elem);
+	}
+	
+}
+
+activateWebcam();

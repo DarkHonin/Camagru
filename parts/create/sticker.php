@@ -1,0 +1,1 @@
+<img class="sticker" sticker_id='<?php echo $sticker->id ?>' onclick="addLayer(this)" type="sticker" src="<?php echo "data:image/png;base64,".base64_encode($sticker->filter_image)?>" title="<?php echo $sticker->filter_name ?>">

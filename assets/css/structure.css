@@ -34,14 +34,11 @@ body>[class*="col-"]{
     flex-direction: column;
 }
 
-
-
 [class*="col-"]{
     box-shadow: #520000 inset 0px 0px 10px 1px;
     height: auto;
     margin: auto;
 }
-
 
 .show-s{
     display: none !important;
@@ -51,7 +48,7 @@ body>[class*="col-"]{
 }
 .col-full{flex: 5;}
 .col-half{flex: 2.5; }
-.col-1{flex: 1}
+.col-1{flex: 1;}
 .col-2{flex: 2;}
 .col-3{flex: 3;}
 .col-4{flex: 4;}

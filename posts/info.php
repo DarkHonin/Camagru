@@ -16,6 +16,23 @@ switch($nav[1]){
         if(empty($users))
             Utils::finalResponse(["status"=>true]);
         Utils::finalResponse(["status"=>false]);
+    case "creator_images":
+        switch($_POST['item']){
+            case "stickers":
+                require_once("models/Sticker.class.php");
+                $strickers = Sticker::get()->where("type='sticker'")->send();
+                if(!$strickers)
+                    Utils::finalResponse(["status"=>false]);
+                if(!is_array($strickers))
+                    $strickers = [$strickers];
+                ob_start();
+                foreach($strickers as $sticker)
+                    include("parts/create/sticker.php");
+                $info = ob_get_contents();
+                ob_end_clean();
+                Utils::finalResponse(["status"=>true, "data"=>$info]);
+
+        }
 }
 
 

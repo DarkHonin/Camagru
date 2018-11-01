@@ -10,16 +10,15 @@ class Post extends Query{
 	public function get($what=null){return parent::get($what);}
 
 	public $user;
-	public $Image;
+	public $image_data;
 	public $date;
 	public $id;
-	public $Title;
-	public $comments;
-
+	public $description;
+	
 	function __construct(){
 		parent::__construct();
 		if($this->user)
-			$this->user = User::get("uname, id")->where("id=$this->user")->send();
+			$this->user = User::get("uname")->where("id=$this->user")->send();
 	}
 }
 

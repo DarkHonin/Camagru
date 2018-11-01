@@ -7,7 +7,7 @@ require_once("src/classes/Utils.class.php");
 final class FormBuilder{
 
 	public const verbose = false;
-	public const IGNORECSRF = true;
+	public const IGNORECSRF = false;
 
 	function renderFields(Form $form){
 		$fields = $form->getInputs();
