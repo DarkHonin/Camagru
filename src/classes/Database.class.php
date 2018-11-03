@@ -48,7 +48,6 @@ class Database{
 			return false;
 		}
 		error_log( "Parsing data");
-
 		if($str->rowCount() > 1)
 			return $str->fetchAll(PDO::FETCH_CLASS, $class);
 		try{

@@ -30,4 +30,7 @@ $user_valid = !User::verify();
 <div class="anounce">
     Posted at <?php echo $post->date?>
 </div>
-<?php include_once("parts/post.php") ?>
+<?php
+$comment = true;
+
+include_once("parts/post.php") ?>

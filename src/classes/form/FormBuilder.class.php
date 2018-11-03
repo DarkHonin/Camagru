@@ -42,11 +42,11 @@ final class FormBuilder{
 		echo "</form>";
 	}
 
-	function valid(Form $form, $input, &$err = []){
+	function valid(Form $form, &$input, &$err = []){
 		if(self::verbose) echo "Validating form\n";
 		foreach($form->getInputs() as $i){
 			if($input[$i->name])
-				$i->value = $input[$i->name];
+				$i->value = $input[$i->name] = $input[$i->name];
 			$errs = [];
 			if(!$i->valid($errs))
 				$err[$i->name] = $errs;

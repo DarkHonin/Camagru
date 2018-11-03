@@ -31,6 +31,19 @@ switch($nav[1]){
                 $info = ob_get_contents();
                 ob_end_clean();
                 Utils::finalResponse(["status"=>true, "data"=>$info]);
+            case "posts":
+                require_once("models/Post.class.php");
+                $strickers = Post::get("id")->where("user={$_SESSION['user']['id']}")->send();
+                if(!$strickers)
+                    Utils::finalResponse(["status"=>false]);
+                if(!is_array($strickers))
+                    $strickers = [$strickers];
+                ob_start();
+                foreach($strickers as $post)
+                    echo "<img src=/post/{$post->id}/img class='sticker' sticker_id={$post->id} type='post' onclick='addLayer(this)'>";
+                $info = ob_get_contents();
+                ob_end_clean();
+                Utils::finalResponse(["status"=>true, "data"=>$info]);
         }
 }
 

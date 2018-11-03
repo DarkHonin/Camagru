@@ -25,8 +25,7 @@
 </div>
 <div class="col-half">
 <?php
-	$posts = Post::get()->where("user=$user->id")->order("date", "DESC")->send();
-	error_log(print_r($posts, true));
+	$posts = Post::get("id, user, date")->where("user=$user->id")->order("date", "DESC")->send();
 	if($posts){
 		if(!is_array($posts))
 			$posts = [$posts];

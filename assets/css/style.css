@@ -34,6 +34,15 @@
 #image_controlls{
     display: flex;
     background-color: white;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+#image_controlls>form{
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 0.5em;
+    min-width: 100%;
 }
 
 #image_controlls>*{

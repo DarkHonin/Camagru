@@ -9,6 +9,7 @@ var scale_elem = document.querySelector("#scale");
 const video = document.querySelector('video');
 var canvas = document.createElement("canvas"), ctx, layer_o = document.querySelector('#layer_feed>.items');
 var preview = document.querySelector('#image_preview');
+document.querySelector('#image_controlls>form').addEventListener("submit", post);
 ctx = canvas.getContext('2d');
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -21,6 +22,16 @@ function fillWithStickers(item){
 	var container = item.querySelector(".items");
 	var fd = new FormData();
 	fd.set("item", "stickers");
+	ajax("post", "/info/creator_images", fd, function(data){
+		var js = JSON.parse(data);
+		container.innerHTML = js['data'];
+	});
+}
+
+function fillWithPosts(item){
+	var container = item.querySelector(".items");
+	var fd = new FormData();
+	fd.set("item", "posts");
 	ajax("post", "/info/creator_images", fd, function(data){
 		var js = JSON.parse(data);
 		container.innerHTML = js['data'];
@@ -55,13 +66,6 @@ function hasGetUserMedia() {
 		navigator.mediaDevices.getUserMedia);
 	}
 	
-
-function aspectRatio(maxWidth, maxHeight, width, height){
-	var ratio = maxWidth / width;
-	if(ratio * height > maxHeight)
-		ratio = maxHeight / height;
-	return {width: ratio*width, height: ratio * height};
-	}
 
 function captureWebcamImage(onready){
 	var img = new Image();
@@ -124,7 +128,6 @@ var grabbedAt;
 function grab(event){
 	if((event.button != 0)) return;
 	if(grabbed){
-		lastGrabbed = grabbed;
 		grabbed.style.zIndex = 0;
 		grabbed = false;
 		return;
@@ -134,6 +137,7 @@ function grab(event){
 	
 	grabbed = event.target;
 	grabbed.style.zIndex = 1;
+	lastGrabbed = grabbed;
 	scale_elem.value = grabbed.scale * 100;
 }
 
@@ -173,6 +177,7 @@ function del(){
 	lastGrabbed = null; 
 }
 
+var FD;
 function preparePost(img){
 	var jo = {
 		userImage: (img.src),
@@ -190,9 +195,8 @@ function preparePost(img){
 		};
 		jo.stickers.push(js);
 	});
-	var fd = new FormData();
-	fd.set("image", JSON.stringify(jo));
-	ajax("post", window.location, fd, handleResponse);
+	FD.set("image", JSON.stringify(jo));
+	ajax("post", window.location, FD, handleResponse);
 }
 
 function handleResponse(data){
@@ -216,7 +220,10 @@ function handleResponse(data){
 	}
 }
 
-function post(){
+
+function post(event){
+	event.preventDefault();
+	FD = new FormData(event.target);
 	var src_elem = document.querySelector(".preview");
 	if(src_elem.localName == "video")
 		captureWebcamImage(preparePost);

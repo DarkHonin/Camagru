@@ -60,6 +60,34 @@
     color: black;
 }
 
+.post>.comments>form>fieldset{
+    display: none;
+}
+
+.post>.comments>form>fieldset:last-of-type{
+    display: block;
+}
+
+.post>.comments>form{
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.post>.comments>form>label{
+    color: white;
+    
+    background-color: rgba(0, 0,0, 0.2);
+    padding: 0.4em;
+    border-radius: 0px 0px 10px 10px;
+    overflow: hidden;
+}
+
+.post>.comments>form>textarea{
+    width: 100%;
+}
+
 .post>.admin.control{
     display: flex;
 }
