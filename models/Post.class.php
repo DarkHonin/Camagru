@@ -3,6 +3,7 @@
 require_once("src/classes/Query.class.php");
 require_once("User.class.php");
 require_once("Comment.class.php");
+require_once("Event.class.php");
 
 class Post extends Query{
 
@@ -25,10 +26,20 @@ class Post extends Query{
 
 	function getCommentCount(){
 		$comments = Comment::get('id')->where("post={$this->id}")->send();
-		if($comments && !is_array($comments) && !empty($comments))
-			$comments = [$comments];
-		else return 0;
+		if(is_object($comments))
+			return 1;
+		else if(!is_array($comments))
+			return 0;
 		return count($comments);
+	}
+
+	function getLikes(){
+		$likes = Event::get()->where("post={$this->id} AND action='like'")->send();
+		if(is_object($likes))
+			return 1;
+		else if(!is_array($likes))
+			return 0;
+		return count($likes);
 	}
 }
 

@@ -8,6 +8,9 @@ class Utils{
     public static function arrayToQueryConditions($arr){
         $ret = [];
         foreach($arr as $k=>$v)
+            if(is_object($v))
+            array_push($ret, "$k='{$v->id}'");
+            else
             array_push($ret, "$k='$v'");
         return $ret;
     }

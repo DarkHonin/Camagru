@@ -1,6 +1,6 @@
 <?php
 require_once("models/User.class.php");
-if(User::verify())
+if(!$USER_VALID)
 	header("Location: /404");
 $user = User::get("uname, id, reg_on, email, recieve_updates")->where("uname='{$_SESSION['user']['uname']}'")->send();
 
@@ -75,5 +75,3 @@ $General = new UpdateGeneral($user->uname, $user->recieve_updates);
 		</div>
 	</form>
 </div>
-
-<script src="/assets/js/login.js"></script>

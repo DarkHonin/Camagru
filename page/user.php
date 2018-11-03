@@ -1,3 +1,6 @@
+<link rel="stylesheet" type="text/css" href="/assets/css/post.css">
+
+
 <?php
 
 	if(!isset($nav[1])){
@@ -12,15 +15,20 @@
 		include_once("parts/unknown_user.php");
 		return;
 	}
-	$user_valid = !User::verify();
 ?>
 <link rel="stylesheet" type="text/css" href="/assets/css/post.css">
 <div class="anounce">
 	<?php echo $user->uname ?>
 	<span class="reg_on">Registered on <?php echo $user->reg_on ?></span>
 	<?php 
-		if(!User::verify() && $_SESSION['user']['uname'] === $user->uname)
-			echo "<a href='/settings'>Settings</a>"
+		if($USER_VALID && $CURRENT_USER->id === $user->id)
+			echo "<a href='/settings'>Settings</a>";
+		if($USER_VALID && $CURRENT_USER->id !== $user->id){
+			if($user->doesFollow($CURRENT_USER))
+				echo "<a href='#' onclick='follow_user(this)' user_id='{$user->id}' >Unfollow</a>";
+			else
+				echo "<a href='#' onclick='follow_user(this)' user_id='{$user->id}' >Follow</a>";
+		}
 	?>
 </div>
 <div class="col-half">

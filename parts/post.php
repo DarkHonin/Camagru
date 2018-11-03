@@ -8,24 +8,24 @@ else
 if( $comments && !is_array($comments) && !empty($comments))
     $comments = [$comments];
 ?>
-<div class="col-half-w col-hold post">
+<div class="col-half-w col-hold post" id="post_<?php echo $post->id ?>">
     <a href="/post/<?php echo $post->id ?>" class="user anounce"><?php echo $post->user->uname ?></a>
     <img src="/post/<?php echo $post->id ?>/img" class="img">
     <div class="desc">
         <?php echo $post->description; ?>
     </div>
-    <?php if($user_valid && $_SESSION['user']['id'] == $post->user->id) {?>
+    <?php if($USER_VALID && $_SESSION['user']['id'] == $post->user->id) {?>
         <div class="admin control">
             <a href="/post/<?php echo $post->id ?>/edit">Edit this post</a>
-            <span class="anounce error">Delete</span>
+            <a href="#" post_id="<?php echo $post->id ?>" onclick="delete_post(this)" class="anounce error">Delete</a>
         </div>
     <?php }?>
     <div class='meta control'>
-        <span class="likes" onclick="like_post()">69</span>
+        <span class="likes" post_id="<?php echo $post->id ?>" onclick="like_post(this)"><?php echo $post->getLikes(); ?></span>
         <span class="comments"><?php echo $post->getCommentCount(); ?></span>
     </div>
     <div class="comments">
-        <?php if($user_valid && isset($comment)) {
+        <?php if($USER_VALID && isset($comment)) {
             require_once("parts/forms/Comment.form.php");
             require_once("src/classes/form/FormBuilder.class.php");
             
@@ -33,7 +33,7 @@ if( $comments && !is_array($comments) && !empty($comments))
             $frm = new CommentFrom("", "Write a comment", $post->id);
             $builder->renderForm($frm, ["action"=>"/comment"]);
         }
-        
+        if($comments)
         foreach($comments as $com){
 
             ?>

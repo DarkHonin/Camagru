@@ -1,6 +1,5 @@
 <?php
-if(User::verify())
-	Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
+
 $user = User::get("uname, id, email")->where("uname='{$_SESSION['user']['uname']}'")->send();
 
 require_once("models/User.class.php");
@@ -30,6 +29,9 @@ switch($payload['role']){
 		Utils::finalResponse(["message"=>"An instruction email has been send.", "status"=>true]);
 
 	case "update_email":
+		$old = Token::get("id")->where("user={$user->id} AND action='verify_email'");
+		if(!is_object($old))
+			Utils::finalResponse(["message"=>"Outstanding token not redeemed", "status"=>false]);
 		$token = Token::create($user, $user->uname, "verify_email", $payload["email"]);
 		Utils::send_token_email($payload["email"], $token->token);
 		$user->email_valid = 0;

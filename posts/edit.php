@@ -6,25 +6,18 @@ require_once("models/Post.class.php");
 require_once("src/classes/form/FormBuilder.class.php");
 
 $builder = new FormBuilder();
-$frm = new CommentFrom($post->description, "Describe your post", 0);
+$frm = new CommentFrom($post->description, "Describe your post", $post->id);
 
 $payload = $_POST;
 
 $errors = [];
 if(!$builder->valid($frm, $payload, $errors))
-    Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
+    Utils::finalResponse(["message"=>"invalid request", "data"=>$errors, "status"=>false]);
 
-if($err = User::verify()){
-    include_once("page/404.php");
-    return;
-}
+$post->overlay = json_encode(json_decode($payload['image'], true)['stickers']);
 
-$item = Post::get("id")->where("id={$payload['post']}")->send();
-if(is_array($item) || empty($item))
-    Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
-
-$item->offset = $payload['image'];
-
-$item->update()->where("id={$payload['post']}")->send();
+$post->update()->where("id={$payload['post']}")->send();
+include_once("src/render.php");
+Utils::finalResponse(["message"=>"Update ok", "redirect"=>"/user/{$CURRENT_USER->uname}", "status"=>true]);
 
 ?>

@@ -2,10 +2,8 @@
 require_once("models/User.class.php");
 require_once("models/Post.class.php");
 require_once("models/Comment.class.php");
-if($err = User::verify()){
-    include_once("page/logout.php");
-    Utils::finalResponse(["data"=>["global"=>"Inavlid request"], "status"=>false]);
-	return;
+if(!$USER_VALID){
+    Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
 }
 
 require_once("parts/forms/Comment.form.php");
@@ -34,7 +32,7 @@ $comment->post = $post->id;
 
 $comment->insert()->send();
 if($post->user->recieve_updates)
-	Utils::sendEmail($post->email, "{$_SESSION['user']['id']} Just commented: \n\n \"{$comment->comment}\"\n\n on one of your posts", "A comment");
+	Utils::sendEmail($post->user->email, "{$CURRENT_USER->uname} Just commented: \n\n \"{$comment->comment}\"\n\n on one of your posts", "A comment");
 
 Utils::finalResponse(["message"=>"Your comment has been posted", "redirect"=>"/post/$post->id", "status"=>true]);
 

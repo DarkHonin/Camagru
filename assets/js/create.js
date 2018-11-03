@@ -9,7 +9,8 @@ var scale_elem = document.querySelector("#scale");
 const video = document.querySelector('video');
 var canvas = document.createElement("canvas"), ctx, layer_o = document.querySelector('#layer_feed>.items');
 var preview = document.querySelector('#image_preview');
-document.querySelector('#image_controlls>form').addEventListener("submit", post);
+
+form_sub = post;
 ctx = canvas.getContext('2d');
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -157,9 +158,6 @@ function scaleimage(event){
 	lastGrabbed.style.transform = "scale("+lastGrabbed.scale+")" + "rotate("+lastGrabbed.rotate+"deg)";
 }
 
-
-//bindFilters();
-
 function reset(){
 	deactivateWebcam();
 	document.querySelectorAll("#image_preview>img.sticker").forEach(i => i.remove());
@@ -178,11 +176,17 @@ function del(){
 }
 
 var FD;
+var grab_image = true;
 function preparePost(img){
-	var jo = {
-		userImage: (img.src),
-		stickers: []
-	};
+	if(grab_image)
+		var jo = {
+			userImage: (img.src),
+			stickers: []
+		};
+	else
+		var jo = {
+			stickers: []
+		};
 	document.querySelectorAll("#image_preview>img.sticker").forEach(function(sticker){
 		console.log(img.offsetLeft, sticker.offsetLeft);
 		var js = {
@@ -196,30 +200,8 @@ function preparePost(img){
 		jo.stickers.push(js);
 	});
 	FD.set("image", JSON.stringify(jo));
-	ajax("post", window.location, FD, handleResponse);
+	ajax("post", window.location, FD);
 }
-
-function handleResponse(data){
-	var js = JSON.parse(data);
-	var display = document.querySelector("#global_error");
-	if(!js.status){
-		var error = js.data.error;
-		display.classList.remove("success");
-		display.classList.add("error");
-		display.innerHTML = error;
-	}else{
-		display.classList.add("success");
-		display.classList.remove("error");
-		document.querySelector("#global_error").innerHTML = js.message;
-		if(js.data.redirect)
-			setTimeout(function(){
-				if(js.data.redirect)
-					window.location.href = js.data.redirect;
-				display.innerHTML = "";
-			}, 1000);
-	}
-}
-
 
 function post(event){
 	event.preventDefault();

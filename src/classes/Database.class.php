@@ -16,9 +16,10 @@ class Database{
 			error_log("Failed to connect");
 			if($e->getCode() == "1049"){
 				error_log("Database does not exist...");
-				$pdo = new PDO($DB_DSN_NODB, $DB_USER, $DB_PASSWORD);
-				$pdo->exec("CREATE DATABASE IF NOT EXISTS camagru");
-				$pdo->exec("USE camagru");
+				self::$_pdo = new PDO($DB_DSN_NODB, $DB_USER, $DB_PASSWORD);
+				self::$_pdo->exec("CREATE DATABASE IF NOT EXISTS camagru");
+				self::$_pdo->exec("USE camagru");
+				include_once("config/setup.php");
 				error_log("Database created");
 			}else
 				throw($e);

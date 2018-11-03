@@ -1,10 +1,8 @@
 <?php
 
 require_once("models/User.class.php");
-if($err = User::verify()){
-	include_once("page/logout.php");
+if(!$USER_VALID)
 	return;
-}
 
 require_once("parts/forms/Comment.form.php");
 require_once("src/classes/form/FormBuilder.class.php");

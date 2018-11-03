@@ -23,7 +23,7 @@ if(isset($nav[2]) && $nav[2] == "edit"){
     return;
 }
 
-$user_valid = !User::verify();
+$user_valid = $USER_VALID;
 
 ?>
 

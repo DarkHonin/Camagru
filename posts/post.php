@@ -1,27 +1,30 @@
 <?php
 
 require_once("models/User.class.php");
-if($err = User::verify()){
-    include_once("page/logout.php");
-    Utils::finalResponse(["data"=>["global"=>"Inavlid request"], "status"=>false]);
+if(!$USER_VALID){
+    Utils::finalResponse(["message"=>"Inavlid request, login required", "status"=>false]);
 	return;
 }
 
 require_once("models/Post.class.php");
 
 if(!$pid = intval($nav[1])){
-    Utils::finalResponse(["data"=>["global"=>"Inavlid request"], "status"=>false]);
+    Utils::finalResponse(["message"=>"Inavlid request, inavlid post id", "status"=>false]);
     return;
 }
 
-if(!$post = Post::get("id, user, description")->where("id=$pid")->send()){
+if(!$post = Post::get()->where("id=$pid")->send()){
     include_once("parts/404.php");
     return;
 }
 
-if($post->user->session_token !== $_SESSION['user']['session_token']){
-    include_once("page/logout.php");
-    Utils::finalResponse(["data"=>["global"=>"Inavlid request"], "status"=>false]);
+if($post->user->id !== $CURRENT_USER->id){
+    Utils::finalResponse(["message"=>"Inavlid request, not your post", "status"=>false]);
+}
+
+if(isset($nav[2]) && $nav[2] == "edit"){
+    include_once("edit.php");
+    return;
 }
 
 require_once("parts/forms/EditPost.form.php");
@@ -38,5 +41,6 @@ if(!$builder->valid($frm, $payload, $err))
 $post->description = htmlentities($payload["decription"]);
 unset($post->user);
 $post->update()->where("id=".$post->id)->send();
-Utils::finalResponse(["message"=>"Info updated.", "data"=>["redirect" => "/post/{$post->id}"],"status"=>true]);
+include_once("src/render.php");
+Utils::finalResponse(["message"=>"Posted!", "redirect"=>"/user/{$CURRENT_USER->uname}", "status"=>true]);
 ?>

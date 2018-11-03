@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 03, 2018 at 01:28 AM
--- Server version: 5.6.34-log
--- PHP Version: 7.2.1
+-- Generation Time: Nov 03, 2018 at 03:32 AM
+-- Server version: 5.7.23
+-- PHP Version: 7.1.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -46,7 +46,7 @@ CREATE TABLE `events` (
   `id` int(11) NOT NULL,
   `post` int(11) NOT NULL,
   `acting_user` int(11) NOT NULL,
-  `action` enum('like','comment') NOT NULL,
+  `action` enum('like','comment','follow') NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -116,7 +116,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `uname`, `email`, `email_valid`, `sha`, `active`, `reg_on`, `session_token`, `recieve_updates`) VALUES
-(1, 'JeffTheKiller', 'killer@email.com', 1, '$2y$10$/vUzPm.rFOgUYMTKeh.SIewKljjKTiuJ67GGTYvDCM63TcBf29Gd6', 1, '2018-10-31 20:01:31', '722ed6857d5d1a0317dbfe832b8c92974a5d959b', 0);
+(1, 'JeffTheKiller', 'killer@email.com', 1, '$2y$10$/vUzPm.rFOgUYMTKeh.SIewKljjKTiuJ67GGTYvDCM63TcBf29Gd6', 1, '2018-10-31 20:01:31', 'dd8ad6344af2fe420a0b63e005546b8cd0f087d2', 1),
+(2, 'TheWilliam', 'dgmon.mail@gmail.com', 1, '$2y$10$OjCyNPFexXtVmYy9Yby34OXkvYZ74OQHHVci5evq9NOZH.Tichdvm', 1, '2018-11-03 10:04:58', '8da705f6f14a1293852cec3bb7791233c36d0b71', 1);
 
 --
 -- Indexes for dumped tables
@@ -171,32 +172,38 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `filters`
 --
 ALTER TABLE `filters`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- Constraints for dumped tables
 --

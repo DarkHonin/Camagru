@@ -1,6 +1,7 @@
 <?php
 require_once("src/classes/Query.class.php");
 require_once("Token.class.php");
+require_once("Event.class.php");
 
 class User extends Query{
 	private const LoginError = "Invalid username / password";
@@ -57,7 +58,7 @@ class User extends Query{
 		if(!empty($users))
 			return self::UserExistError;
 		$this->sha = password_hash($this->password1, PASSWORD_BCRYPT);
-		$this->token = sha1(time());
+		$this->session_token = sha1(time());
 		if(!$this->insert()->send())
 			return self::UserCreateError;
 		$user = User::get("id")->where("uname='{$this->uname}'")->send();
@@ -66,14 +67,23 @@ class User extends Query{
 		$token->insert()->send();
 	}
 
-	static function verify(){
-		if(!isset($_SESSION['user']) || empty($_SESSION['user'])) return self::LoginError;
-		$user = self::get("session_token, active")->where("uname='{$_SESSION['user']['uname']}'")->send();
-		if(!$user) return self::LoginError;
-		$user->token = sha1(time().$user->uname);
-		$_SESSION['user']['token'] = $user->token;
-		$_SESSION['user']['active'] = 1;
-		return false;
+	function doesFollow($user){
+		$follows = Event::get()->where("post={$this->id} AND action='follow' AND acting_user={$user->id}")->send();
+		if(is_object($follows))
+			return true;
+		else if(!is_array($likes))
+			return false;
+	}
+
+	function getFollowing(){
+		$follows = Event::get("post")->where("action='follow' AND acting_user={$this->id}")->send();
+		if(!$follows) return [];
+		if(is_object($follows))
+			$follows = [$follows];
+		$ret = [];
+		foreach($follows as $f)
+			array_push($ret, $f->post);
+		return $ret;
 	}
 }
 

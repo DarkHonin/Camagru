@@ -56,6 +56,10 @@
     transition: color 0.2s;
 }
 
+.post>.comments>.comment>p{
+    padding-right: 50px;
+}
+
 .post>.comments>.comment>.user:hover{
     color: black;
 }

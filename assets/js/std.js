@@ -1,9 +1,11 @@
 var display_error;
+if(!form_sub)
+    var form_sub = form_submit;
 
 function ready(){
     console.log("ready");
     display_error = document.querySelector("#global_error");
-    document.querySelectorAll("form").forEach(i => i.addEventListener("submit", form_submit));
+    document.querySelectorAll("form").forEach(i => i.addEventListener("submit", form_sub));
 }
 
 function form_submit(event){
@@ -37,14 +39,36 @@ function ajax(method, target, data, resp=default_response){
     xhttp.send(data);
 }
 
-function comment(){
-
+function like_post(item){
+    var fd = new FormData();
+    var id = item.getAttribute("post_id");
+    fd.set("post", id);
+    ajax("post", "/like", fd, function(rsp){
+        var js = JSON.parse(rsp);
+        if(js.status)
+            item.innerHTML = js.value;
+        default_response(rsp);
+    });
 }
 
-function like_post(){
-
+function follow_user(item){
+    var fd = new FormData();
+    fd.set("user", item.getAttribute("user_id"));
+    ajax("post", "/follow", fd, function(rsp){
+        var js = JSON.parse(rsp);
+        if(js.status)
+            item.innerHTML = js.value;
+        default_response(rsp);
+    });
 }
 
-function delete_post(){
-
+function delete_post(item){
+    var fd = new FormData();
+    fd.set("post", item.getAttribute("post_id"));
+    ajax("post", "/delete", fd, function(rsp){
+        var js = JSON.parse(rsp);
+        if(js.status)
+            document.querySelector("#post_"+item.getAttribute("post_id")).remove();
+        default_response(rsp);
+    });
 }

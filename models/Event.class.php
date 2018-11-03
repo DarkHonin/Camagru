@@ -10,7 +10,6 @@ class Event extends Query{
 
 	public function get($what=null){return parent::get($what);}
 
-	public $subject_user;
 	public $acting_user;
 	public $date;
 	public $post;
@@ -21,10 +20,10 @@ class Event extends Query{
 		parent::__construct();
 		if($this->acting_user)
 			$this->acting_user = User::get("id, uname")->where("id=$this->acting_user")->send();
-		if($this->subject_user)
-			$this->subject_user = User::get("id, uname")->where("id=$this->subject_user")->send();
-		if($this->post)
+		if($this->post && $this->action == "like")
 			$this->post = Post::get("id")->where("id=$this->post")->send();
+		if($this->post && $this->action == "follow")
+			$this->post = User::get("id")->where("id=$this->post")->send();
 	}
 }
 

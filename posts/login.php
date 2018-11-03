@@ -47,7 +47,7 @@
 		$err = $usr->login();
 		if($err || !$usr->active)
 			Utils::finalResponse(["data"=>["error"=>["global"=>$err], "form"=>$payload['role']], "status"=>false]);
-		$_SESSION["user"] = ["uname"=>$usr->uname, "token"=>$usr->session_token, "id"=>$usr->id];
+		$_SESSION["user"] = ["uname"=>$usr->uname, "session_token"=>$usr->session_token, "id"=>$usr->id];
 		Utils::finalResponse(["message"=>"You are now logged in, redirecting to user page","data"=>["redirect" => "/user/{$usr->uname}"], "status"=>true]);
 	}
 	Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
