@@ -10,7 +10,7 @@ require_once("parts/forms/Comment.form.php");
 require_once("src/classes/form/FormBuilder.class.php");
 
 $builder = new FormBuilder();
-$frm = new CommentFrom("", "Describe your post", 0);
+$frm = new CommentFrom($post->description, "Describe your post", 0);
 
 
 ?>
@@ -73,4 +73,26 @@ $frm = new CommentFrom("", "Describe your post", 0);
 		q.scale = q.getAttribute('scale');
 		q.rotate = q.getAttribute('rotate');
 	});
+
+	post = function (event){
+		event.preventDefault();
+		FD = new FormData(event.target);
+		var jo = {
+			stickers: []
+		};
+		document.querySelectorAll("#image_preview>img.sticker").forEach(function(sticker){
+			console.log(img.offsetLeft, sticker.offsetLeft);
+			var js = {
+				offset: {x:((sticker.offsetLeft - img.offsetLeft) * (img.width/img.offsetWidth)) + ((sticker.width) / 2), y:(sticker.offsetTop - img.offsetTop) + (( sticker.height)/2)},
+				width: 	sticker.width * sticker.scale,
+				rotate: sticker.rotate,
+				id:  	sticker.getAttribute("sticker_id"),
+				type: 	sticker.getAttribute("type"),
+				scale:	sticker.scale
+			};
+			jo.stickers.push(js);
+		});
+		FD.set("image", JSON.stringify(jo));
+		ajax("post", "/edit", FD, handleResponse);
+	}
 </script>

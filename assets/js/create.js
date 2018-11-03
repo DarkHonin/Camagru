@@ -230,7 +230,6 @@ function post(event){
 	else if (src_elem.localName == "img"){
 		preparePost(src_elem);
 	}
-	
 }
 
 activateWebcam();

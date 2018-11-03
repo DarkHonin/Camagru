@@ -19,7 +19,7 @@ class Input{
     }
 
     public static function HIDDEN($name, $value){
-        return new Input(["type"=>"hidden", "name"=>$name, "value"=>$value]);
+        return new Input(["type"=>"hidden", "name"=>$name, "value"=>$value, "required"=>true]);
     }
 
     public static function CSRF_TOKEN($secret){

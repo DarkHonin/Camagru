@@ -15,7 +15,7 @@
 
 	$payload = $_POST;
 	if(!isset($payload['role']) || empty($payload['role']))
-		Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
+		Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
 	
 	$error = [];
 	if($payload['role'] === "register")
@@ -23,9 +23,9 @@
 	else if($payload['role'] === "login")
 		$Builder->valid($login, $payload, $error);
 	else
-		Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
+		Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
 	if(!empty($error))
-		Utils::finalResponse(["data"=>["error"=>$error, "form"=>$payload['role']], "status"=>false]);
+		Utils::finalResponse(["message"=>"Some fields were invalid", "data"=>["error"=>$error, "form"=>$payload['role']], "status"=>false]);
 	
 	if($payload['role'] === "register")
 		if($payload['password1'] !== $payload['password2'])
