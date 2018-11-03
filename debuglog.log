@@ -1,0 +1,105 @@
+[03-Nov-2018 06:23:03 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:03 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=7
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : Post
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=7 ORDER BY date DESC
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : Comment
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=1
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=7
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : Comment
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=7
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Query class : Post
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:06 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:07 Africa/Johannesburg] image data decoded
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=6
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Query class : Post
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:08 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:08 Africa/Johannesburg] image data decoded
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=1
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Query class : Post
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[03-Nov-2018 06:23:09 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:10 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:10 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:10 Africa/Johannesburg] image data decoded
+[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker created
+[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker scaled : 665
+[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker rotated
+[03-Nov-2018 06:23:10 Africa/Johannesburg] x: -222 y: -97
+[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker rendered
+[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker created
+[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker scaled : 640
+[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker rotated
+[03-Nov-2018 06:23:11 Africa/Johannesburg] x: -218 y: 0
+[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker rendered
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=1
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Query class : Post
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:12 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:12 Africa/Johannesburg] image data decoded
+[03-Nov-2018 06:23:12 Africa/Johannesburg] sticker created
+[03-Nov-2018 06:23:12 Africa/Johannesburg] sticker scaled : 665
+[03-Nov-2018 06:23:13 Africa/Johannesburg] sticker rotated
+[03-Nov-2018 06:23:13 Africa/Johannesburg] x: 211 y: -131
+[03-Nov-2018 06:23:13 Africa/Johannesburg] sticker rendered
+[03-Nov-2018 06:23:13 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
+[03-Nov-2018 06:23:13 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:13 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:13 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:14 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:14 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:14 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
+[03-Nov-2018 06:23:14 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:14 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:15 Africa/Johannesburg] Parsing data
+[03-Nov-2018 06:23:16 Africa/Johannesburg] Connecting database :: Waiting
+[03-Nov-2018 06:23:16 Africa/Johannesburg] Database Connected :: OK
+[03-Nov-2018 06:23:16 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
+[03-Nov-2018 06:23:16 Africa/Johannesburg] Query class : User
+[03-Nov-2018 06:23:16 Africa/Johannesburg] Query sent
+[03-Nov-2018 06:23:16 Africa/Johannesburg] Parsing data
