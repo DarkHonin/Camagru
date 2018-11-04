@@ -1,4 +1,5 @@
 var display_error;
+var content;
 if(!form_sub)
     var form_sub = form_submit;
 
@@ -6,6 +7,7 @@ function ready(){
     console.log("ready");
     display_error = document.querySelector("#global_error");
     document.querySelectorAll("form").forEach(i => i.addEventListener("submit", form_sub));
+    content = document.querySelector("#page_content");
 }
 
 function form_submit(event){
@@ -71,4 +73,28 @@ function delete_post(item){
             document.querySelector("#post_"+item.getAttribute("post_id")).remove();
         default_response(rsp);
     });
+}
+var scroll_timeout;
+function check_for_feed_update(){
+    var mark = document.querySelector("#feedmarker");
+    if(!mark || scroll_timeout)
+        return;
+    if(content.offsetHeight + content.scrollTop == content.scrollHeight){
+        var lid = mark.getAttribute("last_id");
+        var user = mark.getAttribute("user");
+        var fd = new FormData();
+        fd.set("user", user);
+        fd.set("last", lid);
+        ajax("post", "/feed", fd, function(rsp){
+            if(!rsp.length)
+                return;
+            var help = document.createElement("div");
+            help.innerHTML = rsp;
+            help.childNodes.forEach(f => mark.parentNode.insertBefore(f, mark));
+            mark.remove();
+        });
+        scroll_timeout = setTimeout(function(){
+            scroll_timeout = null;
+        }, 1000);
+    }
 }

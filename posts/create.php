@@ -36,5 +36,5 @@ if(empty($image['stickers'])) $image['stickers'] = [];
 $post->overlay = json_encode($image['stickers']);
 $post->description = $payload['description'];
 $post->insert()->send();
-Utils::finalResponse(["message"=>"Your post has been created","data"=>["redirect"=>"/user/".$_SESSION['user']['uname']], "status"=>true]);
+Utils::finalResponse(["message"=>"Your post has been created","redirect"=>"/user/".$_SESSION['user']['uname'], "status"=>true]);
 ?>

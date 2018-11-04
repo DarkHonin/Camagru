@@ -9,7 +9,10 @@ if( $comments && !is_array($comments) && !empty($comments))
     $comments = [$comments];
 ?>
 <div class="col-half-w col-hold post" id="post_<?php echo $post->id ?>">
-    <a href="/post/<?php echo $post->id ?>" class="user anounce"><?php echo $post->user->uname ?></a>
+    <div class="anounce">
+    <a href="/post/<?php echo $post->id ?>" class="date"><?php echo $post->date ?></a>
+    <a href="/user/<?php echo $post->user->uname ?>" class="user"><?php echo $post->user->uname ?></a>
+    </div>
     <img src="/post/<?php echo $post->id ?>/img" class="img">
     <div class="desc">
         <?php echo $post->description; ?>

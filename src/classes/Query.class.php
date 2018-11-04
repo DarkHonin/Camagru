@@ -24,6 +24,8 @@ class Query{
 
 	// Can not be staticly called... bacause error
 	public function where($where){
+		if(empty($where))
+			return $this;
 		$this->query .= " WHERE $where";
 		return $this;
 	}

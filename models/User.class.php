@@ -78,6 +78,7 @@ class User extends Query{
 	function getFollowing(){
 		$follows = Event::get("post")->where("action='follow' AND acting_user={$this->id}")->send();
 		if(!$follows) return [];
+		error_log(print_r($follows, true));
 		if(is_object($follows))
 			$follows = [$follows];
 		$ret = [];

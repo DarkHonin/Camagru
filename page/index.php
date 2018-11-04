@@ -2,7 +2,7 @@
 	include_once("parts/head.php");
 ?>
 <body class="col-r col-full col-hold">
-	<div class="contentT col-4" id="page_content">
+	<div class="contentT col-4" id="page_content" onscroll="check_for_feed_update()">
 	<div class="anounce error" id="global_error"></div>
 		<?php
 			include_once($content);

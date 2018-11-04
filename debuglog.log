@@ -1,105 +1,363 @@
-[03-Nov-2018 06:23:03 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:03 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=7
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : Post
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=7 ORDER BY date DESC
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : Comment
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=1
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=7
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : Comment
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:04 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=7
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Query class : Post
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:06 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:07 Africa/Johannesburg] image data decoded
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=6
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Query class : Post
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:08 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:08 Africa/Johannesburg] image data decoded
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=1
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Query class : Post
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
-[03-Nov-2018 06:23:09 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:10 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:10 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:10 Africa/Johannesburg] image data decoded
-[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker created
-[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker scaled : 665
-[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker rotated
-[03-Nov-2018 06:23:10 Africa/Johannesburg] x: -222 y: -97
-[03-Nov-2018 06:23:10 Africa/Johannesburg] sticker rendered
-[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker created
-[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker scaled : 640
-[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker rotated
-[03-Nov-2018 06:23:11 Africa/Johannesburg] x: -218 y: 0
-[03-Nov-2018 06:23:11 Africa/Johannesburg] sticker rendered
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=1
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Query class : Post
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:12 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:12 Africa/Johannesburg] image data decoded
-[03-Nov-2018 06:23:12 Africa/Johannesburg] sticker created
-[03-Nov-2018 06:23:12 Africa/Johannesburg] sticker scaled : 665
-[03-Nov-2018 06:23:13 Africa/Johannesburg] sticker rotated
-[03-Nov-2018 06:23:13 Africa/Johannesburg] x: 211 y: -131
-[03-Nov-2018 06:23:13 Africa/Johannesburg] sticker rendered
-[03-Nov-2018 06:23:13 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
-[03-Nov-2018 06:23:13 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:13 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:13 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:14 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:14 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:14 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
-[03-Nov-2018 06:23:14 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:14 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:15 Africa/Johannesburg] Parsing data
-[03-Nov-2018 06:23:16 Africa/Johannesburg] Connecting database :: Waiting
-[03-Nov-2018 06:23:16 Africa/Johannesburg] Database Connected :: OK
-[03-Nov-2018 06:23:16 Africa/Johannesburg] Sending Query : SELECT session_token, active FROM users WHERE uname='JeffTheKiller'
-[03-Nov-2018 06:23:16 Africa/Johannesburg] Query class : User
-[03-Nov-2018 06:23:16 Africa/Johannesburg] Query sent
-[03-Nov-2018 06:23:16 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM posts LIMIT 5
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=8 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=8 AND action='like'
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=8
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=8
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=9 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=9 AND action='like'
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=9
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=10 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=10 AND action='like'
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=10
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=10
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=11 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=2
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=2
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=11 AND action='like'
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=11
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=11
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=12 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=12 AND action='like'
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=12
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=12
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=12
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=8
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=9
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=10
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=11
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=12
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:41 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, description, user FROM posts WHERE id<12 ORDER BY date DESC LIMIT 3
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=11 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=2
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=2
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=11 AND action='like'
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=11
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=11
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=10 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=10 AND action='like'
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=10
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=10
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=9 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=9 AND action='like'
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=9
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=11
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=10
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=9
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:01:47 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT id, description, user FROM posts WHERE id<9 ORDER BY date DESC LIMIT 3
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT * FROM comments WHERE post=8 ORDER BY date DESC LIMIT 5
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT uname FROM users WHERE id=1
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT * FROM events WHERE post=8 AND action='like'
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : Event
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT id, uname FROM users WHERE id=2
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT id FROM posts WHERE id=8
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT id FROM comments WHERE post=8
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : Comment
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT * FROM posts WHERE id=8
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Sending Query : SELECT id, uname, recieve_updates, email FROM users WHERE id=1
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query class : User
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:31 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:43 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:02:43 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:02:43 Africa/Johannesburg] Sending Query : SELECT id, description, user FROM posts WHERE id<8 ORDER BY date DESC LIMIT 3
+[04-Nov-2018 16:02:43 Africa/Johannesburg] Query class : Post
+[04-Nov-2018 16:02:43 Africa/Johannesburg] Query sent
+[04-Nov-2018 16:02:43 Africa/Johannesburg] Parsing data
+[04-Nov-2018 16:02:43 Africa/Johannesburg] PHP Warning:  Invalid argument supplied for foreach() in /goinfre/wgourley/Camagru/posts/feed.php on line 31
+[04-Nov-2018 16:04:54 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:04:54 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:04:54 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:04:54 Africa/Johannesburg] Database Connected :: OK
+[04-Nov-2018 16:04:54 Africa/Johannesburg] Connecting database :: Waiting
+[04-Nov-2018 16:04:54 Africa/Johannesburg] Database Connected :: OK
