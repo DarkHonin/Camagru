@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 03, 2018 at 03:32 AM
+-- Generation Time: Nov 05, 2018 at 12:44 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.1.22
 
@@ -112,14 +112,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `uname`, `email`, `email_valid`, `sha`, `active`, `reg_on`, `session_token`, `recieve_updates`) VALUES
-(1, 'JeffTheKiller', 'killer@email.com', 1, '$2y$10$/vUzPm.rFOgUYMTKeh.SIewKljjKTiuJ67GGTYvDCM63TcBf29Gd6', 1, '2018-10-31 20:01:31', 'dd8ad6344af2fe420a0b63e005546b8cd0f087d2', 1),
-(2, 'TheWilliam', 'dgmon.mail@gmail.com', 1, '$2y$10$OjCyNPFexXtVmYy9Yby34OXkvYZ74OQHHVci5evq9NOZH.Tichdvm', 1, '2018-11-03 10:04:58', '8da705f6f14a1293852cec3bb7791233c36d0b71', 1);
-
---
 -- Indexes for dumped tables
 --
 
@@ -127,7 +119,8 @@ INSERT INTO `users` (`id`, `uname`, `email`, `email_valid`, `sha`, `active`, `re
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post` (`post`);
 
 --
 -- Indexes for table `events`
@@ -202,11 +195,17 @@ ALTER TABLE `tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tokens`

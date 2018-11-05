@@ -67,7 +67,6 @@ class Input{
 
     function __construct($preconfig){
         foreach(get_class_vars(get_class($this)) as $k=>$v){
-			if(self::verbose) echo "$k($v) = {$preconfig[$k]}\n";
             if(isset($preconfig[$k]) && $preconfig[$k])
                 $this->$k = $preconfig[$k];
 		}
@@ -94,13 +93,13 @@ class Input{
             if(!isset($this->$k))
                 continue;
             $ckstr = "ck_$k";
-            if(self::verbose) echo "Checking $ckstr : ";
+            error_log( "Checking $ckstr : \r");
             if(method_exists($this, $ckstr))
                 if(!$this->$ckstr()){
                     array_push($err, sprintf(self::errors[$k], $this->placeholder, $this->$k));
-                    if(self::verbose) echo "No-Joy\n";
+                    error_log( "No-Joy\n");
                 }
-                if(self::verbose) echo "OK\n";
+                error_log( "OK\n");
         }
         if(!empty($err)) return false;
         return true;

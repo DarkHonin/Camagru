@@ -22,7 +22,8 @@ function default_response($resp){
     display_error.classList.remove("success");
     if($js.status) display_error.classList.add("success");
     if(!$js.status) display_error.classList.add("error");
-    display_error.innerHTML = $js.message;
+    if($js.message)
+        display_error.innerHTML = $js.message;
     setTimeout(function(){
         display_error.innerHTML = "";
         if($js.redirect) window.location.href = $js.redirect;

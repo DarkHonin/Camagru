@@ -26,5 +26,3 @@ $register = new RegisterForm();
 		Forgot your password?
 	</a>
 </div>
-
-<script src="/assets/js/login.js"></script>

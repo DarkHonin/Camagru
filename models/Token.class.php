@@ -22,8 +22,11 @@ class Token extends Query{
 		if(!isset($_GET['token']) || empty($_GET['token']))
 			return null;
 		$token = Input::USER_TOKEN($_GET['token']);
-		if(!$token->valid())
+		$error = [];
+		if(!$token->valid($error)){
+			error_log(print_r($error, true));
 			return null;
+		}
 		$token = self::get()->where("token='$token->value'")->send();
 		return $token;
 	}

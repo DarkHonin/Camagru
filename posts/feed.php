@@ -20,10 +20,10 @@ if($USER_VALID && !$user){
         array_push($str, "user=$id");
     $str = implode(" OR ", $str);
     $str = "($str) AND id<$last_id";
-    $posts = Post::get("id, description, user")->where($str)->order('date')->limit(3)->send();
+    $posts = Post::get("id, date, description, user")->where($str)->order('date')->limit($FEED_POST_COUNT)->send();
 }else{
     $str = ($user? "user=$user":"").($user && $last_id? " AND ":"").($last_id? "id<$last_id":"");
-    $posts = Post::get("id, description, user")->where($str)->order('date')->limit(3)->send();
+    $posts = Post::get("id, date, description, user")->where($str)->order('date')->limit($FEED_POST_COUNT)->send();
 }
 if(is_object($posts))
     $posts = [$posts];

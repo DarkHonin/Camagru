@@ -33,7 +33,7 @@
 </div>
 <div class="col-half">
 <?php
-	$posts = Post::get("id, user, date")->where("user=$user->id")->order("date", "DESC")->limit(3)->send();
+	$posts = Post::get("id, user, date, description")->where("user=$user->id")->order("date", "DESC")->limit($FEED_POST_COUNT)->send();
 	if($posts){
 		if(!is_array($posts))
 			$posts = [$posts];
@@ -42,7 +42,7 @@
 		?><input type="hidden" id="feedmarker" <?php echo "user={$user->id}" ?> last_id='<?php echo $posts[count($posts)-1]->id ?>'><?php
 	}else{
 		echo "<div class='anounce error'>
-		There was a problem fetching the posts
+		Ther are no posts yet.
 		</div>";
 	}
 ?>

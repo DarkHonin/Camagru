@@ -17,7 +17,7 @@ class Event extends Query{
 	public $action;
 	
 	function __construct(){
-		parent::__construct();
+		parent::__construct(get_class());
 		if($this->acting_user)
 			$this->acting_user = User::get("id, uname")->where("id=$this->acting_user")->send();
 		if($this->post && $this->action == "like")

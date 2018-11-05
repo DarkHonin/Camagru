@@ -40,10 +40,11 @@ switch($payload['role']){
 		Utils::finalResponse(["message"=>"An activation email has been sent.", "status"=>true]);
 
 	case "update_genneral":
-		if(isset($payload["updates"]))
-			$user->recieve_updates = "true";
+		error_log("Updates: ".$payload["updates"]);
+		if(isset($payload["updates"]) || !empty($payload["updates"]))
+			$user->recieve_updates = "1";
 		else
-			$user->recieve_updates = "false";
+			$user->recieve_updates = 'false';
 		error_log(print_r($user, true));
 		if(isset($payload['uname']) && !empty($payload['uname']))
 			$user->uname = $payload['uname'];

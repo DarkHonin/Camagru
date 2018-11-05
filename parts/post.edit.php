@@ -1,9 +1,9 @@
 <?php
 
 require_once("models/User.class.php");
+require_once("models/Sticker.class.php");
 if(!$USER_VALID)
 	return;
-
 require_once("parts/forms/Comment.form.php");
 require_once("src/classes/form/FormBuilder.class.php");
 
@@ -41,7 +41,11 @@ $frm = new CommentFrom($post->description, "Describe your post", $post->id);
 		<?php
 			$overlay = json_decode($post->overlay, true);
 		foreach($overlay as $ov){
-			echo "<img class='sticker' style='left: {$ov['offset']['x']}; top: {$ov['offset']['y']};' sticker_id='{$ov['id']}' scale='{$ov['scale']}' rotate='{$ov['rotate']}' src='/post/{$ov['id']}/img' type='{$ov['type']}'>";
+			if($ov['type']=="sticker"){
+				$sticker = Sticker::get()->where("id={$ov['id']}")->send();
+				include("parts/create/sticker.php");
+			}else
+				echo "<img class='sticker' style='left: {$ov['offset']['x']}; top: {$ov['offset']['y']};' sticker_id='{$ov['id']}' scale='{$ov['scale']}' rotate='{$ov['rotate']}' src='/post/{$ov['id']}/img' type='{$ov['type']}'>";
 		} ?>
 	</div>
 </div>

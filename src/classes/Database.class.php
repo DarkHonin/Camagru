@@ -26,6 +26,12 @@ class Database{
 		}
 	}
 
+	private static function refresh($dsn, $pwd, $uname){
+		self::$_pdo = new PDO($dsn, $uname, $pwd, array(
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+		  ));
+	}
+
 	static function sendQuery($query){
 		error_log( "Sending Query : $query");
 		$class = get_class($query);

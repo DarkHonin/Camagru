@@ -9,6 +9,7 @@ require_once("src/classes/Parts.class.php");
 require_once("models/User.class.php");
 
 $USER_VALID = false;
+$FEED_POST_COUNT = 5;
 
 if(isset($_SESSION['user'])){
 	$CURRENT_USER = User::get("id, uname, session_token, email")->where("id={$_SESSION['user']['id']} AND session_token='{$_SESSION['user']['session_token']}' AND active=1")->send();

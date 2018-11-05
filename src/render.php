@@ -5,14 +5,15 @@ $userImage = base64_decode($post->image_data);
 $userImage = imagecreatefromstring($userImage);
 
 $overlay = json_decode($post->overlay, true);
-
+if(!file_exists("prerender"))
+    mkdir("prerender");
 imagesavealpha($userImage, true);
 $final = $userImage;
 error_log("image data decoded");
 foreach($overlay as $stk){
 	if($stk['type'] == "sticker"){
 		$sticker = Sticker::get()->where("id={$stk['id']}")->send();
-		$img = imagecreatefromstring(base64_decode($sticker->image_data));
+		$img = imagecreatefromstring(base64_decode($sticker->filter_image));
 	}
 	if($stk['type'] == "post"){
         $p = Post::get()->where("id={$stk['id']}")->send();

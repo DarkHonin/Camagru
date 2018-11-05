@@ -25,7 +25,10 @@ function fillWithStickers(item){
 	fd.set("item", "stickers");
 	ajax("post", "/info/creator_images", fd, function(data){
 		var js = JSON.parse(data);
-		container.innerHTML = js['data'];
+		if(!js.data)
+			container.innerHTML = "None available as of yeet";
+		else
+			container.innerHTML = js['data'];
 	});
 }
 
@@ -35,7 +38,10 @@ function fillWithPosts(item){
 	fd.set("item", "posts");
 	ajax("post", "/info/creator_images", fd, function(data){
 		var js = JSON.parse(data);
-		container.innerHTML = js['data'];
+		if(!js.data)
+			container.innerHTML = "None available as of yeet";
+		else
+			container.innerHTML = js['data'];
 	});
 }
 

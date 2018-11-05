@@ -7,6 +7,7 @@ if(!$USER_VALID)
 else{
 	echo "<a class='nav' href='/user/{$_SESSION['user']['uname']}'>{$_SESSION['user']['uname']}</a>";
 	echo "<a class='nav' href='/create' >Create</a>";
+	echo "<a class='nav' href='/search' >Search</a>";
 	echo "<a class='nav' href='/logout' >Logout</a>";
 }
 ?>

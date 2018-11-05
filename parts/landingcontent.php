@@ -1,8 +1,3 @@
-<?php
-if(!$USER_VALID)
-	header("Location: /login");
-exit();
-?>
 
 <link rel="stylesheet" type="text/css" href="/assets/css/post.css">
 <div class="anounce">
@@ -17,12 +12,12 @@ if($USER_VALID){
 	foreach($usrs as $id)
 		array_push($str, "user=$id");
 	$str = implode(" OR ", $str);
-	$posts = Post::get()->where($str)->order('date')->limit(3)->send();
+	$posts = Post::get()->where($str)->order('date')->limit($FEED_POST_COUNT)->send();
 }else
-	$posts = Post::get()->limit(5)->send();
+	$posts = Post::get()->order("date")->limit($FEED_POST_COUNT)->send();
 	if(!isset($posts) || empty($posts)) {?>
 	<div class="anounce error">
-		There was a problem fetching the posts
+		There are no posts to show yet
 	</div>
 <?php }else{
 

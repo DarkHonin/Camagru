@@ -28,7 +28,7 @@ if( $comments && !is_array($comments) && !empty($comments))
         <span class="comments"><?php echo $post->getCommentCount(); ?></span>
     </div>
     <div class="comments">
-        <?php if($USER_VALID && isset($comment)) {
+        <?php if($USER_VALID) {
             require_once("parts/forms/Comment.form.php");
             require_once("src/classes/form/FormBuilder.class.php");
             
@@ -41,7 +41,7 @@ if( $comments && !is_array($comments) && !empty($comments))
 
             ?>
         <div class="comment">
-            <span class="user"><?php echo $com->user->uname ?></span>
+            <a href="/user/<?php echo $com->user->uname ?>" class="user"><?php echo $com->user->uname ?></a>
             <p><?php echo $com->comment ?></p>
         </div>
         <?php } ?>

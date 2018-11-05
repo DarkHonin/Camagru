@@ -19,14 +19,14 @@ if($token && $token->expired()){
 
 $payload = $_POST;
 if(!isset($payload['role']) || empty($payload['role']))
-	Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
+	Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
 $error = [];
 if($payload['role'] === "login")
 	$Builder->valid($login, $payload, $error);
 else
 	Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
 if(!empty($error))
-	Utils::finalResponse(["data"=>["error"=>$error, "form"=>$payload['role']], "status"=>false]);
+	Utils::finalResponse(["message"=>"Some fields were invalid", "data"=>$error, "status"=>false]);
 error_log("Information valid");
 // Form info is clean and valid... Hopefully //
 
@@ -35,15 +35,18 @@ $user = new User();
 $user->uname = $_POST['uname'];
 $user->password = $_POST['password'];
 if($err = $user->login())
-	Utils::finalResponse(["data"=>["error"=>["global"=>$err], "form"=>$payload['role']], "status"=>false]);
+	Utils::finalResponse(["message"=>"Some fields were invalid", "data"=>$error, "status"=>false]);
 
 error_log("User login OK");
 // Login was OK, user is valid //
 
 if(!$token)
 	if($user->active)
-		Utils::finalResponse(["data"=>["error"=>["global"=>"The account has no outstanding tokens"]],"status"=>false]);
+		Utils::finalResponse(["message"=>"The account has no outstanding tokens","status"=>false]);
 	else{
+		$test = Token::get()->where("user={$user->id}")->send();
+		if(!empty($test))
+			Utils::finalResponse(["message"=>"The account has outstanding tokens","status"=>false]);
 		$token = Token::create($user, $user->uname, "activate_account");
 		Utils::send_token_email($user->email, $token->token);
 		$token->insert()->send();
@@ -51,7 +54,7 @@ if(!$token)
 	}
 else{
 	if($token->user != $user->id)
-		Utils::finalResponse(["data"=>["error"=>["global"=>"The account has no outstanding tokens"]],"status"=>false]);
+		Utils::finalResponse(["message"=>"The account has no outstanding tokens","status"=>false]);
 	
 	switch($token->action){
 		case "activate_account":
@@ -69,7 +72,7 @@ else{
 	}
 	if($token)
 		$token->delete()->send();
-	Utils::finalResponse(["message"=>"The token has been redeemed.", "data"=>["redirect" => "/"],"status"=>true]);
+	Utils::finalResponse(["message"=>"The token has been redeemed.", "redirect" => "/login","status"=>true]);
 
 }
 

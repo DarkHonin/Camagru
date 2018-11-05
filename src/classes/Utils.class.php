@@ -36,24 +36,27 @@ class Utils{
     
     public static function create_csrf_token($secret){
         $token = sha1(uniqid(rand(), TRUE).$secret);
-        $_SESSION['scrf_token-'.$secret] = $token;
-        $_SESSION['scrf_token_time'] = time();
+        error_log("CSRF token creatd: $secret");
+        if(!isset($_SESSION['tokens']))
+            $_SESSION['tokens'] = [];
+        $_SESSION['tokens'][$secret] = $token;
+        $_SESSION['tokens']['timeout'.$secret] = time();
         return $token;
     }
 
     public static function check_csrf_token($secret, $token){
-        if(self::verbose) echo "Checking CsrfToken $secret : ";
-        if(!isset($_SESSION['scrf_token-'.$secret])){
-            if(self::verbose) echo "Not set\n";
+        error_log( "Checking CsrfToken $secret");
+        if(!isset($_SESSION['tokens'][$secret])){
+            error_log("Not set");
             return false;
         }
-        $age = (time() - $_SESSION['scrf_token_time']);
+        $age = (time() - $_SESSION['tokens']['timeout'.$secret]);
         if($age >= self::TOKEN_TIMEOUT){
-            if(self::verbose) echo "Expired ($age)min\n";
+            error_log("Expired (".($age/60).")min");
             unset($_SESSION['scrf_token-'.$secret]);
             return false;
         }
-        if($token !== $_SESSION['scrf_token-'.$secret]){
+        if($token !== $_SESSION['tokens'][$secret]){
             if(self::verbose) echo "Doesnt match\n";
             return false;
         }
@@ -69,7 +72,7 @@ class Utils{
     }
     public static function send_token_email($email, $token){
         error_log("Sending token email to: $email");
-        $message = "http://".$_SERVER['SERVER_NAME']."/redeem?token=$token";
+        $message = "http://".$_SERVER['SERVER_NAME'].":8080/redeem?token=$token";
         self::sendEmail($email, $message, "Activate account");
     }
 
@@ -80,7 +83,7 @@ class Utils{
         $headers = "From:" . $from;
         if(!@mail($to,$subject,$message, $headers)){
             error_log(error_get_last()["message"]);
-            Utils::finalResponse(["data"=>["error"=>["global"=>"Could not send email, please try again later"]], "status"=>false]);
+            Utils::finalResponse(["message"=>"Could not send email, please try again later", "status"=>false]);
         }
         return 1;
     }

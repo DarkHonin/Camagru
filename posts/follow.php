@@ -12,7 +12,10 @@ if($_POST['user'] == $CURRENT_USER->id)
 if(!$user = User::get("id, email, recieve_updates")->where("id={$_POST['user']}")->send())
     Utils::finalResponse(["message"=>"No such user", "status"=>false]);
 
-$event = Event::get()->where("post={$_POST['user']} AND acting_user={$CURRENT_USER->id}")->send();
+$event = Event::get()->where("post={$_POST['user']} AND acting_user={$CURRENT_USER->id} AND action='follow'")->send();
+if(is_array($event)){
+    die("Bugger");
+}
 if(!$event){
     $event = new Event();
     $event->post = $_POST['user'];
