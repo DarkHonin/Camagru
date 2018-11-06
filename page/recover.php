@@ -15,5 +15,3 @@ $recover = new RecoverForm();
 		<?php $Builder->renderForm($recover, ["class" => "col-full", "id"=>"login"]); ?>
 	</div>
 </div>
-
-<script src="/assets/js/login.js"></script>

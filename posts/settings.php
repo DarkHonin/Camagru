@@ -32,8 +32,11 @@ switch($payload['role']){
 		$old = Token::get("id")->where("user={$user->id} AND action='verify_email'");
 		if(!is_object($old))
 			Utils::finalResponse(["message"=>"Outstanding token not redeemed", "status"=>false]);
+		$test = User::get("email")->where("email='{$payload["email"]}'")->send();
+		if(!empty($test))
+			Utils::finalResponse(["message"=>"The email is already in use", "status"=>false]);
 		$token = Token::create($user, $user->uname, "verify_email", $payload["email"]);
-		Utils::send_token_email($payload["email"], $token->token);
+		Utils::send_token_email($payload["email"], $token->token, "Verify Your email");
 		$user->email_valid = 0;
 		$user->update()->where("id={$user->id}")->send();
 		$token->insert()->send();
@@ -55,7 +58,7 @@ switch($payload['role']){
 	case "update_password":
 		$user->password = $payload["current"];
 		if($err = $user->login())
-			Utils::finalResponse(["data"=>["error"=>["global"=>$err], "form"=>$payload['role']], "status"=>false]);
+			Utils::finalResponse(["message"=>$err, "form"=>$payload['role'], "status"=>false]);
 		$user->sha = password_hash($payload["new_password"], PASSWORD_BCRYPT);
 		$user->update()->where("id={$user->id}")->send();
 		Utils::finalResponse(["message"=>"Your information has been updated.", "status"=>true]);

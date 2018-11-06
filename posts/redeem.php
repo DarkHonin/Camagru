@@ -17,6 +17,7 @@ if($token && $token->expired()){
 	$token = null;
 }
 
+if(!$token || ($token && $token->action != "reset_password")){
 $payload = $_POST;
 if(!isset($payload['role']) || empty($payload['role']))
 	Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
@@ -24,7 +25,7 @@ $error = [];
 if($payload['role'] === "login")
 	$Builder->valid($login, $payload, $error);
 else
-	Utils::finalResponse(["data"=>["error"=>["global"=>"invalid request"]], "status"=>false]);
+	Utils::finalResponse(["message"=>"invalid request", "status"=>false]);
 if(!empty($error))
 	Utils::finalResponse(["message"=>"Some fields were invalid", "data"=>$error, "status"=>false]);
 error_log("Information valid");
@@ -34,12 +35,15 @@ require_once("models/User.class.php");
 $user = new User();
 $user->uname = $_POST['uname'];
 $user->password = $_POST['password'];
-if($err = $user->login())
-	Utils::finalResponse(["message"=>"Some fields were invalid", "data"=>$error, "status"=>false]);
+if(!$user->login())
+	Utils::finalResponse(["message"=>"Invalid Username/Password", "data"=>$error, "status"=>false]);
 
 error_log("User login OK");
 // Login was OK, user is valid //
-
+}else{
+	require_once("models/User.class.php");
+	$user = User::get()->where("id={$token->user}")->send();
+}
 if(!$token)
 	if($user->active)
 		Utils::finalResponse(["message"=>"The account has no outstanding tokens","status"=>false]);
@@ -68,7 +72,12 @@ else{
 			$token->delete()->send();
 			$token = null;
 			$user->delete()->send();
-			break;			
+			break;
+		case "reset_password":
+			$pass = crypt(time(), $usr->uname);
+			$user->sha = password_hash($pass, PASSWORD_BCRYPT);
+			Utils::sendEmail($usr->email, "Your usename and password is now :  \n\nUsername: $usr->uname\nPassword: $pass", "Password Reset");
+			$user->update()->where("id=$usr->id")->send();	
 	}
 	if($token)
 		$token->delete()->send();

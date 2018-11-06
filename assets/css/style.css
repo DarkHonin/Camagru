@@ -121,6 +121,7 @@
     top: 1em;
     border-radius: 1em 0em 0em 1em;
     box-shadow: inset #7E0000 5px -5px 20px -5px;
+    z-index: 999;
 }
 
 #image_preview>fieldset{

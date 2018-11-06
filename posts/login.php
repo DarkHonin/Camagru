@@ -46,7 +46,7 @@
 		$usr->password = $_POST['password'];
 		$err = $usr->login();
 		if($err || !$usr->active)
-			Utils::finalResponse(["message"=>$err, "status"=>false]);
+			Utils::finalResponse(["message"=>"Invalid Username/Password", "status"=>false]);
 		$_SESSION["user"] = ["uname"=>$usr->uname, "session_token"=>$usr->session_token, "id"=>$usr->id];
 		Utils::finalResponse(["message"=>"You are now logged in, redirecting to user page","redirect" => "/user/{$usr->uname}", "status"=>true]);
 	}

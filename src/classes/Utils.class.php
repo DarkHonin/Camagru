@@ -70,10 +70,10 @@ class Utils{
         echo json_encode($array);
         exit();
     }
-    public static function send_token_email($email, $token){
+    public static function send_token_email($email, $token, $subject="Activate account"){
         error_log("Sending token email to: $email");
         $message = "http://".$_SERVER['SERVER_NAME'].":8080/redeem?token=$token";
-        self::sendEmail($email, $message, "Activate account");
+        self::sendEmail($email, $message, $subject);
     }
 
     public static function sendEmail($email, $message, $subj){
