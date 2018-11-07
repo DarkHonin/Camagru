@@ -74,10 +74,10 @@ else{
 			$user->delete()->send();
 			break;
 		case "reset_password":
-			$pass = crypt(time(), $usr->uname);
+			$pass = crypt(time(), $user->uname);
 			$user->sha = password_hash($pass, PASSWORD_BCRYPT);
-			Utils::sendEmail($usr->email, "Your usename and password is now :  \n\nUsername: $usr->uname\nPassword: $pass", "Password Reset");
-			$user->update()->where("id=$usr->id")->send();	
+			Utils::sendEmail($user->email, "Your usename and password is now :  \n\nUsername: $user->uname\nPassword: $pass", "Password Reset");
+			$user->update()->where("id=$user->id")->send();	
 	}
 	if($token)
 		$token->delete()->send();

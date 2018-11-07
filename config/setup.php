@@ -1,5 +1,5 @@
 <?php
-$sql = file_get_contents("config/camagru.sql");
+$sql = file_get_contents("config/Database.sql");
 self::$_pdo->exec($sql);
 $sql = file_get_contents("config/data.sql");
 $parts = explode(";", $sql);

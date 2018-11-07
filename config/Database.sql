@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 05, 2018 at 12:44 AM
+-- Generation Time: Nov 07, 2018 at 03:07 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.1.22
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `camagru`
 --
+CREATE DATABASE IF NOT EXISTS `camagru` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `camagru`;
 
 -- --------------------------------------------------------
 
@@ -108,8 +110,14 @@ CREATE TABLE `users` (
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `reg_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `session_token` varchar(40) NOT NULL,
-  `recieve_updates` tinyint(1) DEFAULT '0'
+  `recieve_updates` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+--INSERT INTO `users` VALUES(2, 'JeffTheKiller', 'darkhonin@gmail.com', 0, '$2y$10$h91vcKDsCgvd1ANKo3MfK.hvY0VBUig8b2kXW7pcuK/Dq8Dg5GAv.', 1, '2018-11-06 15:15:12', 'fc26ae383f7407e1189991108ef24884ac975386', 1);
 
 --
 -- Indexes for dumped tables
@@ -189,13 +197,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
